@@ -1,0 +1,4 @@
+localbin/**
+!localbin/.emptyfile
+design/block/**
+!design/block/design_1.bd
