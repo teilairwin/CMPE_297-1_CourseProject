@@ -72,9 +72,9 @@ module system (
     fact_top fact_top0(
         .clk          (clk),
         .rst          (rst),
-        .A            (alu_out[3:2]),
-        .WE           (WE1),
-        .WD           (wd_mm),
+        .A            (alu_out[3:2]),   // Todo - Different signal?
+        .WE           (WE1),            // Todo - Different signal?
+        .WD           (wd_mm),          // Todo - Different signal?
         .RD           (FactData0),
         .Done         (Done[0])
     );
@@ -83,9 +83,9 @@ module system (
     fact_top fact_top1(
         .clk          (clk),
         .rst          (rst),
-        .A            (alu_out[3:2]),
-        .WE           (WE1),
-        .WD           (wd_mm),
+        .A            (alu_out[3:2]),   // Todo - Different signal?
+        .WE           (WE1),            // Todo - Different signal?
+        .WD           (wd_mm),          // Todo - Different signal?
         .RD           (FactData1),
         .Done         (Done[1])
     );
@@ -94,9 +94,9 @@ module system (
     fact_top fact_top2(
         .clk          (clk),
         .rst          (rst),
-        .A            (alu_out[3:2]),
-        .WE           (WE1),
-        .WD           (wd_mm),
+        .A            (alu_out[3:2]),   // Todo - Different signal?
+        .WE           (WE1),            // Todo - Different signal?
+        .WD           (wd_mm),          // Todo - Different signal?
         .RD           (FactData2),
         .Done         (Done[2])
     );
@@ -105,9 +105,9 @@ module system (
     fact_top fact_top3(
         .clk          (clk),
         .rst          (rst),
-        .A            (alu_out[3:2]),
-        .WE           (WE1),
-        .WD           (wd_mm),
+        .A            (alu_out[3:2]),   // Todo - Different signal?
+        .WE           (WE1),            // Todo - Different signal?
+        .WD           (wd_mm),          // Todo - Different signal?
         .RD           (FactData3),
         .Done         (Done[3])
     );

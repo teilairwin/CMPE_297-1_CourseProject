@@ -6,4 +6,7 @@ module intc(
     output irq,
     output addr
     );
+    
+    // TODO Add priority selection
+    
 endmodule
