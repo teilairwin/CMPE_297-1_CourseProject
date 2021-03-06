@@ -18,9 +18,11 @@ module system (
         output wire multM_reg_fixme
     );
 
-    wire [31:0] DMemData, FactData, GPIOData, ReadData, rd_dm;
+    wire [31:0] DMemData, FactData0, FactData1, FactData2, FactData3, GPIOData, ReadData, rd_dm;
     wire        WE1, WE2, WEM, we_dm;
     wire [ 1:0] RdSel;
+    wire [ 3:0] Done;
+    wire        iack, irq, addr;
 
     assign rd_mm = ReadData;
     assign DMemData = rd_dm;
@@ -67,13 +69,47 @@ module system (
     );
 
 
-    fact_top fact_top(
+    fact_top fact_top0(
         .clk          (clk),
         .rst          (rst),
         .A            (alu_out[3:2]),
         .WE           (WE1),
         .WD           (wd_mm),
-        .RD           (FactData)
+        .RD           (FactData0),
+        .Done         (Done[0])
+    );
+
+
+    fact_top fact_top1(
+        .clk          (clk),
+        .rst          (rst),
+        .A            (alu_out[3:2]),
+        .WE           (WE1),
+        .WD           (wd_mm),
+        .RD           (FactData1),
+        .Done         (Done[1])
+    );
+
+
+    fact_top fact_top2(
+        .clk          (clk),
+        .rst          (rst),
+        .A            (alu_out[3:2]),
+        .WE           (WE1),
+        .WD           (wd_mm),
+        .RD           (FactData2),
+        .Done         (Done[2])
+    );
+
+
+    fact_top fact_top3(
+        .clk          (clk),
+        .rst          (rst),
+        .A            (alu_out[3:2]),
+        .WE           (WE1),
+        .WD           (wd_mm),
+        .RD           (FactData3),
+        .Done         (Done[3])
     );
 
     gpio_top gpio_top(
@@ -96,6 +132,13 @@ module system (
         .c            (FactData),
         .d            (GPIOData),
         .y            (ReadData)
+    );
+    
+    intc intc(
+        .iack         (iack),
+        .Done         (Done),
+        .irq          (irq),
+        .addr         (addr)
     );
 
 endmodule
