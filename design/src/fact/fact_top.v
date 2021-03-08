@@ -3,7 +3,7 @@ module fact_top(
   input WE, rst, clk,
   input [3:0] WD,
   output [31:0] RD,
-  output Done
+  output Done           // Adding done to output of fact_top
 );
   wire WE1, WE2, Go, GoPulseCmb, GoPulse, Err, Done, ResDone, ResErr;
   wire [1:0] RdSel;

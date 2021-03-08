@@ -21,7 +21,7 @@ module system (
     wire [31:0] DMemData, FactData0, FactData1, FactData2, FactData3, GPIOData, ReadData, rd_dm;
     wire        WE1, WE2, WEM, we_dm;
     wire [ 1:0] RdSel;
-    wire [ 3:0] Done;
+    wire [ 3:0] Done;             // Using vector for Done signals
     wire        iack, irq, addr;
 
     assign rd_mm = ReadData;
@@ -50,6 +50,12 @@ module system (
         .y            (instr)
     );
 
+    // Exception Memory
+    // emem emem (
+        // .a            (pc_current[7:2]),
+        // .y            (instr)
+    // );
+
     dmem dmem (
         .clk          (clk),
         .we           (we_dm),
@@ -68,7 +74,7 @@ module system (
         .RdSel        (RdSel)
     );
 
-
+    // Factorial Unit 0
     fact_top fact_top0(
         .clk          (clk),
         .rst          (rst),
@@ -79,7 +85,7 @@ module system (
         .Done         (Done[0])
     );
 
-
+    // Factorial Unit 1
     fact_top fact_top1(
         .clk          (clk),
         .rst          (rst),
@@ -90,7 +96,7 @@ module system (
         .Done         (Done[1])
     );
 
-
+    // Factorial Unit 2
     fact_top fact_top2(
         .clk          (clk),
         .rst          (rst),
@@ -101,7 +107,7 @@ module system (
         .Done         (Done[2])
     );
 
-
+    // Factorial Unit 3
     fact_top fact_top3(
         .clk          (clk),
         .rst          (rst),

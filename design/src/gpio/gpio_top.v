@@ -1,11 +1,14 @@
-module gpio_top(
+module gpio_top4(
   input         clk,
   input         rst,
   input   [1:0] A,
   input         WE,
   input  [31:0] gpI1,
   input  [31:0] gpI2,
-  input  [31:0] WD,
+  input  [31:0] WD0,
+  input  [31:0] WD1,
+  input  [31:0] WD2,
+  input  [31:0] WD3,
   output [31:0] RD,
   output [31:0] gpO1,
   output [31:0] gpO2
