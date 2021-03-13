@@ -71,7 +71,7 @@ module controlunit4 (
 
     wire [1:0] alu_op;
 
-    maindec md (
+    maindec4 md (
         .opcode         (opcode),
         .branch         (branch),
         .jump           (jump),
@@ -79,7 +79,10 @@ module controlunit4 (
         .reg_dst        (reg_dst),
         .we_reg         (we_reg),
         .alu_src        (alu_src),
-        .we_dm          (we_dm),
+        .we_dm0         (we_dm0),
+        .we_dm1         (we_dm1),
+        .we_dm2         (we_dm2),
+        .we_dm3         (we_dm3),
         .dm2reg         (dm2reg),
         .alu_op         (alu_op)
     );

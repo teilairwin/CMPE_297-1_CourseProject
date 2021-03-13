@@ -358,7 +358,7 @@ module datapath4 (
             .y              (rf_wa_rdt)
         );
 
-    regfile rf (
+    regfile rf0 (
             .clk            (clk),
             .we             (we_reg),
             .ra1            (instr[25:21]),
@@ -367,7 +367,46 @@ module datapath4 (
             .wa             (rf_wa),
             .wd             (wd_rf),
             .rd1            (rs),
-            .rd2            (wd_dm),
+            .rd2            (wd_dm0),
+            .rd3            (rd3)
+        );
+
+    regfile rf1 (
+            .clk            (clk),
+            .we             (we_reg),
+            .ra1            (instr[25:21]),
+            .ra2            (instr[20:16]),
+            .ra3            (ra3),
+            .wa             (rf_wa),
+            .wd             (wd_rf),
+            .rd1            (rs),
+            .rd2            (wd_dm1),
+            .rd3            (rd3)
+        );
+
+    regfile rf2 (
+            .clk            (clk),
+            .we             (we_reg),
+            .ra1            (instr[25:21]),
+            .ra2            (instr[20:16]),
+            .ra3            (ra3),
+            .wa             (rf_wa),
+            .wd             (wd_rf),
+            .rd1            (rs),
+            .rd2            (wd_dm2),
+            .rd3            (rd3)
+        );
+
+    regfile rf3 (
+            .clk            (clk),
+            .we             (we_reg),
+            .ra1            (instr[25:21]),
+            .ra2            (instr[20:16]),
+            .ra3            (ra3),
+            .wa             (rf_wa),
+            .wd             (wd_rf),
+            .rd1            (rs),
+            .rd2            (wd_dm3),
             .rd3            (rd3)
         );
 
@@ -377,9 +416,30 @@ module datapath4 (
         );
 
     // --- ALU Logic --- //
-    mux2 #(32) alu_pb_mux (
+    mux2 #(32) alu_pb_mux0 (
             .sel            (alu_src),
-            .a              (wd_dm),
+            .a              (wd_dm0),
+            .b              (sext_imm),
+            .y              (alu_pb)
+        );
+    
+    mux2 #(32) alu_pb_mux1 (
+            .sel            (alu_src),
+            .a              (wd_dm1),
+            .b              (sext_imm),
+            .y              (alu_pb)
+        );
+    
+    mux2 #(32) alu_pb_mux2 (
+            .sel            (alu_src),
+            .a              (wd_dm2),
+            .b              (sext_imm),
+            .y              (alu_pb)
+        );
+    
+    mux2 #(32) alu_pb_mux3 (
+            .sel            (alu_src),
+            .a              (wd_dm3),
             .b              (sext_imm),
             .y              (alu_pb)
         );
@@ -393,9 +453,27 @@ module datapath4 (
         );
 
     // --- MULTIPLIER --- //
-    multiplier mult(
+    multiplier mult0(
             .A            (rs),
-            .B            (wd_dm),
+            .B            (wd_dm0),
+            .en           (mult_enable),
+            .Y            ({high_in, low_in})
+    );
+    multiplier mult1(
+            .A            (rs),
+            .B            (wd_dm1),
+            .en           (mult_enable),
+            .Y            ({high_in, low_in})
+    );
+    multiplier mult2(
+            .A            (rs),
+            .B            (wd_dm2),
+            .en           (mult_enable),
+            .Y            ({high_in, low_in})
+    );
+    multiplier mult3(
+            .A            (rs),
+            .B            (wd_dm3),
             .en           (mult_enable),
             .Y            ({high_in, low_in})
     );
@@ -429,10 +507,31 @@ module datapath4 (
     );
 
     // --- MEM Logic --- //
-    mux2 #(32) rf_wd_mux (
+    mux2 #(32) rf_wd_mux0 (
             .sel            (dm2reg),
             .a              (alu_out),
-            .b              (rd_dm),
+            .b              (rd_dm0),
+            .y              (wd_aludm)
+        );
+
+    mux2 #(32) rf_wd_mux1 (
+            .sel            (dm2reg),
+            .a              (alu_out),
+            .b              (rd_dm1),
+            .y              (wd_aludm)
+        );
+
+    mux2 #(32) rf_wd_mux2 (
+            .sel            (dm2reg),
+            .a              (alu_out),
+            .b              (rd_dm2),
+            .y              (wd_aludm)
+        );
+
+    mux2 #(32) rf_wd_mux3 (
+            .sel            (dm2reg),
+            .a              (alu_out),
+            .b              (rd_dm3),
             .y              (wd_aludm)
         );
 

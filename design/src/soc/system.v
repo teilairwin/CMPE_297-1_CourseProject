@@ -116,7 +116,7 @@ module system (
         .rst          (rst),
         .A            (alu_out[3:2]),   // Todo - Different signal?
         .WE           (WE1),            // Todo - Different signal?
-        .WD           (wd_mm0),         // Todo - Different signal?
+        .WD           (wd_mm0),
         .RD           (FactData0),
         .Done         (Done[0])
     );
@@ -127,7 +127,7 @@ module system (
         .rst          (rst),
         .A            (alu_out[3:2]),   // Todo - Different signal?
         .WE           (WE1),            // Todo - Different signal?
-        .WD           (wd_mm1),         // Todo - Different signal?
+        .WD           (wd_mm1),
         .RD           (FactData1),
         .Done         (Done[1])
     );
@@ -138,7 +138,7 @@ module system (
         .rst          (rst),
         .A            (alu_out[3:2]),   // Todo - Different signal?
         .WE           (WE1),            // Todo - Different signal?
-        .WD           (wd_mm2),         // Todo - Different signal?
+        .WD           (wd_mm2),
         .RD           (FactData2),
         .Done         (Done[2])
     );
@@ -149,7 +149,7 @@ module system (
         .rst          (rst),
         .A            (alu_out[3:2]),   // Todo - Different signal?
         .WE           (WE1),            // Todo - Different signal?
-        .WD           (wd_mm3),         // Todo - Different signal?
+        .WD           (wd_mm3),
         .RD           (FactData3),
         .Done         (Done[3])
     );
