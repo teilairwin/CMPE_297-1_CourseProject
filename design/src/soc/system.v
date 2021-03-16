@@ -18,10 +18,11 @@ module system (
         output wire multM_reg_fixme
     );
 
-    wire [31:0] DMemData, FactData, GPIOData, ReadData, rd_dm;
-    wire        WE1, WE2, WEM, we_dm;
+    wire [31:0] DMemData, FactData, GPIOData, ReadData, rd_dm, iaddr;
+    wire        WE1, WE2, WEM, we_dm, done0;
     wire [ 1:0] RdSel;
-    wire [31:0] instrP, instrE;
+	wire [31:0] instrP, instrE;
+    wire iack, irq; //move to mips output
 
     assign rd_mm = ReadData;
     assign DMemData = rd_dm;
@@ -31,28 +32,19 @@ module system (
     // note: some _dm signals have been replaced with _mm signals
     wire [31:0] DONT_USE;
 
-    //temp intc signals
-    reg irq;
-    reg [31:0] irq_addr;
-    wire irq_ack;
-    initial begin
-        irq <= 1'b0;
-        irq <= 32'h0000_0000;
-    end
-    
     mips mips (
         .clk          (clk),
         .rst          (rst),
         .ra3          (ra3),
-        .instrP       (instrP),  //Program Memory
-        .instrE       (instrE),  //Exception Memory
+        .instrP       (instrP),
+		.instrE       (instrE),
         .rd_dm        (rd_mm),
         .we_dm        (we_mm),
         .pc_current   (pc_current),
         .alu_out      (alu_out),
         .wd_dm        (wd_mm),
         .rd3          (rd3),
-        .irq          (irq),
+		.irq          (irq),
         .irq_ack      (irq_ack),
         .irq_addr     (irq_addr)
     );
@@ -61,10 +53,11 @@ module system (
         .a            (pc_current[7:2]),
         .y            (instrP)
     );
-    imem emem (
+	
+	imem emem (
         .a            (pc_current[7:2]),
         .y            (instrE)
-    );
+	);
 
     dmem dmem (
         .clk          (clk),
@@ -85,13 +78,14 @@ module system (
     );
 
 
-    fact_top fact_top(
+    fact_top fact0_top(
         .clk          (clk),
         .rst          (rst),
         .A            (alu_out[3:2]),
         .WE           (WE1),
         .WD           (wd_mm),
-        .RD           (FactData)
+        .RD           (FactData),
+        .Done         (done0)
     );
 
     gpio_top gpio_top(
@@ -114,6 +108,17 @@ module system (
         .c            (FactData),
         .d            (GPIOData),
         .y            (ReadData)
+    );
+    
+    intc interrupt_controller(
+        .interrupt_0_done (done0),
+        .interrupt_1_done (done0),
+        .interrupt_2_done (done0),
+        .interrupt_3_done (done0),
+        .IACK             (iack), //ADD TO MIPS
+        .clk              (clk),
+        .IRQ              (irq),  //ADD TO MIPS
+        .ADDR             (iaddr) // ADD TO MIPS
     );
 
 endmodule
