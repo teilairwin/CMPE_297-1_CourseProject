@@ -1,10 +1,10 @@
 module system (
         input  wire        clk,
         input  wire        rst,
-        input  wire [31:0] gpI1,
-        input  wire [31:0] gpI2,
-        output wire [31:0] gpO1,
-        output wire [31:0] gpO2,
+        // input  wire [31:0] gpI1,
+        // input  wire [31:0] gpI2,
+        // output wire [31:0] gpO1,
+        // output wire [31:0] gpO2,
         // used for exposing system data sources
         input  wire [4:0]  ra3,
         output wire        we_mm,
@@ -19,7 +19,7 @@ module system (
     );
 
 
-    wire [31:0] DMemData, GPIOData, ReadData;
+    wire [31:0] DMemData, ReadData;
     wire [31:0] FactData0, FactData1, FactData2, FactData3;
     wire [31:0] rd_dm;
     wire        WE1, WE2;
@@ -96,6 +96,7 @@ module system (
         .RD           (FactData0),
         .Done         (Done[0])
     );
+
     // Factorial Unit 1
     fact_top fact_top1(
         .clk          (clk),
@@ -129,15 +130,6 @@ module system (
         .Done         (Done[3])
     );
 
-    // mux4 mux4(
-    //     .sel          (RdSel),
-    //     .a            (DMemData),
-    //     .b            (DMemData),
-    //     .c            (FactData0),
-    //     .d            (FactData0),
-    //     .y            (ReadData)
-    // );
-    
     mux6 mux6(
         .sel          (RdSel),
         .a            (DMemData),
