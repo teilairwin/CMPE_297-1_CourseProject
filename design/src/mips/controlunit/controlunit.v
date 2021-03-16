@@ -14,11 +14,23 @@ module controlunit (
         output wire        shmux,
         output wire        mult_enable,
         output wire        sfmux_high,
-        output wire        sf2reg
+        output wire        sf2reg,
+        
+        //Interrupt Handling
+        //--Control
+        input wire irq,         //External Interrupt Signal
+        input wire irq_active,  //Whether ISR is current active
+        output wire irq_entry,  //Whether we need to enter ISR context
+        output wire irq_resume  //Whether we need to return to program context
     );
 
     wire [1:0] alu_op;
 
+    //If an IRQ ISR is not active and external IRQ is high; 
+    //Then signal for IRQ entry
+    assign irq_entry = irq & ~irq_active;
+
+    //Main CU MainDecoder
     maindec md (
         .opcode         (opcode),
         .branch         (branch),
@@ -29,9 +41,11 @@ module controlunit (
         .alu_src        (alu_src),
         .we_dm          (we_dm),
         .dm2reg         (dm2reg),
-        .alu_op         (alu_op)
+        .alu_op         (alu_op),
+        .irq_resume     (irq_resume)
     );
 
+    //Main CU AuxDecoder
     auxdec ad (
         .alu_op         (alu_op),
         .funct          (funct),
