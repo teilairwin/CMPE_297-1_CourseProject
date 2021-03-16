@@ -18,11 +18,13 @@ module system (
         output wire multM_reg_fixme
     );
 
-    wire [31:0] DMemData, FactData, GPIOData, ReadData, rd_dm, iaddr;
+    wire [31:0] DMemData, FactData, GPIOData, ReadData, rd_dm;
     wire        WE1, WE2, WEM, we_dm, done0;
     wire [ 1:0] RdSel;
 	wire [31:0] instrP, instrE;
-    wire iack, irq; //move to mips output
+	
+	wire [31:0] irq_addr;
+    wire irq_ack, irq; //move to mips output
 
     assign rd_mm = ReadData;
     assign DMemData = rd_dm;
@@ -115,10 +117,10 @@ module system (
         .interrupt_1_done (done0),
         .interrupt_2_done (done0),
         .interrupt_3_done (done0),
-        .IACK             (iack), //ADD TO MIPS
+        .IACK             (irq_ack), //ADD TO MIPS
         .clk              (clk),
         .IRQ              (irq),  //ADD TO MIPS
-        .ADDR             (iaddr) // ADD TO MIPS
+        .ADDR             (irq_addr) // ADD TO MIPS
     );
 
 endmodule
