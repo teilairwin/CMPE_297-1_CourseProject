@@ -20,7 +20,15 @@ module datapath (
         output wire [31:0] pc_current,
         output wire [31:0] alu_out,
         output wire [31:0] wd_dm,
-        output wire [31:0] rd3
+        output wire [31:0] rd3,
+        
+        //Interrupt Handling
+        //--Control
+        input wire irq_entry,       //Whether we need to switch PC context to Exception
+        input wire irq_resume,      //Whether we need to switch PC context to Program
+        //--Data
+        input wire [31:0] irq_addr, //ISR Address for the external interrupt 
+        output wire irq_active      //Whether PC context is currently Exception
     );
 
     wire [31:0] shamt_in;
@@ -31,7 +39,10 @@ module datapath (
     wire [31:0] pc_plus4;
     wire [31:0] pc_pre;
     wire [31:0] pc_next;
+    wire [31:0] pc_next_irq;
+    wire [31:0] pc_next_mips;
     wire [31:0] pc_next_pre;
+    wire [31:0] pc_resume;
     wire [31:0] sext_imm;
     wire [31:0] ba;
     wire [31:0] bta;
@@ -55,39 +66,96 @@ module datapath (
     assign jta = {pc_plus4[31:28], instr[25:0], 2'b00};
     assign shamt_in = {27'd0, instr[10:6]};
 
+    //////////////////////////////////////////////////////////////////////////
+    //
     // --- PC Logic --- //
+    //
+    //////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////
+    //PC REGISTERS
+    //@details Final PC Register
     dreg pc_reg (
             .clk            (clk),
             .rst            (rst),
             .d              (pc_next),
             .q              (pc_current)
         );
+    //@details Saved Program PC Register
+    dreg_we pc_saved(
+        .clk(clk),
+        .rst(rst),
+        .we(irq_entry),
+        .d(pc_next_mips),
+        .q(pc_resume)
+    ); 
+    //@details State of whether IRQ is active
+    dreg_we #(1) irq_state(
+        .clk(clk),
+        .rst(rst),
+        .we(irq_entry),
+        .d(irq_entry),
+        .q(irq_active)
+    );    
 
+    //////////////////////////////////////////////////////////////////////////
+    //Next PC Computation
+    //@details NPC = PC +4
     adder pc_plus_4 (
             .a              (pc_current),
             .b              (32'd4),
             .y              (pc_plus4)
         );
-
+    //@details NPC = BTA = BA + PC+4
     adder pc_plus_br (
             .a              (pc_plus4),
             .b              (ba),
             .y              (bta)
         );
 
+    //////////////////////////////////////////////////////////////////////////
+    //PC Selection
+    //@details 1 - Optional Select [BranchToAddr]
     mux2 #(32) pc_src_mux (
             .sel            (pc_src),
             .a              (pc_plus4),
             .b              (bta),
             .y              (pc_pre)
         );
-
+    //@details 2 - Optional Select [JumpToAddr]
     mux2 #(32) pc_jmp_mux (
             .sel            (jump),
             .a              (pc_pre),
             .b              (jta),
             .y              (pc_next_pre)
         );
+    //@details 3 - Optional Select [RetrunAddr]
+    mux2 #(32)  pcjr_mux (
+            .sel            (jr),
+            .a              (pc_next_pre),
+            .b              (rs),
+            .y              (pc_next_mips)
+    );
+    //@details 4 - Optional Select [IRQ_ADDRESS]
+    mux2 #(32) pc_switch2irq_mux (
+            .sel(irq_entry),
+            .a(pc_next_mips),
+            .b(irq_addr),
+            .y(pc_next_irq)
+    );
+    //@details 5 - Optional Select [IRQ_RESUME]
+    mux2 #(32) pc_resume_progam_mux (
+            .sel(irq_resume),
+            .a(pc_next_irq),
+            .b(pc_resume),
+            .y(pc_next) 
+    );
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // MISC
 
     // --- jal & jr Support --- //
     mux2 #(32) rfwd_jal_mux (
@@ -104,12 +172,7 @@ module datapath (
             .y              (rf_wa_ra)
     );
 
-    mux2 #(32)  pcjr_mux (
-            .sel            (jr),
-            .a              (pc_next_pre),
-            .b              (rs),
-            .y              (pc_next)
-    );
+
 
     mux2 #(5)   rfjr_mux (
             .sel            (jr),

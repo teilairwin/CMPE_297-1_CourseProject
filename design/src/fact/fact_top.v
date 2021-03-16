@@ -5,7 +5,7 @@ module fact_top(
   output [31:0] RD,
   output Done           // Adding done to output of fact_top
 );
-  wire WE1, WE2, Go, GoPulseCmb, GoPulse, Err, Done, ResDone, ResErr;
+  wire WE1, WE2, Go, GoPulseCmb, GoPulse, Err, ResDone, ResErr;
   wire [1:0] RdSel;
   wire [3:0] n;
   wire [31:0] nf, Result;

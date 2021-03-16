@@ -2,13 +2,21 @@ module mips (
         input  wire        clk,
         input  wire        rst,
         input  wire [4:0]  ra3,
-        input  wire [31:0] instr,
+        input  wire [31:0] instrP,      //Program/I-MEM instruction
+        input  wire [31:0] instrE,      //Exception/E-MEM instruction
         input  wire [31:0] rd_dm,
         output wire        we_dm,
         output wire [31:0] pc_current,
         output wire [31:0] alu_out,
         output wire [31:0] wd_dm,
-        output wire [31:0] rd3
+        output wire [31:0] rd3,
+        
+        //Interrupt Handling
+        //--Control
+        input wire irq,             //External Interrupt Signal
+        output wire irq_ack,        //ACK/Clear for the External Interrupt
+        //--Data
+        input wire [31:0] irq_addr  //Address of the Interrupt ISR
     );
 
     wire       branch;
@@ -25,6 +33,21 @@ module mips (
     wire       sfmux_high;
     wire       sf2reg;
 
+    wire [31:0] instr;        //Final instruction selection
+    wire irq_active;          //Whether interrupt context is active
+    wire irq_entry;           //Whether about to handle interrupt
+    wire irq_resume;          //Whether about to resume program
+    assign irq_ack = irq_resume;
+
+    //Select the source of the next instruction
+    mux2 #(32) instr_select(
+        .sel(irq_active),
+        .a(instrP),    //By default use I-MEM
+        .b(instrE),    //If in interrupt ctx, use E-MEM
+        .y(instr)
+    );
+
+    //MIPS datapath
     datapath dp (
             .clk            (clk),
             .rst            (rst),
@@ -47,9 +70,15 @@ module mips (
             .shmux          (shmux),
             .mult_enable    (mult_enable),
             .sfmux_high     (sfmux_high),
-            .sf2reg         (sf2reg)
+            .sf2reg         (sf2reg),
+            //Interrupt Handling
+            .irq_entry(irq_entry),
+            .irq_resume(irq_resume),
+            .irq_addr(irq_addr),
+            .irq_active(irq_active)
         );
 
+    //MIPS control unit
     controlunit cu (
             .opcode         (instr[31:26]),
             .funct          (instr[5:0]),
@@ -66,7 +95,12 @@ module mips (
             .shmux          (shmux),
             .mult_enable    (mult_enable),
             .sfmux_high     (sfmux_high),
-            .sf2reg         (sf2reg)
+            .sf2reg         (sf2reg),
+            //Interrupt Handling
+            .irq(irq),
+            .irq_active(irq_active),
+            .irq_entry(irq_entry),
+            .irq_resume(irq_resume)
         );
 
 endmodule

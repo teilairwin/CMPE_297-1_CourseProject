@@ -24,17 +24,26 @@ module system (
         output wire multM_reg_fixme
     );
 
+
     wire [31:0] DMemData0, DMemData1, DMemData2, DMemData3;
     wire [31:0] FactData0, FactData1, FactData2, FactData3;
     wire [31:0] GPIOData0, GPIOData1, GPIOData2, GPIOData3;
     wire [31:0] ReadData0, ReadData1, ReadData2, ReadData3;
+  
     wire [31:0] rd_dm0, rd_dm1, rd_dm2, rd_dm3;
     wire        WE1, WE2;
     wire        WEM0, WEM1, WEM2, WEM3;
     wire        we_dm0, we_dm1, we_dm2, we_dm3;
-    wire [ 1:0] RdSel;
     wire [ 3:0] Done;             // Using vector for Done signals
-    wire        iack, irq, addr;
+
+    //wire [31:0] DMemData, FactData, GPIOData, ReadData, rd_dm;
+    //wire        WE1, WE2, WEM, we_dm, done0;
+    wire [ 1:0] RdSel;
+  
+    wire [31:0] instrP, instrE;
+	  wire [31:0] irq_addr;
+    wire irq_ack, irq; //move to mips output
+
 
     assign rd_mm0 = ReadData0;
     assign rd_mm1 = ReadData1;
@@ -57,31 +66,41 @@ module system (
         .clk          (clk),
         .rst          (rst),
         .ra3          (ra3),
-        .instr        (instr),
+
         .rd_dm0       (rd_mm0),
         .rd_dm1       (rd_mm1),
         .rd_dm2       (rd_mm2),
         .rd_dm3       (rd_mm3),
-        .we_dm        (we_mm),
-        .pc_current   (pc_current),
-        .alu_out      (alu_out),
+
         .wd_dm0       (wd_mm0),
         .wd_dm1       (wd_mm1),
         .wd_dm2       (wd_mm2),
         .wd_dm3       (wd_mm3),
-        .rd3          (rd3)
+ 
+      
+        .instrP       (instrP),
+		    .instrE       (instrE),
+        //.rd_dm        (rd_mm),
+        .we_dm        (we_mm),
+        .pc_current   (pc_current),
+        .alu_out      (alu_out),
+        //.wd_dm        (wd_mm),
+        .rd3          (rd3),
+		    .irq          (irq),
+        .irq_ack      (irq_ack),
+        .irq_addr     (irq_addr)
+
     );
 
     imem imem (
         .a            (pc_current[7:2]),
-        .y            (instr)
+        .y            (instrP)
     );
-
-    // Exception Memory
-    // emem emem (
-        // .a            (pc_current[7:2]),
-        // .y            (instr)
-    // );
+	
+	imem emem (
+        .a            (pc_current[7:2]),
+        .y            (instrE)
+	);
 
     dmem4 dmem4 (
         .clk          (clk),
@@ -96,7 +115,7 @@ module system (
         .q2           (rd_dm2),
         .q3           (rd_dm3)
     );
-    // -- assignment_3/mips_top
+
 
     address_decoder addr_decoder4(
         .WE           (we_mm),
@@ -120,7 +139,6 @@ module system (
         .RD           (FactData0),
         .Done         (Done[0])
     );
-
     // Factorial Unit 1
     fact_top fact_top1(
         .clk          (clk),
@@ -209,11 +227,16 @@ module system (
         .y            (ReadData3)
     );
     
-    intc intc(
-        .iack         (iack),
-        .Done         (Done),
-        .irq          (irq),
-        .addr         (addr)
+    
+    intc interrupt_controller(
+      .interrupt_0_done (Done[0]),
+      .interrupt_1_done (Done[1]),
+      .interrupt_2_done (Done[2]),
+      .interrupt_3_done (Done[3]),
+        .IACK             (irq_ack), //ADD TO MIPS
+        .clk              (clk),
+        .IRQ              (irq),  //ADD TO MIPS
+        .ADDR             (irq_addr) // ADD TO MIPS
     );
 
 endmodule
