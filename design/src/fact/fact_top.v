@@ -2,9 +2,10 @@ module fact_top(
   input [1:0] A,
   input WE, rst, clk,
   input [3:0] WD,
-  output [31:0] RD
+  output [31:0] RD,
+  output Done
 );
-  wire WE1, WE2, Go, GoPulseCmb, GoPulse, Err, Done, ResDone, ResErr;
+  wire WE1, WE2, Go, GoPulseCmb, GoPulse, Err, ResDone, ResErr;
   wire [1:0] RdSel;
   wire [3:0] n;
   wire [31:0] nf, Result;
