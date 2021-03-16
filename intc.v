@@ -1,42 +1,42 @@
 module intc(
-        input   wire interrupt_0_done,
-        input   wire interrupt_1_done,
-        input   wire interrupt_2_done,
-        input   wire interrupt_3_done,
-        input   wire IACK,
-        input   wire clk,
-        output  wire  IRQ,
-        output  wire [31:0] ADDR
+            input   wire [3:0]  done,
+            input   wire [31:0] input_addr,
+            input   wire [31:0] write_data,
+            input   wire write_enable,
+            input   wire IACK,
+            input   wire clk,
+            output  wire IRQ,
+            output  wire [31:0] isr_addr,
+            output  wire read_data
     );
     // internal wires
     wire    [31:0] addr0,addr1,addr2,addr3;    
-    //reg     [3:0]  interrupt_status_register;
     wire    [1:0]  priority_select;
     wire    [3:0]  q_state;
     wire    [3:0]  q_not;
     wire    [3:0]  reset;
             
-    // address vector table
+    // address vector table - temporary  until memory map is defined
     assign addr0 = 32'h0000_0000;
     assign addr1 = 32'h0000_0020;
     assign addr2 = 32'h0000_0040;
     assign addr3 = 32'h0000_0060;
     
     // dreg with reset and enable for interrupt status registers
-    dreg_en #1 interrupt_0_status_register(
+    dreg_en #4 interrupt_0_status_register(
         .clk    (clk),
-        .rst    (reset[0]),
-        .en     (interrupt_0_done),
-        .d      (interrupt_0_done),
-        .q      (q_state[0]),
-        .q_not  (q_not[0])
+        .rst    (reset),
+        .en     (done),
+        .d      (done),
+        .q      (q_state),
+        .q_not  (q_not)
     );
-    
+    /*
     dreg_en #1 interrupt_1_status_register(
             .clk    (clk),
             .rst    (reset[1]),
-            .en     (interrupt_1_done),
-            .d      (interrupt_1_done),
+            .en     (done[1]),
+            .d      (done[1]),
             .q      (q_state[1]),
             .q_not  (q_not[1])
     );
@@ -44,8 +44,8 @@ module intc(
     dreg_en #1 interrupt_2_status_register(
             .clk    (clk),
             .rst    (reset[2]),
-            .en     (interrupt_2_done),
-            .d      (interrupt_2_done),
+            .en     (done[2]),
+            .d      (done[2]),
             .q      (q_state[2]),
             .q_not  (q_not[2])
     );
@@ -53,11 +53,11 @@ module intc(
     dreg_en #1 interrupt_3_status_register(
             .clk    (clk),
             .rst    (reset[3]),
-            .en     (interrupt_3_done),
-            .d      (interrupt_3_done),
+            .en     (done[3]),
+            .d      (done[3]),
             .q      (q_state[3]),
             .q_not  (q_not[3])
-        );    
+        );  */  
         
     // mux to select which line provides the interrupt address
     mux4 addr_mux(
@@ -65,17 +65,14 @@ module intc(
         .a     (addr0),
         .b     (addr1),
         .c     (addr2),
-        .d     (addr1),
-        .y     (ADDR)
+        .d     (addr3),
+        .y     (isr_addr)
     );
     
     // mux to select which line gets cleared by IACK
-    mux4 #(1) iack_mux(
+    mux4 #(4) iack_mux(
         .sel   (priority_select),
-        .a     (reset[0]),
-        .b     (reset[1]),
-        .c     (reset[2]),
-        .d     (reset[3]),
+        .a     (reset),
         .y     (IACK)
     );
 

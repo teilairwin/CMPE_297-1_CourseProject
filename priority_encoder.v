@@ -9,8 +9,8 @@ module priority_encoder(
             // 0 is highest priority, 3 is lowest, valid is 1 when interrupt 
             // Priority 0
             4'bxxx1 : begin
-                        y = 2'b00;
-                        valid = 1;
+                      y = 2'b00;
+                      valid = 1;
                       end
             // Priority 1
             4'bxx10 : begin

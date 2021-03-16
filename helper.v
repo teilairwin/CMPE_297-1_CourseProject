@@ -25,6 +25,34 @@ begin
 end
 endmodule
 
+module mux8 #(parameter WIDTH = 32) (
+  input wire [2:0] sel,
+  input wire [WIDTH-1:0] a,
+  input wire [WIDTH-1:0] b,
+  input wire [WIDTH-1:0] c,
+  input wire [WIDTH-1:0] d,
+  input wire [WIDTH-1:0] e,
+  input wire [WIDTH-1:0] f,
+  input wire [WIDTH-1:0] g,
+  input wire [WIDTH-1:0] h,
+  output reg [WIDTH-1:0] y
+);
+always @ (*)
+begin
+  case(sel)
+    3'b000: y = a;
+    3'b001: y = b;
+    3'b010: y = c;
+    3'b011: y = d;
+    3'b100: y = e;
+    3'b101: y = f;
+    3'b110: y = g;
+    3'b111: y = h;
+    default: y = h;
+  endcase
+end
+endmodule
+
 module multiplier_async (
     input  wire [31:0] A,
     input  wire [31:0] B,
