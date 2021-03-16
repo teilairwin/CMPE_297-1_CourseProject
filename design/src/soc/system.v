@@ -21,6 +21,7 @@ module system (
     wire [31:0] DMemData, FactData, GPIOData, ReadData, rd_dm;
     wire        WE1, WE2, WEM, we_dm;
     wire [ 1:0] RdSel;
+    wire [31:0] instrP, instrE;
 
     assign rd_mm = ReadData;
     assign DMemData = rd_dm;
@@ -30,22 +31,39 @@ module system (
     // note: some _dm signals have been replaced with _mm signals
     wire [31:0] DONT_USE;
 
+    //temp intc signals
+    reg irq;
+    reg [31:0] irq_addr;
+    wire irq_ack;
+    initial begin
+        irq <= 1'b0;
+        irq <= 32'h0000_0000;
+    end
+    
     mips mips (
         .clk          (clk),
         .rst          (rst),
         .ra3          (ra3),
-        .instr        (instr),
+        .instrP       (instrP),  //Program Memory
+        .instrE       (instrE),  //Exception Memory
         .rd_dm        (rd_mm),
         .we_dm        (we_mm),
         .pc_current   (pc_current),
         .alu_out      (alu_out),
         .wd_dm        (wd_mm),
-        .rd3          (rd3)
+        .rd3          (rd3),
+        .irq          (irq),
+        .irq_ack      (irq_ack),
+        .irq_addr     (irq_addr)
     );
 
     imem imem (
         .a            (pc_current[7:2]),
-        .y            (instr)
+        .y            (instrP)
+    );
+    imem emem (
+        .a            (pc_current[7:2]),
+        .y            (instrE)
     );
 
     dmem dmem (
