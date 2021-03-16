@@ -25,6 +25,29 @@ begin
 end
 endmodule
 
+module mux6 #(parameter WIDTH = 32) (
+  input wire [2:0] sel,
+  input wire [WIDTH-1:0] a,
+  input wire [WIDTH-1:0] b,
+  input wire [WIDTH-1:0] c,
+  input wire [WIDTH-1:0] d,
+  input wire [WIDTH-1:0] e,
+  input wire [WIDTH-1:0] f,
+  output reg [WIDTH-1:0] y
+);
+always @ (*)
+begin
+  case(sel)
+    2'b000: y = a;
+    2'b001: y = b;
+    2'b010: y = c;
+    2'b011: y = d;
+    2'b100: y = e;
+    default: y = f;
+  endcase
+end
+endmodule
+
 module multiplier_async (
     input  wire [31:0] A,
     input  wire [31:0] B,
