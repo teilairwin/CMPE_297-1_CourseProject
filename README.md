@@ -38,3 +38,26 @@ Loading Steps
      3) To load/make driver to Zybo, In TCL Console run 'source ./load-driver.tcl'
    b) Or Do everything at once..
      1) In TCL Console run 'source ./load-all.tcl'
+
+
+# CMPE_297-1_CourseProject_Description (from Lecture 5)
+
+Requirements
+- The interrupt controller (Intc):
+1) Must be able to handle at least 4 interrupt sources
+2) Support at least one of the resolving policy:
+   - Fixed priority
+   - Round robin
+   - Rotated priority
+3) Allow the lite MIPS to perform one-cycle context switching
+
+Validation method:
+- Complete validation determined by the end application (in our case, the factorial computation)
+- Transaction-level, completed by the master processor (Cotex-A9)
+
+Purpose:
+As a preparation for your MS projects, which can include:
+- Design, verification/validation and system integration
+- Full stack of embedded software: firmware, system software, and application software
+- Hardware-software co-design
+You will define your MS project topics based on your interest.
