@@ -1,3 +1,53 @@
+module iack_decoder(
+    input wire [1:0] priority_select,
+    input wire IACK,
+    output reg [3:0] reset
+);
+always @ (IACK,priority_select) begin
+    case (priority_select)
+        2'b00: begin
+            if(IACK) begin
+                reset <= 4'b0001;
+                #5;
+                end 
+            else begin
+                reset <= 4'b0000;
+                end
+            end
+        2'b01: begin
+            if(IACK) begin
+                reset <= 4'b0010;
+                #5;
+                end
+            else begin
+                reset <= 4'b0000;
+                end
+            end
+        2'b10: begin
+            if(IACK) begin
+                reset <= 4'b0100;
+                #5;
+                end
+            else begin
+                reset <= 4'b0000;
+                #5;
+                end
+            end
+        2'b11: begin
+            if(IACK) begin
+                reset <= 4'b1000;
+                #5;
+                end
+            else begin
+                reset <= 4'b0000;
+                end
+            end
+        default: reset <= 4'b0000;
+    endcase
+end
+endmodule
+
+
 module comparator_gt(
   input  wire [3:0] a,
   input  wire [3:0] b,
@@ -88,22 +138,12 @@ module dreg_en # (parameter WIDTH = 32) (
   input wire rst,
   input wire en,
   input wire [WIDTH-1:0] d,
-  output reg [WIDTH-1:0] q,
-  output reg [WIDTH-1:0] q_not
+  output reg [WIDTH-1:0] q
 );
   always @ (posedge clk, posedge rst) begin
-    if (rst) begin
-        q <= 0;
-        q_not <= ~q;
-        end
-    else if (en) begin
-        q <= d;
-        q_not <= ~q;
-        end
-    else begin
-        q <= q;
-        q_not <= ~q;
-    end
+    if (rst) q <= 0;
+    else if (en) q <= d;
+    else q <= q;
   end
 endmodule
 
