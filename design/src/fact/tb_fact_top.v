@@ -1,26 +1,25 @@
 `timescale 1ns / 1ps
 
-module tb_factorial();
+module tb_fact_top();
     reg         clk, rst;
-    wire [1:0]  CS;
-    reg  [3:0]  n;
-    reg         go;
-    wire [31:0] fact_n;
-    // wire [31:0] fact_calc;
-    wire        done, error;
+    reg  [1:0]  addr;
+    reg  [3:0]  n;          // Write Data
+    reg         go;         // Write Enable
+    wire [31:0] fact_n;     // Read Data
+    wire        done;
+//    wire [31:0] fact_calc;
     reg         testPass;
 
     integer     i;
 
-    fact fact (
+    fact_top fact_top (
+        .A          (addr),
         .clk        (clk),
         .rst        (rst),
-        .go         (go),
-        .in         (n),
-        .Done       (done),
-        .Error      (error),
-        .CS         (CS),
-        .result     (fact_n)
+        .WE         (go),
+        .WD         (n),
+        .RD         (fact_n),
+        .Done       (done)
     );
 
     always begin
@@ -28,12 +27,13 @@ module tb_factorial();
     end
 
     initial begin
-        clk         = 0; 
-        testPass    = 1;
+        addr        = 2'b01;
+        clk         = 0;
         rst         = 0;
+        testPass    = 1;
         n           = 0;
         go          = 0;
-        // fact_calc   = 1;
+//        fact_calc   = 1;
 
 
         #10 rst      = 1;
