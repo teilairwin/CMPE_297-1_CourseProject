@@ -1,32 +1,37 @@
 `timescale 1ns / 1ps
 
 module tb_system();
-    reg clk, rst;
-    reg Sel;
-    reg [3:0] n;
-    wire dispSe;
-    wire factErr;
-    
-    wire [31:0] gpI1;
-    wire [31:0] gpO1;
-    wire [31:0] gpO2;
-    
-    assign gpI1 = {27'b0, Sel, n[3:0]};
-    assign dispSe = gpO1[1];
-    assign factErr = gpO1[0];
+    reg         clk, rst;
+    reg         Sel;
+    reg [3:0]   n;
+
+    wire        we_mm;
+    wire [31:0] pc_current;
+    wire [31:0] instrE;
+    wire [31:0] instrP;
+    wire [31:0] alu_out;
+    wire [31:0] wd_mm;
+    wire [31:0] rd_mm;
+    wire [31:0] rd3;
 
     system system (
-        .clk(clk),
-        .rst(rst),
-        .gpI1(gpI1),
-        .gpI2(gpO1),
-        .gpO1(gpO1),
-        .gpO2(gpO2)
+        .clk        (clk),
+        .rst        (rst),
+        .ra3        (ra3),
+        .we_mm      (we_mm),
+        .pc_current (pc_current),
+        .instrE     (instrE),
+        .instrP     (instrP),
+        .alu_out    (alu_out),
+        .wd_mm      (wd_mm),
+        .rd_mm      (rd_mm),
+        .rd3        (rd3)
     );
-    
+
     always begin
         #5 clk = ~clk;
     end
+
     initial begin
         clk = 0; rst = 1;
         n = 5; Sel = 0;

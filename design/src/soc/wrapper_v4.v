@@ -31,17 +31,17 @@ module dut_wrapper_v4 #
     wire rst;
     assign rst = read_from_slv_reg3[0];
 
-    // define led usage: use write_to_slv_reg5
-    wire dispSe, factErr;
-    assign write_to_slv_reg5[ 4: 0] = {dispSe, factErr, factErr, factErr, factErr};
-    assign write_to_slv_reg5[31:5] = 27'b0;
+    // // define led usage: use write_to_slv_reg5
+    // wire dispSe, factErr;
+    // assign write_to_slv_reg5[ 4: 0] = {dispSe, factErr, factErr, factErr, factErr};
+    // assign write_to_slv_reg5[31:5] = 27'b0;
 
-    // define 7seg usage
-    wire [3:0] LEDSEL;
-    wire [7:0] LEDOUT;
-    wire [31:0] LEDOUT_all;
-    assign write_to_slv_reg6 = LEDOUT_all; // 7seg
-	 
+    // // define 7seg usage
+    // wire [3:0] LEDSEL;
+    // wire [7:0] LEDOUT;
+    // wire [31:0] LEDOUT_all;
+    // assign write_to_slv_reg6 = LEDOUT_all; // 7seg
+ 
     fpga_top DUT(
         .clk100MHz(sysclk),
         //--
@@ -49,19 +49,7 @@ module dut_wrapper_v4 #
         .Sel(Sel),
         .n(n),
         // buttons
-        .rst(rst),
-        // leds
-        .dispSe(dispSe),  // indicate selection of upper halfword
-        .factErr(factErr),
-        // 7seg
-        .LEDSEL(LEDSEL),
-        .LEDOUT(LEDOUT)
+        .rst(rst)
     );
     
-    _7seg_cap _7seg_cap(
-        .sysclk(sysclk),
-        .LEDOUT(LEDOUT),
-        .LEDSEL(LEDSEL),
-        .LEDOUT_all(LEDOUT_all)
-    );
 endmodule
