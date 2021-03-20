@@ -1,71 +1,83 @@
 module memory_map_top(
-        input wire write_enable,
-        input wire [31:0] input_address,
-        input wire [31:0] input_data,
-        output reg [31:0] fact0_data, fact1_data, fact2_data, fact3_data, fact0_addr, fact1_addr, fact2_addr, fact3_addr,
-        output wire dm_we, intc_we, fact0_we, fact1_we, fact2_we, fact3_we,
-        output reg [31:0] dm_addr, intc_addr, dm_data, intc_data
+        // MIPS Inputs/Outputs
+        input write_enable,
+        input [31:0] input_addr,
+        input [31:0] input_data,
+        output wire [31:0] output_data,
+        output wire data_valid,
+        
+        // Inputs/Outputs to DM
+        input wire [31:0] dm_rdata,
+        output dm_we,
+        output wire [31:0] dm_addr, dm_wdata,
+        
+        // Inputs/Outputs to Interrupt Controller
+        input wire [31:0] intc_rdata,
+        output intc_we,
+        output wire [31:0] intc_addr, intc_wdata,
+
+        // Inputs/Outputs to Factorial Unit0
+        input wire [31:0] fact0_rdata,
+        output fact0_we,
+        output wire [31:0] fact0_addr, fact0_wdata,
+        
+        // Inputs/Outputs to Factorial Unit1
+        input wire [31:0] fact1_rdata,
+        output fact1_we,
+        output wire [31:0] fact1_addr, fact1_wdata,
+        
+        // Inputs/Outputs to Factorial Unit2
+        input wire [31:0] fact2_rdata,
+        output fact2_we,
+        output wire [31:0] fact2_addr, fact2_wdata,
+        
+        // Inputs/Outputs to Factorial Unit3
+        input wire [31:0] fact3_rdata,
+        output fact3_we,
+        output wire [31:0] fact3_addr, fact3_wdata
     );
     
-    reg [5:0] control_signals;
-    reg [2:0] select;
+    //Pass through the access address to device 
+    assign dm_addr = input_addr;
+    assign intc_addr = input_addr;
+    assign fact0_addr = input_addr;
+    assign fact1_addr = input_addr;
+    assign fact2_addr = input_addr;
+    assign fact3_addr = input_addr;
     
-    always@(*)begin
-        // clear control signals
-        assign control_signals = 6'b0;
-        
-        casex(input_address)
-            // data memory address x00000000 - x0000FFFF
-            // dm_we = 1, select = 000
-            32'h0000xxxx: begin
-                control_signals <= 6'b000001;
-                select <= 3'b000;
-                end                
-            // interrupt controller address x00010000 - x0002FFFF
-            // intc_we = 1, select = 001
-            32'h0002xxxx: begin
-                control_signals <= 6'b000010;
-                select <= 3'b001;
-                end              
-            // factorial accelerator 0 address x00020000 - x0002FFFF
-            // fact0_we = 1, select = 010
-            32'h0002xxxx: begin
-                control_signals <= 6'b000100;
-                select <= 3'b010;
-                end
-            // factorial accelerator 1 address x00030000 - x0003FFFF
-            // fact1_we = 1, select = 011
-            32'h0003xxxx: begin
-                control_signals <= 6'b001000;
-                select <= 3'b011;
-                end
-            // factorial accelerator 1 address x00010000 - x0001FFFF
-            // fact2_we = 1, select = 100
-            32'h0004xxxx: begin
-                control_signals <= 6'b010000;
-                select <= 3'b100;
-                end
-            // factorial accelerator 1 address x00010000 - x0001FFFF
-            // fact3_we = 1, select = 101
-            32'h0005xxxx: begin
-                control_signals <= 6'b100000;
-                select <= 3'b101;
-                end               
-            endcase
-        end
-        
-    // set the control signals
-    assign {dm_we, intc_we, fact0_we, fact1_we, fact2_we, fact3_we} = {control_signals};
+    //Pass through the write data to device
+    assign dm_wdata = input_data;
+    assign intc_wdata = input_data;
+    assign fact0_wdata = input_data;
+    assign fact1_wdata = input_data;
+    assign fact2_wdata = input_data;
+    assign fact3_wdata = input_data;    
+    
+    //assign select = 
+    wire [2:0] select;
+    wire out_of_range_error;
+    wire validity;
+    
+    address_map address_map(
+        //input
+        .input_addr     (input_addr),
+        //outputs
+        .select         (select),
+        .control_signals    ({fact3_we,fact2_we,fact1_we,fact0_we,intc_we,dm_we}),
+        .out_of_range_error (out_of_range_error)
+    );
     
     // use select to mux to the right address and data lines
-    mux8 #64 data_mux(
+    mux8 #32 data_mux(
         .sel (select),
-        .a   ({dm_addr,dm_data}),
-        .b   ({intc_addr,intc_data}),
-        .c   ({fact0_addr,fact0_data}),
-        .d   ({fact1_addr,fact1_data}),
-        .e   ({fact2_addr,fact2_data}),
-        .f   ({fact3_addr,fact3_data}),
-        .y   ({input_address,input_data})
+        .a   ({dm_rdata}),
+        .b   ({intc_rdata}),
+        .c   ({fact0_rdata}),
+        .d   ({fact1_rdata}),
+        .e   ({fact2_rdata}),
+        .f   ({fact3_rdata}),
+        .y   ({output_data})
     );
+    
+    assign data_valid = !out_of_range_error;
 endmodule

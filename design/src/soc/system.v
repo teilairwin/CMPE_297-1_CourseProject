@@ -55,7 +55,7 @@ module system (
     wire [31:0] fact_rdata [3:0]; ///< FACT ReadData
 
     //INTC-FACT Connections
-    wire [ 3:0] fact_done;
+    wire [3:0] fact_done;
 
     ///////////////////////////////////////////////////////////////////////////
     /// System Components
@@ -106,27 +106,33 @@ module system (
         //Device0 [DataMemory]
         .dm_we           (dm_we),
         .dm_addr         (dm_addr),
-        .dm_data         (dm_wdata),                 
+        .dm_wdata        (dm_wdata),
+        .dm_rdata        (dm_rdata),                 
         //Device1 [InterruptController]
         .intc_we         (intc_we),
         .intc_addr       (intc_addr),
-        .intc_data       (intc_wdata),
+        .intc_wdata      (intc_wdata),
+        .intc_rdata      (intc_rdata),
         //Device2 [Factorial0]
         .fact0_we        (fact_we[0]),
         .fact0_addr      (fact_addr[0]),
-        .fact0_data      (fact_wdata[0]),
+        .fact0_wdata     (fact_wdata[0]),
+        .fact0_rdata     (fact_rdata[0]),
         //Device3 [Factorial1]
         .fact1_we        (fact_we[1]),
         .fact1_addr      (fact_addr[1]),
-        .fact1_data      (fact_wdata[1]),
+        .fact1_wdata     (fact_wdata[1]),
+        .fact1_rdata     (fact_rdata[1]),
         //Device4 [Factorial2]
         .fact2_we        (fact_we[2]),
         .fact2_addr      (fact_addr[2]),
-        .fact2_data      (fact_wdata[2]),        
+        .fact2_wdata     (fact_wdata[2]),
+        .fact2_rdata     (fact_rdata[2]),        
         //Device5 [Factorial3]
         .fact3_we        (fact_we[3]),
         .fact3_addr      (fact_addr[3]),
-        .fact3_data      (fact_wdata[3])    
+        .fact3_wdata     (fact_wdata[3]),
+        .fact3_rdata     (fact_rdata[3])   
     );
 
     //DataMemory [Device0]
@@ -135,7 +141,7 @@ module system (
         .we           (dm_we),
         .a            (dm_addr[7:2]),
         .d            (dm_wdata),
-        .q            (dm_rdata)
+        .q            (dm_rdata) 
     );
 
     //InterruptController [Device1]
