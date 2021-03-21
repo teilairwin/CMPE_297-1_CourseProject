@@ -8,7 +8,12 @@ module fpga_top (
     input wire [4:0] mips_rf_addr,       ///< MIPS RegFile Addr to Read
     //Test Data
     output wire [31:0] mips_pc_current,  ///< Current PC of MIPS
-    output wire [31:0] mips_rf_data      ///< MIPS RegFile Data Read
+    output wire [31:0] mips_rf_data,     ///< MIPS RegFile Data Read
+    
+     input wire pmem_we,         ///< WriteEnable to Load IMEM
+     input wire [5:0] pmem_addr, ///< Addr for R/W to IMEM
+     input wire [31:0] pmem_wd,  ///< WriteData to IMEM
+     output wire [31:0] pmem_rd  ///< ReadData from IMEM
 );
 
     ///////////////////////////////////////////////////////////////////////////
@@ -45,9 +50,15 @@ module fpga_top (
         .sys_clk(clk_system),
         .sys_rst(rst),
         //Test Data
+        //--MIPS
         .pc_current(mips_pc_current),
         .mips_rf_addr(mips_rf_addr),
-        .mips_rf_data(mips_rf_data)
+        .mips_rf_data(mips_rf_data),
+        //--IMEM
+        .pmem_we(pmem_we),
+        .pmem_addr(pmem_addr),
+        .pmem_wd(pmem_wd),
+        .pmem_rd(pmem_rd)
     );
 
 endmodule
