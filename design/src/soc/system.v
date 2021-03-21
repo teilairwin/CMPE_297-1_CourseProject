@@ -7,11 +7,14 @@ module system (
         //External/Test Component Access
         //--MIPS
         output wire [31:0] pc_current,  
-//        output wire [31:0] instrE,
-//        output wire [31:0] instrP,
         input  wire [4:0]  mips_rf_addr,   ///< RegFile Addr
-        output wire [31:0] mips_rf_data    ///< RegFile Data
-
+        output wire [31:0] mips_rf_data,   ///< RegFile Data
+        //--ROM - PMEM/EMEM
+        input wire rom_we,          ///< WriteEnable to Load ROM
+        input wire rom_select,      ///< ROM Select
+        input wire [5:0] rom_addr,  ///< Addr for R/W to IMEM
+        input wire [31:0] rom_wd,   ///< WriteData to IMEM
+        output wire [31:0] rom_rd   ///< ReadData from IMEM
 //TODO assess        
 //        output wire        we_mm,   ///< MMDevice WriteEnable
 //        output wire [31:0] alu_out, ///< MMDevice Address
@@ -24,7 +27,11 @@ module system (
     ///////////////////////////////////////////////////////////////////////////
 
     //MIPS-IMEM/EMEM connections
-    wire [31:0] instrP, instrE;   ///< Program,Exception Instruction Data
+    wire [31:0] instrP, instrE;    ///< Program,Exception Instruction Data
+    //TEST-IMEM/EMEM connections
+    wire rom_pmem_we, rom_emem_we; ///< ROM Write Enables
+    wire [31:0] rom_pmem_rd;       ///< Program ROM Read
+    wire [31:0] rom_emem_rd;       ///< Excetion ROM Read
 
     //MIPS-INTC connections
     wire [31:0] irq_addr;   ///< IRQ Address
@@ -78,21 +85,42 @@ module system (
         .ra3          (mips_rf_addr),      ///< RegFile Addr     
         .rd3          (mips_rf_data),      ///< RegFile Data
         //Interrupt Handling
-        .irq          (irq),       ///< External interrupt request
+        //.irq          (irq),       ///< External interrupt request
+        .irq          (1'b0),       ///< External interrupt request
         .irq_addr     (irq_addr),  ///< Interrupt routine address
         .irq_ack      (irq_ack)    ///< Interrupt ack 
     );
 
+    //ROM Access Select
+    assign rom_pmem_we = rom_we & ~rom_select; //Sel=0
+    assign rom_emem_we = rom_we & rom_select;  //Sel=1
+    mux2 #32 mux_rom_read(
+        .sel(rom_select),
+        .a(rom_pmem_rd),  //Sel=0
+        .b(rom_emem_rd),  //Sel=1
+        .y(rom_rd)
+    );
+    
     //Program Memory
-    imem imem (
-        .a            (pc_current[7:2]),
-        .y            (instrP)
+    rom_loadable pmem (
+        .clk(sys_clk),
+        .read_addr(pc_current[7:2]),
+        .read_data(instrP),
+        .write_enable(rom_pmem_we),
+        .write_addr(rom_addr),
+        .write_data(rom_wd),
+        .read_data2(rom_pmem_rd)
     );
 
     //Exception Memory
-    imem emem (
-        .a            (pc_current[7:2]),
-        .y            (instrE)
+    rom_loadable emem (
+        .clk(sys_clk),
+        .read_addr(pc_current[7:2]),
+        .read_data(instrE),
+        .write_enable(rom_emem_we),
+        .write_addr(rom_addr),
+        .write_data(rom_wd),
+        .read_data2(rom_emem_rd)
     );
 
     //System Device Memory Map
@@ -144,6 +172,7 @@ module system (
         .q            (dm_rdata) 
     );
 
+/*
     //InterruptController [Device1]
     intc_top intc(
         .clk(sys_clk),
@@ -156,7 +185,7 @@ module system (
         .write_data(intc_wdata), ///< MMDeivce WriteData
         .read_data(intc_rdata)   ///< MMDevice ReadData 
     ); 
-
+*/
     //Factorials [Device2,3,4,5]
     genvar ii;
     generate
