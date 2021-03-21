@@ -6,7 +6,7 @@ module dut_wrapper_v4 #
 )
 (
     // AXI-DUT interface ports
-    input [C_S_AXI_DATA_WIDTH-1:0] read_from_slv_reg0, // control
+    input [C_S_AXI_DATA_WIDTH-1:0] read_from_slv_reg0, // Sys control
     input [C_S_AXI_DATA_WIDTH-1:0] read_from_slv_reg1, // RF_ADDR
     input [C_S_AXI_DATA_WIDTH-1:0] read_from_slv_reg2, // ROM_CTRL
     input [C_S_AXI_DATA_WIDTH-1:0] read_from_slv_reg3, // ROM_DATA
@@ -31,6 +31,7 @@ module dut_wrapper_v4 #
     wire [31:0] mips_rf_data;
 
     wire rom_we;
+    wire rom_select;
     wire [5:0] rom_addr;
     wire [31:0] rom_wd;
     wire [31:0] rom_rd;
@@ -50,6 +51,7 @@ module dut_wrapper_v4 #
     //Input: Reg2 AXI-RomControl
     assign rom_we = read_from_slv_reg2[0];
     assign rom_addr = read_from_slv_reg2[6:1];
+    assign rom_select = read_from_slv_reg2[7];
     //Input: Reg3 AXI-RomData
     assign rom_wd = read_from_slv_reg3; 
 
@@ -75,10 +77,11 @@ module dut_wrapper_v4 #
         .mips_pc_current(mips_pc_current),
         .mips_rf_data(mips_rf_data),
         
-        .pmem_we(rom_we),
-        .pmem_addr(rom_addr),
-        .pmem_wd(rom_wd),
-        .pmem_rd(rom_rd)
+        .rom_we(rom_we),
+        .rom_select(rom_select),
+        .rom_addr(rom_addr),
+        .rom_wd(rom_wd),
+        .rom_rd(rom_rd)
     );
     
 endmodule
