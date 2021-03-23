@@ -1,175 +1,205 @@
 module system (
-        input  wire        clk,
-        input  wire        rst,
-        input  wire [4:0]  ra3,
-        output wire        we_mm,
-        output wire [31:0] pc_current,
-        output wire [31:0] instrE,
-        output wire [31:0] instrP,
-        output wire [31:0] alu_out,
-        output wire [31:0] wd_mm,
-        output wire [31:0] rd_mm,
-        output wire [31:0] rd3
+        //Core Signals
+        //--Control
+        input  wire        sys_clk,   ///< System Clock
+        input  wire        sys_rst,   ///< System Reset
+        
+        //External/Test Component Access
+        //--MIPS
+        output wire [31:0] pc_current,  
+        input  wire [4:0]  mips_rf_addr,   ///< RegFile Addr
+        output wire [31:0] mips_rf_data,   ///< RegFile Data
+        //--ROM - PMEM/EMEM
+        input wire rom_we,          ///< WriteEnable to Load ROM
+        input wire rom_select,      ///< ROM Select
+        input wire [5:0] rom_addr,  ///< Addr for R/W to IMEM
+        input wire [31:0] rom_wd,   ///< WriteData to IMEM
+        output wire [31:0] rom_rd   ///< ReadData from IMEM
+//TODO assess        
+//        output wire        we_mm,   ///< MMDevice WriteEnable
+//        output wire [31:0] alu_out, ///< MMDevice Address
+//        output wire [31:0] wd_mm,   ///< MMDevice WriteData
+//        output wire [31:0] rd_mm    ///< MMDevice ReadData
     );
 
+    ///////////////////////////////////////////////////////////////////////////
+    /// Component Interconnections
+    ///////////////////////////////////////////////////////////////////////////
 
-    wire [31:0] DMemData, ReadData;
-    wire [31:0] FactData0, FactData1, FactData2, FactData3;
-    wire [31:0] rd_dm;
-    wire        WE1, WE2;
-    wire        WEM;
-    wire        we_dm;
-    wire [ 3:0] Done;
-    wire [ 2:0] RdSel;
-    wire [31:0] instrP, instrE;
-    wire [31:0] irq_addr;
-    wire irq_ack, irq;
+    //MIPS-IMEM/EMEM connections
+    wire [31:0] instrP, instrE;    ///< Program,Exception Instruction Data
+    //TEST-IMEM/EMEM connections
+    wire rom_pmem_we, rom_emem_we; ///< ROM Write Enables
+    wire [31:0] rom_pmem_rd;       ///< Program ROM Read
+    wire [31:0] rom_emem_rd;       ///< Excetion ROM Read
 
-    assign rd_mm = ReadData;
-    assign DMemData = rd_dm;
-    assign we_dm = WEM;
+    //MIPS-INTC connections
+    wire [31:0] irq_addr;   ///< IRQ Address
+    wire irq_ack;           ///< IRQ ACK Mips->Intc       
+    wire irq;               ///< IRQ Intc->Mips
 
-    // note: some _dm signals have been replaced with _mm signals
-    wire [31:0] DONT_USE;
+    //MIPS-MM connections
+    wire mm_write_enable;       ///< MMDevice WriteEnable
+    wire [31:0] mm_input_addr;  ///< MMDevice Address
+    wire [31:0] mm_input_data;  ///< MMDevice Write Data
+    wire [31:0] mm_output_data; ///< MMDevice Read Data
+    wire mm_data_valid;         ///< MMDEvice Data Valid [TODO]
 
+    //MM-DMEM connections
+    wire dm_we;            ///< DataMem WriteEnable
+    wire [31:0] dm_addr;   ///< DataMem Addr
+    wire [31:0] dm_wdata;  ///< DataMem WriteData
+    wire [31:0] dm_rdata;  ///< DataMem ReadData
+    //MM-INTC Connections
+    wire intc_we;            ///< INTC WriteEnable
+    wire [31:0] intc_addr;   ///< INTC Addr
+    wire [31:0] intc_wdata;  ///< INTC WriteData
+    wire [31:0] intc_rdata;  ///< INTC ReadData
+    //MM-FACT Connections
+    wire [3:0] fact_we;           ///< FACT WriteEnable
+    wire [31:0] fact_addr [3:0];  ///< FACT Addr 
+    wire [31:0] fact_wdata [3:0]; ///< FACT WriteData
+    wire [31:0] fact_rdata [3:0]; ///< FACT ReadData
+
+    //INTC-FACT Connections
+    wire [3:0] fact_done;
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// System Components
+    ///////////////////////////////////////////////////////////////////////////
+
+    //System MIPS Processor
     mips mips (
-        .clk          (clk),
-        .rst          (rst),
-        .ra3          (ra3),
-        .instrP       (instrP),
-        .instrE       (instrE),
-        .rd_dm        (rd_mm),
-        .we_dm        (we_mm),
-        .pc_current   (pc_current),
-        .alu_out      (alu_out),
-        .wd_dm        (wd_mm),
-        .rd3          (rd3),
-        .irq          (irq),
-        .irq_ack      (irq_ack),
-        .irq_addr     (irq_addr)
+        //Core
+        .clk          (sys_clk),    ///< MIPS clock
+        .rst          (sys_rst),    ///< MIPS reset
+        .pc_current   (pc_current), ///< Current PC
+        .instrP       (instrP),     ///< ProgramMem Instruction
+        .instrE       (instrE),     ///< ExceptionMem Instruction
+        //MemoryMapped Device Access
+        .rd_dm        (mm_output_data),     ///< MMDevice ReadData    
+        .we_dm        (mm_write_enable),    ///< MMDevice WriteEnable
+        .alu_out      (mm_input_addr),      ///< MMDevice Address
+        .wd_dm        (mm_input_data),      ///< MMDevice WriteData
+        //External/Test
+        .ra3          (mips_rf_addr),      ///< RegFile Addr     
+        .rd3          (mips_rf_data),      ///< RegFile Data
+        //Interrupt Handling
+        //.irq          (irq),       ///< External interrupt request
+        .irq          (1'b0),       ///< External interrupt request
+        .irq_addr     (irq_addr),  ///< Interrupt routine address
+        .irq_ack      (irq_ack)    ///< Interrupt ack 
     );
 
-    // Program Memory
-    imem imem (
-        .a            (pc_current[7:2]),
-        .y            (instrP)
-    );
-
-    // External Memory
-    imem emem (
-        .a            (pc_current[7:2]),
-        .y            (instrE)
-    );
-
-    dmem dmem (
-        .clk          (clk),
-        .we           (we_dm),
-        .a            (alu_out[7:2]),
-        .d            (wd_mm),
-        .q            (rd_dm)
-    );
-
-    // // Swap out Address Decoder with Memory Map
-    // address_decoder addr_decoder(
-    //     .WE           (we_mm),
-    //     .A            ({20'b0, alu_out[11:4], 4'b0}),
-    //     .WE2          (WE2),
-    //     .WE1          (WE1),
-    //     .WEM0         (WEM0),
-    //     .WEM1         (WEM1),
-    //     .WEM2         (WEM2),
-    //     .WEM3         (WEM3),
-    //     .RdSel        (RdSel[1:0])   // Need this to be 3 bits.
-    // );
-
-    // mux6 mux6(
-    //     .sel          (RdSel),
-    //     .a            (DMemData),
-    //     .b            (FactData0),
-    //     .c            (FactData1),
-    //     .d            (FactData2),
-    //     .e            (FactData3),
-    //     .f            (irq),        //TBD
-    //     .y            (ReadData)
-    // );
-
-    memory_map_top memory_map_top(
-        write_enable    (write_enable),
-        input_address   (input_address),
-        input_data      (input_data),
-        fact0_data      (fact0_data),
-        fact1_data      (fact1_data),
-        fact2_data      (fact2_data),
-        fact3_data      (fact3_data),
-        fact0_addr      (fact0_addr),
-        fact1_addr      (fact1_addr),
-        fact2_addr      (fact2_addr),
-        fact3_addr      (fact3_addr),
-        dm_we           (dm_we),
-        intc_we         (intc_we),
-        fact0_we        (fact0_we),
-        fact1_we        (fact1_we),
-        fact2_we        (fact2_we),
-        fact3_we        (fact3_we),
-        dm_addr         (dm_addr),
-        intc_addr       (intc_addr),
-        dm_data         (dm_data),
-        intc_data       (intc_data)
-    );
-
-    // Factorial Unit 0
-    fact_top fact_top0(
-        .clk          (clk),
-        .rst          (rst),
-        .A            (alu_out[3:2]),
-        .WE           (WE1),
-        .WD           (wd_mm0),
-        .RD           (FactData0),
-        .Done         (Done[0])
-    );
-
-    // Factorial Unit 1
-    fact_top fact_top1(
-        .clk          (clk),
-        .rst          (rst),
-        .A            (alu_out[3:2]),
-        .WE           (WE1),
-        .WD           (wd_mm1),
-        .RD           (FactData1),
-        .Done         (Done[1])
-    );
-
-    // Factorial Unit 2
-    fact_top fact_top2(
-        .clk          (clk),
-        .rst          (rst),
-        .A            (alu_out[3:2]),
-        .WE           (WE1),
-        .WD           (wd_mm2),
-        .RD           (FactData2),
-        .Done         (Done[2])
-    );
-
-    // Factorial Unit 3
-    fact_top fact_top3(
-        .clk          (clk),
-        .rst          (rst),
-        .A            (alu_out[3:2]),
-        .WE           (WE1),
-        .WD           (wd_mm3),
-        .RD           (FactData3),
-        .Done         (Done[3])
+    //ROM Access Select
+    assign rom_pmem_we = rom_we & ~rom_select; //Sel=0
+    assign rom_emem_we = rom_we & rom_select;  //Sel=1
+    mux2 #32 mux_rom_read(
+        .sel(rom_select),
+        .a(rom_pmem_rd),  //Sel=0
+        .b(rom_emem_rd),  //Sel=1
+        .y(rom_rd)
     );
     
-    intc interrupt_controller(
-        .clk              (clk),
-        .interrupt_0_done (Done[0]),
-        .interrupt_1_done (Done[1]),
-        .interrupt_2_done (Done[2]),
-        .interrupt_3_done (Done[3]),
-        .IACK             (irq_ack),
-        .IRQ              (irq),
-        .ADDR             (irq_addr)
+    //Program Memory
+    rom_loadable pmem (
+        .clk(sys_clk),
+        .read_addr(pc_current[7:2]),
+        .read_data(instrP),
+        .write_enable(rom_pmem_we),
+        .write_addr(rom_addr),
+        .write_data(rom_wd),
+        .read_data2(rom_pmem_rd)
     );
 
+    //Exception Memory
+    rom_loadable emem (
+        .clk(sys_clk),
+        .read_addr(pc_current[7:2]),
+        .read_data(instrE),
+        .write_enable(rom_emem_we),
+        .write_addr(rom_addr),
+        .write_data(rom_wd),
+        .read_data2(rom_emem_rd)
+    );
+
+    //System Device Memory Map
+    memory_map_top memory_map(
+        //MIPS
+        .write_enable    (mm_write_enable),
+        .input_addr      (mm_input_addr),
+        .input_data      (mm_input_data),
+        .output_data     (mm_output_data),
+        .data_valid      (mm_data_valid),
+        //Device0 [DataMemory]
+        .dm_we           (dm_we),
+        .dm_addr         (dm_addr),
+        .dm_wdata        (dm_wdata),
+        .dm_rdata        (dm_rdata),                 
+        //Device1 [InterruptController]
+        .intc_we         (intc_we),
+        .intc_addr       (intc_addr),
+        .intc_wdata      (intc_wdata),
+        .intc_rdata      (intc_rdata),
+        //Device2 [Factorial0]
+        .fact0_we        (fact_we[0]),
+        .fact0_addr      (fact_addr[0]),
+        .fact0_wdata     (fact_wdata[0]),
+        .fact0_rdata     (fact_rdata[0]),
+        //Device3 [Factorial1]
+        .fact1_we        (fact_we[1]),
+        .fact1_addr      (fact_addr[1]),
+        .fact1_wdata     (fact_wdata[1]),
+        .fact1_rdata     (fact_rdata[1]),
+        //Device4 [Factorial2]
+        .fact2_we        (fact_we[2]),
+        .fact2_addr      (fact_addr[2]),
+        .fact2_wdata     (fact_wdata[2]),
+        .fact2_rdata     (fact_rdata[2]),        
+        //Device5 [Factorial3]
+        .fact3_we        (fact_we[3]),
+        .fact3_addr      (fact_addr[3]),
+        .fact3_wdata     (fact_wdata[3]),
+        .fact3_rdata     (fact_rdata[3])   
+    );
+
+    //DataMemory [Device0]
+    dmem dmem (
+        .clk          (sys_clk),
+        .we           (dm_we),
+        .a            (dm_addr[7:2]),
+        .d            (dm_wdata),
+        .q            (dm_rdata) 
+    );
+
+/*
+    //InterruptController [Device1]
+    intc_top intc(
+        .clk(sys_clk),
+        .done(fact_done),    ///< Factorial Device Interrupts
+        .IRQ(irq),           ///< Processot Interrupt 
+        .IACK(irq_ack),      ///< Processor Interrupt ACK
+        .isr_addr(irq_addr), ///< Processor Interrupt Addr
+        .input_addr(intc_addr),  ///< MMDevice Addr
+        .write_enable(intc_we),  ///< MMDevice WriteEnable
+        .write_data(intc_wdata), ///< MMDeivce WriteData
+        .read_data(intc_rdata)   ///< MMDevice ReadData 
+    ); 
+*/
+    //Factorials [Device2,3,4,5]
+    genvar ii;
+    generate
+        for(ii = 0; ii < 4; ii=ii+1) begin: fact_gen_loop
+        fact_top fact(
+            .clk(sys_clk),
+            .rst(sys_rst),
+            .A(fact_addr[ii][3:2]),
+            .WE(fact_we[ii]),
+            .WD(fact_wdata[ii]),
+            .RD(fact_rdata[ii]),
+            .Done(fact_done[ii])
+        );
+        end
+    endgenerate
+    
 endmodule

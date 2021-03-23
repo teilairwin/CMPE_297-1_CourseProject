@@ -1,3 +1,53 @@
+module iack_decoder(
+    input wire [1:0] priority_select,
+    input wire IACK,
+    output reg [3:0] reset
+);
+always @ (IACK,priority_select) begin
+    case (priority_select)
+        2'b00: begin
+            if(IACK) begin
+                reset <= 4'b0001;
+                #5;
+                end 
+            else begin
+                reset <= 4'b0000;
+                end
+            end
+        2'b01: begin
+            if(IACK) begin
+                reset <= 4'b0010;
+                #5;
+                end
+            else begin
+                reset <= 4'b0000;
+                end
+            end
+        2'b10: begin
+            if(IACK) begin
+                reset <= 4'b0100;
+                #5;
+                end
+            else begin
+                reset <= 4'b0000;
+                #5;
+                end
+            end
+        2'b11: begin
+            if(IACK) begin
+                reset <= 4'b1000;
+                #5;
+                end
+            else begin
+                reset <= 4'b0000;
+                end
+            end
+        default: reset <= 4'b0000;
+    endcase
+end
+endmodule
+
+
 module comparator_gt(
   input  wire [3:0] a,
   input  wire [3:0] b,
@@ -25,7 +75,7 @@ begin
 end
 endmodule
 
-module mux6 #(parameter WIDTH = 32) (
+module mux8 #(parameter WIDTH = 32) (
   input wire [2:0] sel,
   input wire [WIDTH-1:0] a,
   input wire [WIDTH-1:0] b,
@@ -33,17 +83,22 @@ module mux6 #(parameter WIDTH = 32) (
   input wire [WIDTH-1:0] d,
   input wire [WIDTH-1:0] e,
   input wire [WIDTH-1:0] f,
+  input wire [WIDTH-1:0] g,
+  input wire [WIDTH-1:0] h,
   output reg [WIDTH-1:0] y
 );
 always @ (*)
 begin
   case(sel)
-    2'b000: y = a;
-    2'b001: y = b;
-    2'b010: y = c;
-    2'b011: y = d;
-    2'b100: y = e;
-    default: y = f;
+    3'b000: y = a;
+    3'b001: y = b;
+    3'b010: y = c;
+    3'b011: y = d;
+    3'b100: y = e;
+    3'b101: y = f;
+    3'b110: y = g;
+    3'b111: y = h;
+    default: y = h;
   endcase
 end
 endmodule
@@ -83,22 +138,12 @@ module dreg_en # (parameter WIDTH = 32) (
   input wire rst,
   input wire en,
   input wire [WIDTH-1:0] d,
-  output reg [WIDTH-1:0] q,
-  output reg [WIDTH-1:0] q_not
+  output reg [WIDTH-1:0] q
 );
   always @ (posedge clk, posedge rst) begin
-    if (rst) begin
-        q <= 0;
-        q_not <= ~q;
-        end
-    else if (en) begin
-        q <= d;
-        q_not <= ~q;
-        end
-    else begin
-        q <= q;
-        q_not <= ~q;
-    end
+    if (rst) q <= 0;
+    else if (en) q <= d;
+    else q <= q;
   end
 endmodule
 

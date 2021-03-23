@@ -1,2 +1,2 @@
-cd zybo-ui
-make
+chmod +x buildAll.sh
+./buildAll.sh
