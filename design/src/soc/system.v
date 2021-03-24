@@ -85,8 +85,7 @@ module system (
         .ra3          (mips_rf_addr),      ///< RegFile Addr     
         .rd3          (mips_rf_data),      ///< RegFile Data
         //Interrupt Handling
-        //.irq          (irq),       ///< External interrupt request
-        .irq          (1'b0),       ///< External interrupt request
+        .irq          (irq),       ///< External interrupt request
         .irq_addr     (irq_addr),  ///< Interrupt routine address
         .irq_ack      (irq_ack)    ///< Interrupt ack 
     );
@@ -172,7 +171,7 @@ module system (
         .q            (dm_rdata) 
     );
 
-/*
+
     //InterruptController [Device1]
     intc_top intc(
         .clk(sys_clk),
@@ -185,7 +184,7 @@ module system (
         .write_data(intc_wdata), ///< MMDeivce WriteData
         .read_data(intc_rdata)   ///< MMDevice ReadData 
     ); 
-*/
+
     //Factorials [Device2,3,4,5]
     genvar ii;
     generate
