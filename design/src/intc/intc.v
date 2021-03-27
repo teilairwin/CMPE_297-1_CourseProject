@@ -37,7 +37,7 @@ module intc(
     priority_encoder pri_enc(
         .interrupts (q_state),
         .y          (priority_select),
-        .valid      (IRQ)
+        .IRQ      (IRQ)
     );
     
     // mux to select which line provides the interrupt address
