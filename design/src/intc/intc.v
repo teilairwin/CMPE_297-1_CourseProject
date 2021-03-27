@@ -14,7 +14,7 @@ module intc(
     );
     // internal wires
     wire    [3:0]  q_state;
-    wire    [3:0]  reset = 0;
+    wire    [3:0]  reset;
     wire int0_status_enable;
     wire int1_status_enable;
     wire int2_status_enable;
@@ -34,10 +34,10 @@ module intc(
     //reg data_valid;
 
     // priority encoder - input is 4 bit interrupt status
-    priority_encoder pri_enc(
+    pri_encoder pri_enc(
         .interrupts (q_state),
         .y          (priority_select),
-        .IRQ      (IRQ)
+        .valid      (IRQ)
     );
     
     // mux to select which line provides the interrupt address
