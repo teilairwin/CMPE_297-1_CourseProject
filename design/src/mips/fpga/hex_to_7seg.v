@@ -1,3 +1,4 @@
+/*
 module hex_to_7seg (
             input  wire [3:0] HEX,
             output reg  [7:0] s
@@ -26,3 +27,4 @@ module hex_to_7seg (
     end
 
 endmodule
+*/
