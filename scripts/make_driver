@@ -1,2 +1,2 @@
-chmod +x buildAll.sh
-./buildAll.sh
+chmod +x validate
+make

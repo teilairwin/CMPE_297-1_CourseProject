@@ -1,11 +1,13 @@
-#ifndef MIPS_AXI_IF_HPP
-#define MIPS_ACI_IF_HPP
+#ifndef SOC_AXI_IF_HPP
+#define SOC_ACI_IF_HPP
 
 #include "AxiIf.hpp"
 
-class MipsAxiIf : public AxiIf {
+class SocAxiIf : public AxiIf {
 public:
-	MipsAxiIf(uint32_t physAddr);
+	SocAxiIf(uint32_t physAddr);
+
+	uint32_t ReadRegisterFile(uint32_t reg);
 
 	//Inputs
 	AxiReg mSysCtrl;  
