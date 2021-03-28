@@ -5,19 +5,19 @@
 #include <stdint.h>
 #include <vector>
 
-class MipsAxiIf;
+class SocAxiIf;
 
 class RomLoader {
 public:
 	///@brief Constructor
-	RomLoader(MipsAxiIf* axi, uint32_t mem);
+	RomLoader(SocAxiIf* axi, uint32_t mem);
 
 	///@brief Load the binary file into ROM
 	bool LoadBin(const std::string& binFile);
 	///@brief Verify the ROM contents against local copy
 	bool VerifyRom();
 
-	MipsAxiIf* mAxi;             ///< SOC I/F
+	SocAxiIf* mAxi;             ///< SOC I/F
 	std::vector<uint32_t> mRom;  ///< ROM Local Copy
 	uint32_t mSel;               ///< ROM Select
 

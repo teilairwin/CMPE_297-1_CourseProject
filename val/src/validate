@@ -1,0 +1,9 @@
+#!/bin/bash
+
+TIMESTAMP=$(date +%H-%M-%S)
+LOG_FILE=val_log_${1}_${TIMESTAMP}
+
+LD_LIBRARY_PATH=. ./validate.bin $1 2>&1 | tee ${LOG_FILE}
+
+
+
