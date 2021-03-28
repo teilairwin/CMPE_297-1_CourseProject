@@ -1,3 +1,4 @@
+/* 
 `timescale 1ns / 1ps
 
 module _7seg_cap(
@@ -45,3 +46,4 @@ assign sh_amt = LEDSEL_bin << 3;
 assign LEDOUT_all = ~running_reg;
 
 endmodule
+*/
