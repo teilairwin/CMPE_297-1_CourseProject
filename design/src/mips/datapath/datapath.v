@@ -199,6 +199,7 @@ module datapath (
 
     regfile rf (
             .clk            (clk),
+            .rst            (rst),
             .we             (we_reg),
             .ra1            (instr[25:21]),
             .ra2            (instr[20:16]),

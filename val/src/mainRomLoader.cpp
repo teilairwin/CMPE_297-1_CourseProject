@@ -1,6 +1,6 @@
 
 #include "common/Constants.hpp"
-#include "common/MipsAxiIf.hpp"
+#include "common/SocAxiIf.hpp"
 #include "common/RomLoader.hpp"
 
 #include <fcntl.h>
@@ -8,11 +8,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-MipsAxiIf* soc;
+SocAxiIf* soc;
 
 int main(int argc, char** argv)
 {
-	soc = new MipsAxiIf(AXI_DUT_BASE_ADDR);
+	soc = new SocAxiIf(AXI_DUT_BASE_ADDR);
 
 	//Put the processor into reset & switch to host clock
 	soc->mSysCtrl.Write(SYSCTRL_RESET | SYSCTRL_CLK_SELECT);

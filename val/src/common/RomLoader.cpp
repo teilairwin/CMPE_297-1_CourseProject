@@ -1,5 +1,5 @@
 #include "RomLoader.hpp"
-#include "MipsAxiIf.hpp"
+#include "SocAxiIf.hpp"
 #include "Constants.hpp"
 
 #include <stdio.h>
@@ -9,11 +9,12 @@
 #include <iostream>
 #include <fstream>
 
+
 //////////////////////////////////////////////////////////////////////////////
 ///@param axi Soc Mips Interface ptr
 ///@param mem ROM Select (PMEM or EMEM)
 //////////////////////////////////////////////////////////////////////////////
-RomLoader::RomLoader(MipsAxiIf* axi,uint32_t mem)
+RomLoader::RomLoader(SocAxiIf* axi,uint32_t mem)
 	:mAxi(axi)
 	,mRom(SOC_ROM_SIZE,0)
 	,mSel(mem)
@@ -26,36 +27,35 @@ bool RomLoader::LoadBin(const std::string& binFile)
 	std::ifstream reader(binFile.c_str(), std::ios::binary);
 	if (!reader)
 	{
-		printf("Failed to open file:%s\n", binFile.c_str());
+		printf("ERROR: Failed to open file '%s'\n",binFile.c_str());
 		good = false;
 	}
 	if (!(mAxi->mSysCtrl.Read() & SYSCTRL_RESET))
 	{
-		printf("Error: target system must be in reset before loading rom!\n");
+		printf("ERROR: Target system must be in reset before loading ROM!\n");
 		good = false;
 	}
 	if (good)
 	{
-		printf("Reading bin file: %s\n", binFile.c_str());
+		printf("\tReading bin file: '%s'\n",binFile.c_str());
 		uint32_t buff;
 		uint32_t index(0);
 		while (reader.read((char*)&buff, 4))
 		{
 			if (index == SOC_ROM_SIZE)
 			{
-				printf("Error: the program file is too to fit into ROM!\n");
+				printf("ERROR: The program file is too big to fit into ROM!\n");
 				good = false;
 				break;
 			}
-			printf("\t0x%08x\n", buff);
+			//printf("\t0x%08x\n", buff);
 			mRom[index] = buff;
 			index++;
 		}
-		printf("Done Reading bin file.\n");
 	}
 	if (good)
 	{
-		printf("Loading ROM...\n");
+		printf("\tLoading ROM[%02d]...\n",mSel);
 
 		for (uint32_t ii = 0; ii < SOC_ROM_SIZE; ii++)
 		{
@@ -74,7 +74,7 @@ bool RomLoader::LoadBin(const std::string& binFile)
 		//Disable the ROM Ctrl WE
 		mAxi->mRomCtrl.Write(0);
 
-		printf("Finished Loading ROM\n");
+		//printf("Finished Loading ROM\n");
 	}
 	return good;
 }
@@ -82,7 +82,7 @@ bool RomLoader::LoadBin(const std::string& binFile)
 bool RomLoader::VerifyRom()
 {
 	bool good(true);
-	printf("Verifying ROM...\n");
+	printf("\tVerifying ROM[%02d]...\n",mSel);
 	for (uint32_t ii = 0; ii < mRom.size(); ii++)
 	{
 		//Set ROM Ctrl
@@ -92,14 +92,14 @@ bool RomLoader::VerifyRom()
 		//Read Rom Data
 		uint32_t expRom = mRom[ii];
 		uint32_t gotRom = mAxi->mRomReadData.Read();
-		printf("\tROM[%d][%02d] Exp:0x%08x Real:0x%08x\n", mSel, ii, expRom, gotRom);
 		if (expRom != gotRom)
 		{
 			good = false;
-			printf("\tError: ROM loaded incorrectly!\n");
+			printf("\tROM[%d][%02d] Exp:0x%08x Real:0x%08x\n", mSel, ii, expRom, gotRom);
+			printf("\tERROR: ROM loaded incorrectly!\n");
 			break;
 		}
 	}
-	printf("Finished Verifying ROM\n");
+	//printf("Finished Verifying ROM\n");
 	return good;
 }
