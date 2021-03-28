@@ -1,3 +1,4 @@
+/*
 module mips_fpga (
         input  wire       clk100MHz,
         input  wire       rst,
@@ -51,11 +52,10 @@ module mips_fpga (
             .rd3                (dispData)
         );
 
-    /*
-    switches[4:0] are used as the 3rd read address (ra3) of the RF,
-    dispData is the register contents from the RF's 3rd read port (rd3).
-    */
-
+  
+    //switches[4:0] are used as the 3rd read address (ra3) of the RF,
+    // dispData is the register contents from the RF's 3rd read port (rd3).
+  
     hex_to_7seg hex3 (
             .HEX                (reg_hex[15:12]),
             .s                  (digit3)
@@ -87,19 +87,18 @@ module mips_fpga (
             .LEDOUT             (LEDOUT)
         );
     
-    /*
-    switches[8:5] = 0000 : Display lower  half word of register selected by switches[4:0]
-    switches[8:5] = 0001 : Display higher half word of register selected by switches[4:0]
-    switches[8:5] = 0010 : Display lower  half word of 'instr'
-    switches[8:5] = 0011 : Display higher half word of 'instr'
-    switches[8:5] = 0100 : Display lower  half word of 'alu_out'
-    switches[8:5] = 0101 : Display higher half word of 'alu_out'
-    switches[8:5] = 0110 : Display lower  half word of 'wd_dm'
-    switches[8:5] = 0111 : Display higher half word of 'wd_dm'
+    // switches[8:5] = 0000 : Display lower  half word of register selected by switches[4:0]
+    // switches[8:5] = 0001 : Display higher half word of register selected by switches[4:0]
+    // switches[8:5] = 0010 : Display lower  half word of 'instr'
+    // switches[8:5] = 0011 : Display higher half word of 'instr'
+    // switches[8:5] = 0100 : Display lower  half word of 'alu_out'
+    // switches[8:5] = 0101 : Display higher half word of 'alu_out'
+    // switches[8:5] = 0110 : Display lower  half word of 'wd_dm'
+    // switches[8:5] = 0111 : Display higher half word of 'wd_dm'
 
-    switches[8:5] = 1XX0 : Display lower  half word of 'pc_current'
-    switches[8:5] = 1XX1 : Display higher half word of 'pc_current'
-    */
+    // switches[8:5] = 1XX0 : Display lower  half word of 'pc_current'
+    // switches[8:5] = 1XX1 : Display higher half word of 'pc_current'
+   
     always @ (*) begin
         case ({switches[8:5]})
             4'b0000: reg_hex = dispData[15:0];
@@ -116,3 +115,4 @@ module mips_fpga (
     end
 
 endmodule
+*/
