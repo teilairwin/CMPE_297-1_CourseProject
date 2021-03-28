@@ -1,3 +1,4 @@
+/*
 `timescale 1ns / 1ps
 
 module dut_wrapper #
@@ -60,3 +61,4 @@ module dut_wrapper #
         .LEDOUT_all(LEDOUT_all)
     );
 endmodule
+*/
