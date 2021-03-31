@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_mips_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_mips" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="94320000fs"></ZoomStartTime>
+      <ZoomEndTime time="248820001fs"></ZoomEndTime>
+      <Cursor1Time time="155000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="146"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="12" />
+   <wvobject fp_name="/tb_mips/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_mips/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_mips/instrAddr" type="array">
+      <obj_property name="ElementShortName">instrAddr[5:0]</obj_property>
+      <obj_property name="ObjectShortName">instrAddr[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_mips/instrDataP" type="array">
+      <obj_property name="ElementShortName">instrDataP[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instrDataP[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_mips/instrDataE" type="array">
+      <obj_property name="ElementShortName">instrDataE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instrDataE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_mips/mipsPC" type="array">
+      <obj_property name="ElementShortName">mipsPC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mipsPC[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group30" type="group">
+      <obj_property name="label">TB</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_mips/ii" type="array">
+         <obj_property name="ElementShortName">ii[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ii[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/pc_p_original" type="array">
+         <obj_property name="ElementShortName">pc_p_original[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc_p_original[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/pc_e_start" type="array">
+         <obj_property name="ElementShortName">pc_e_start[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc_e_start[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/pc_p_restored" type="array">
+         <obj_property name="ElementShortName">pc_p_restored[31:0]</obj_property>
+         <obj_property name="ObjectShortName">pc_p_restored[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group24" type="group">
+      <obj_property name="label">TB_IRQ</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_mips/irq" type="logic">
+         <obj_property name="ElementShortName">irq</obj_property>
+         <obj_property name="ObjectShortName">irq</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/irq_addr" type="array">
+         <obj_property name="ElementShortName">irq_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">irq_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/irq_ack" type="logic">
+         <obj_property name="ElementShortName">irq_ack</obj_property>
+         <obj_property name="ObjectShortName">irq_ack</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group25" type="group">
+      <obj_property name="label">IRQ_Control</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="group31" type="group">
+         <obj_property name="label">DP</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/tb_mips/DUT/dp/irq_entry" type="logic">
+            <obj_property name="ElementShortName">irq_entry</obj_property>
+            <obj_property name="ObjectShortName">irq_entry</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/dp/irq_resume" type="logic">
+            <obj_property name="ElementShortName">irq_resume</obj_property>
+            <obj_property name="ObjectShortName">irq_resume</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/dp/irq_active" type="logic">
+            <obj_property name="ElementShortName">irq_active</obj_property>
+            <obj_property name="ObjectShortName">irq_active</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/dp/irq_addr" type="array">
+            <obj_property name="ElementShortName">irq_addr[31:0]</obj_property>
+            <obj_property name="ObjectShortName">irq_addr[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/dp/irq_state/q" type="array">
+            <obj_property name="ElementShortName">q[0:0]</obj_property>
+            <obj_property name="ObjectShortName">q[0:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/dp/irq_state_rst" type="logic">
+            <obj_property name="ElementShortName">irq_state_rst</obj_property>
+            <obj_property name="ObjectShortName">irq_state_rst</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/dp/irq_state_we" type="logic">
+            <obj_property name="ElementShortName">irq_state_we</obj_property>
+            <obj_property name="ObjectShortName">irq_state_we</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/dp/irq_state_d" type="logic">
+            <obj_property name="ElementShortName">irq_state_d</obj_property>
+            <obj_property name="ObjectShortName">irq_state_d</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group32" type="group">
+         <obj_property name="label">CU</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/tb_mips/DUT/cu/irq" type="logic">
+            <obj_property name="ElementShortName">irq</obj_property>
+            <obj_property name="ObjectShortName">irq</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/cu/irq_active" type="logic">
+            <obj_property name="ElementShortName">irq_active</obj_property>
+            <obj_property name="ObjectShortName">irq_active</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/cu/irq_entry" type="logic">
+            <obj_property name="ElementShortName">irq_entry</obj_property>
+            <obj_property name="ObjectShortName">irq_entry</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_mips/DUT/cu/irq_resume" type="logic">
+            <obj_property name="ElementShortName">irq_resume</obj_property>
+            <obj_property name="ObjectShortName">irq_resume</obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/tb_mips/DUT/cu/md/irq_resume" type="logic">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">irq_resume</obj_property>
+      <obj_property name="ObjectShortName">irq_resume</obj_property>
+      <obj_property name="label">iDecoder_irq_resume</obj_property>
+   </wvobject>
+   <wvobject fp_name="group26" type="group">
+      <obj_property name="label">DUT_IRQ</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_mips/DUT/irq" type="logic">
+         <obj_property name="ElementShortName">irq</obj_property>
+         <obj_property name="ObjectShortName">irq</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/DUT/irq_ack" type="logic">
+         <obj_property name="ElementShortName">irq_ack</obj_property>
+         <obj_property name="ObjectShortName">irq_ack</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/DUT/irq_addr" type="array">
+         <obj_property name="ElementShortName">irq_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">irq_addr[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group38" type="group">
+      <obj_property name="label">REgFile</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_mips/DUT/dp/rf/rf[10]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[10][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+         <obj_property name="label">10-t2</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/DUT/dp/rf/rf[11]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[11][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][31:0]</obj_property>
+         <obj_property name="label">11-t3</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/DUT/dp/rf/rf[12]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[12][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+         <obj_property name="label">12-t4</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_mips/DUT/dp/rf/rf[13]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[13][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+         <obj_property name="label">13-t5</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>
