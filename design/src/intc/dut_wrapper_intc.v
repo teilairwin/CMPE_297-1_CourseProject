@@ -30,6 +30,9 @@ module intc_dut_wrapper #
     wire irq;
     wire [31:0] isr_addr;
     wire [31:0] read_data;
+    
+    reg [30:0] spare;
+    
     ///////////////////////////////////////////////////////////////////////////
     /// AXI-Wrapper Connections
     ///////////////////////////////////////////////////////////////////////////
@@ -44,7 +47,7 @@ module intc_dut_wrapper #
     // Input: Reg4 TBD
     // assign write_enable = read_from_slv_reg3[0];   
     // Output: Reg5 IRQ
-    assign write_to_slv_reg5[0] = irq;
+    assign write_to_slv_reg5 = {irq,spare};
     // Output: Reg6 ISR address
     assign write_to_slv_reg6 = isr_addr;
     // Output: Reg6 ISR address
@@ -64,5 +67,9 @@ module intc_dut_wrapper #
         .IRQ(irq),
         .isr_addr(isr_addr)
     );
+    
+    initial begin
+        spare = 30'b0;
+    end
     
 endmodule

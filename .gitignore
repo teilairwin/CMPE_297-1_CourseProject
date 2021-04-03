@@ -2,3 +2,5 @@ localbin/**
 !localbin/.emptyfile
 design/block/design_soc/**
 !design/block/design_soc/design_soc.bd
+design/block/design_intc/**
+!design/block/design_intc/design_intc.bd
