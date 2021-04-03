@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module dut_wrapper_v4 #
+module dut_wrapper_soc #
 (
     parameter integer C_S_AXI_DATA_WIDTH	= 32
 )

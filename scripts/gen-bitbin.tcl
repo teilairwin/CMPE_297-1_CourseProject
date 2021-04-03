@@ -10,7 +10,8 @@ puts $SCR_DIR
 
 cd ../localbin
 
-file copy -force $IMPL_DIR/design_1_wrapper.bit ./bitstream.bit
+#file copy -force $IMPL_DIR/design_1_wrapper.bit ./bitstream.bit
+file copy -force $IMPL_DIR/design_${TARGET_DESIGN}_wrapper.bit ./bitstream.bit
 set outfile [open "bitstream.bif" w]
 puts $outfile "all:\n{\n\t[pwd]/bitstream.bit\n}"
 close $outfile

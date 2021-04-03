@@ -34,10 +34,10 @@ module intc(
     //reg data_valid;
 
     // priority encoder - input is 4 bit interrupt status
-    pri_encoder pri_enc(
+    priority_encoder pri_enc(
         .interrupts (q_state),
         .y          (priority_select),
-        .valid      (IRQ)
+        .IRQ      (IRQ)
     );
     
     // mux to select which line provides the interrupt address
