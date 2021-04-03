@@ -536,11 +536,11 @@
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
-        <spirit:instanceName>intc_dut_wrapper_0</spirit:instanceName>
-        <spirit:componentRef spirit:library="module_ref" spirit:name="intc_dut_wrapper" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:instanceName>dut_wrapper_intc_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="module_ref" spirit:name="dut_wrapper_intc" spirit:vendor="xilinx.com" spirit:version="1.0"/>
         <spirit:configurableElementValues>
-          <spirit:configurableElementValue spirit:referenceId="bd:xciName">design_intc_intc_dut_wrapper_0_0</spirit:configurableElementValue>
-          <spirit:configurableElementValue spirit:referenceId="bd:referenceName">intc_dut_wrapper</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">design_intc_dut_wrapper_intc_0_0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="bd:referenceName">dut_wrapper_intc</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:subInstancePath"></spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:referenceType">hdl</spirit:configurableElementValue>
           <spirit:configurableElementValue spirit:referenceId="bd:BoundaryCRC">0x0</spirit:configurableElementValue>
@@ -588,49 +588,49 @@
         <spirit:internalPortReference spirit:componentRef="ps7_0_axi_periph" spirit:portRef="ARESETN"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
+        <spirit:name>dut_wrapper_intc_0_write_to_slv_reg5</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="write_to_slv_reg5"/>
+        <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="write_to_slv_reg5"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>dut_wrapper_intc_0_write_to_slv_reg6</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="write_to_slv_reg6"/>
+        <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="write_to_slv_reg6"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>dut_wrapper_intc_0_write_to_slv_reg7</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="write_to_slv_reg7"/>
+        <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="write_to_slv_reg7"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
         <spirit:name>axi_dut_iface_0_read_from_slv_reg0</spirit:name>
         <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="read_from_slv_reg0"/>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="read_from_slv_reg0"/>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="read_from_slv_reg0"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>axi_dut_iface_0_read_from_slv_reg1</spirit:name>
         <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="read_from_slv_reg1"/>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="read_from_slv_reg1"/>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="read_from_slv_reg1"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>axi_dut_iface_0_read_from_slv_reg2</spirit:name>
         <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="read_from_slv_reg2"/>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="read_from_slv_reg2"/>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="read_from_slv_reg2"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>axi_dut_iface_0_read_from_slv_reg3</spirit:name>
         <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="read_from_slv_reg3"/>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="read_from_slv_reg3"/>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="read_from_slv_reg3"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>axi_dut_iface_0_read_from_slv_reg4</spirit:name>
         <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="read_from_slv_reg4"/>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="read_from_slv_reg4"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>intc_dut_wrapper_0_write_to_slv_reg5</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="write_to_slv_reg5"/>
-        <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="write_to_slv_reg5"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>intc_dut_wrapper_0_write_to_slv_reg6</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="write_to_slv_reg6"/>
-        <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="write_to_slv_reg6"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>intc_dut_wrapper_0_write_to_slv_reg7</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="write_to_slv_reg7"/>
-        <spirit:internalPortReference spirit:componentRef="axi_dut_iface_0" spirit:portRef="write_to_slv_reg7"/>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="read_from_slv_reg4"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>sysclk_0_1</spirit:name>
         <spirit:externalPortReference spirit:portRef="sysclk_0"/>
-        <spirit:internalPortReference spirit:componentRef="intc_dut_wrapper_0" spirit:portRef="sysclk"/>
+        <spirit:internalPortReference spirit:componentRef="dut_wrapper_intc_0" spirit:portRef="sysclk"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>

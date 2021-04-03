@@ -11,7 +11,39 @@
 /// INTC DUT
 //////////////////////////////////////////////////////////////////////////////
 
-//TODO
+//AXI IF Register Offsets
+#define AXI_INTC_EXTINT_OFFSET   0
+#define AXI_INTC_REGADDR_OFFSET  1
+#define AXI_INTC_REGWDATA_OFFSET 2
+#define AXI_INTC_REGCTRL_OFFSET  3
+#define AXI_INTC_ICTRL_OFFSET    4
+#define AXI_INTC_ISTATUS_OFFSET  5
+#define AXI_INTC_ISRADDR_OFFSET  6
+#define AXI_INTC_REGRDATA_OFFSET 7
+
+//Intc Constants
+#define INTC_INT_SOURCE_MAX  4
+//Intc Reg Bank
+#define INTC_REGADDR_ISRADDR0     0x0
+#define INTC_REGADDR_ISRADDR1     0x4
+#define INTC_REGADDR_ISRADDR2     0x8
+#define INTC_REGADDR_ISRADDR3     0xC
+
+//REG-ExtInt Bitfields
+#define EXTINT_IACK    0x1
+#define EXTINT_DONE(X) ((0x1 << X) << 1)
+
+//REG-RegCtrl Bitfields
+#define REGCTRL_WE     0x1
+
+//REG-ICtrl Bitfields
+#define ICTRL_RESET       (0x1 << 2)
+#define ICTRL_CLK_HOST    0x1
+#define ICTRL_CLK_SELECT  (0x1 << 1)
+
+//REG-IStatus Bitfields
+#define ISTATUS_IRQ       0x1
+
 
 //////////////////////////////////////////////////////////////////////////////
 /// SoC DUT
