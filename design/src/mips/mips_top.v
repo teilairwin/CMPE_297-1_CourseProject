@@ -1,3 +1,4 @@
+/*
 module mips_top (
         input  wire        clk,
         input  wire        rst,
@@ -40,3 +41,4 @@ module mips_top (
         );
 
 endmodule
+*/

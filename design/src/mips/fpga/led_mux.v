@@ -1,3 +1,4 @@
+/*
 module led_mux (
         input  wire       clk,
         input  wire       rst,
@@ -27,3 +28,4 @@ module led_mux (
     end
     
 endmodule
+*/
