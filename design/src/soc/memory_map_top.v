@@ -57,15 +57,23 @@ module memory_map_top(
     wire [2:0] select;
     wire out_of_range_error;
     wire validity;
+    wire [5:0] mm_we;
     
     address_map address_map(
         //input
         .input_addr     (input_addr),
         //outputs
         .select         (select),
-        .control_signals    ({fact3_we,fact2_we,fact1_we,fact0_we,intc_we,dm_we}),
+        .write_enable   (mm_we),
         .out_of_range_error (out_of_range_error)
     );
+    
+    assign dm_we = write_enable & mm_we[0];
+    assign intc_we = write_enable & mm_we[1];
+    assign fact0_we = write_enable & mm_we[2];
+    assign fact1_we = write_enable & mm_we[3];
+    assign fact2_we = write_enable & mm_we[4];
+    assign fact3_we = write_enable & mm_we[5];
     
     // use select to mux to the right address and data lines
     mux8 #32 data_mux(
@@ -76,6 +84,8 @@ module memory_map_top(
         .d   ({fact1_rdata}),
         .e   ({fact2_rdata}),
         .f   ({fact3_rdata}),
+        .g   (32'b0),
+        .h   (32'b0),
         .y   ({output_data})
     );
     
