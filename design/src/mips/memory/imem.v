@@ -1,3 +1,6 @@
+///////////////////////////////////////////////////////////////////////////////
+//Description: Basic instruction memory model
+///////////////////////////////////////////////////////////////////////////////
 module imem (
         input  wire [5:0]  a,
         output wire [31:0] y
@@ -13,14 +16,18 @@ module imem (
     
 endmodule
 
+///////////////////////////////////////////////////////////////////////////////
+//Description: ROM memory model that can be loaded and examined externally
+///////////////////////////////////////////////////////////////////////////////
 module rom_loadable (
         input wire clk,
-        input  wire [5:0]  read_addr,
-        output wire [31:0] read_data,
-        input wire write_enable,
-        input wire [5:0] write_addr,
-        input wire [31:0] write_data,
-        output wire [31:0] read_data2
+        input  wire [5:0]  read_addr,  //Host system Read-Addr
+        output wire [31:0] read_data,  //Host system Read-Data
+        
+        input wire write_enable,       //External Write-Enable
+        input wire [5:0] write_addr,   //External Write/Read-Addr
+        input wire [31:0] write_data,  //External Write-Data
+        output wire [31:0] read_data2  //External Read-Data
     );
 
     reg [31:0] rom [0:63];

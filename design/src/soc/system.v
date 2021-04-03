@@ -15,11 +15,6 @@ module system (
         input wire [5:0] rom_addr,  ///< Addr for R/W to IMEM
         input wire [31:0] rom_wd,   ///< WriteData to IMEM
         output wire [31:0] rom_rd   ///< ReadData from IMEM
-//TODO assess        
-//        output wire        we_mm,   ///< MMDevice WriteEnable
-//        output wire [31:0] alu_out, ///< MMDevice Address
-//        output wire [31:0] wd_mm,   ///< MMDevice WriteData
-//        output wire [31:0] rd_mm    ///< MMDevice ReadData
     );
 
     ///////////////////////////////////////////////////////////////////////////
