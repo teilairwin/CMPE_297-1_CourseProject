@@ -63,7 +63,7 @@ module memory_map_top(
         .input_addr     (input_addr),
         //outputs
         .select         (select),
-        .control_signals    ({fact3_we,fact2_we,fact1_we,fact0_we,intc_we,dm_we}),
+        .write_enable   ({fact3_we,fact2_we,fact1_we,fact0_we,intc_we,dm_we}),
         .out_of_range_error (out_of_range_error)
     );
     
@@ -76,6 +76,8 @@ module memory_map_top(
         .d   ({fact1_rdata}),
         .e   ({fact2_rdata}),
         .f   ({fact3_rdata}),
+        .g   (32'b0),
+        .h   (32'b0),
         .y   ({output_data})
     );
     
