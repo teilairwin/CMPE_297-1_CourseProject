@@ -89,12 +89,18 @@ module datapath (
         .d(pc_next_mips),
         .q(pc_resume)
     ); 
+    wire irq_state_rst;
+    wire irq_state_we;
+    wire irq_state_d;
+    assign irq_state_we = (irq_entry) | (irq_resume); 
+    assign irq_state_rst = rst;// | irq_resume;
+    assign irq_state_d = (irq_entry ? irq_entry : ~irq_resume);
     //@details State of whether IRQ is active
     dreg_we #(1) irq_state(
         .clk(clk),
-        .rst(rst),
-        .we(irq_entry),
-        .d(irq_entry),
+        .rst(irq_state_rst),
+        .we(irq_state_we),
+        .d(irq_state_d),
         .q(irq_active)
     );    
 

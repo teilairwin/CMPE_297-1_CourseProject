@@ -25,9 +25,6 @@ module address_map(
     end
     
     always@(*)begin
-            // clear control signals
-            //assign control_signals = 6'b0;
-            //control_signals <= 0000
             casex(input_addr)
                 // data memory address x00000000 - x0000FFFF
                 // dm_we = 1, select = 000
@@ -36,7 +33,7 @@ module address_map(
                     select <= 3'b000;
                     out_of_range_error = 1'b0; // no error
                     end                
-                // interrupt controller address x00010000 - x0002FFFF
+                // interrupt controller address x00020000 - x0002FFFF
                 // intc_we = 1, select = 001
                 32'h0002xxxx: begin
                     control_signals <= 6'b000010;
@@ -57,14 +54,14 @@ module address_map(
                     select <= 3'b011;
                     out_of_range_error = 1'b0; // no error
                     end
-                // factorial accelerator 1 address x00010000 - x0001FFFF
+                // factorial accelerator 2 address x00010000 - x0001FFFF
                 // fact2_we = 1, select = 100
                 32'h0005xxxx: begin
                     control_signals <= 6'b010000;
                     select <= 3'b100;
                     out_of_range_error = 1'b0; // no error
                     end
-                // factorial accelerator 1 address x00010000 - x0001FFFF
+                // factorial accelerator 3 address x00010000 - x0001FFFF
                 // fact3_we = 1, select = 101
                 32'h0006xxxx: begin
                     control_signals <= 6'b100000;

@@ -1,52 +1,44 @@
 module intc(
             input   wire [3:0]  done,
-            input   wire [31:0] input_addr,
-            input   wire [31:0] write_data,
-            input   wire write_enable,
             input   wire IACK,
             input   wire clk,
-            input   wire [31:0] addr0,addr1,addr2,addr3,
+            input   wire [31:0] isr_addr0,isr_addr1,isr_addr2,isr_addr3,
             output  wire IRQ,
-            output  wire [31:0] isr_addr,
-            output  wire [31:0] read_data,
-            output wire [1:0] priority_select
-            
+            output  wire [31:0] isr_addr
     );
+    
     // internal wires
     wire    [3:0]  q_state;
     wire    [3:0]  reset;
+    
     wire int0_status_enable;
     wire int1_status_enable;
     wire int2_status_enable;
     wire int3_status_enable;
+    
+    // connect the status reg enables to the done inputs
     assign int0_status_enable = done[0];
     assign int1_status_enable = done[1];
     assign int2_status_enable = done[2];
     assign int3_status_enable = done[3];
-    /*
-    assign int0_status_enable; = reset[0];
-    assign int1_status_enable = reset[1];
-    assign int2_status_enable = reset[2];
-    assign int3_status_enable = reset[3];   
-    */ 
-    //wire reset0,reset1,reset2,reset3;
-    // reg     [3:0]  status_clear;
-    //reg data_valid;
-
+    wire [1:0] priority_select;
+        
     // priority encoder - input is 4 bit interrupt status
-    pri_encoder pri_enc(
+    priority_encoder pri_enc(
+        // input: interrupt status registers
         .interrupts (q_state),
+        // outputs
         .y          (priority_select),
-        .valid      (IRQ)
+        .IRQ      (IRQ)
     );
     
     // mux to select which line provides the interrupt address
     mux4 addr_mux(
         .sel   (priority_select),
-        .a     (addr0),
-        .b     (addr1),
-        .c     (addr2),
-        .d     (addr3),
+        .a     (isr_addr0),
+        .b     (isr_addr1),
+        .c     (isr_addr2),
+        .d     (isr_addr3),
         .y     (isr_addr)
     );
     
@@ -89,6 +81,4 @@ module intc(
             .d      (done[3]),
             .q      (q_state[3])
         );  
-        
-            
 endmodule
