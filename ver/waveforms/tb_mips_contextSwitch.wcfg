@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="94320000fs"></ZoomStartTime>
-      <ZoomEndTime time="248820001fs"></ZoomEndTime>
-      <Cursor1Time time="155000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="309000001fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
       <ValueColumnWidth column_width="146"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="12" />
+   <WVObjectSize size="13" />
    <wvobject fp_name="/tb_mips/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -39,6 +39,10 @@
    <wvobject fp_name="/tb_mips/instrDataE" type="array">
       <obj_property name="ElementShortName">instrDataE[31:0]</obj_property>
       <obj_property name="ObjectShortName">instrDataE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_mips/DUT/instr" type="array">
+      <obj_property name="ElementShortName">instr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instr[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_mips/mipsPC" type="array">
       <obj_property name="ElementShortName">mipsPC[31:0]</obj_property>
@@ -87,7 +91,6 @@
       <wvobject fp_name="group31" type="group">
          <obj_property name="label">DP</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="isExpanded"></obj_property>
          <wvobject fp_name="/tb_mips/DUT/dp/irq_entry" type="logic">
             <obj_property name="ElementShortName">irq_entry</obj_property>
             <obj_property name="ObjectShortName">irq_entry</obj_property>
