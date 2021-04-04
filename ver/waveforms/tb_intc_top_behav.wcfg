@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_intc_top_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_intc_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="44150001fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="142"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="2" />
+   <wvobject fp_name="group339" type="group">
+      <obj_property name="label">TestBench</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_intc_top/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/done" type="array">
+         <obj_property name="ElementShortName">done[3:0]</obj_property>
+         <obj_property name="ObjectShortName">done[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/IACK" type="logic">
+         <obj_property name="ElementShortName">IACK</obj_property>
+         <obj_property name="ObjectShortName">IACK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/input_addr" type="array">
+         <obj_property name="ElementShortName">input_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">input_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/write_enable" type="logic">
+         <obj_property name="ElementShortName">write_enable</obj_property>
+         <obj_property name="ObjectShortName">write_enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/write_data" type="array">
+         <obj_property name="ElementShortName">write_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">write_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/read_data" type="array">
+         <obj_property name="ElementShortName">read_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">read_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/IRQ" type="logic">
+         <obj_property name="ElementShortName">IRQ</obj_property>
+         <obj_property name="ObjectShortName">IRQ</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/isr_addr" type="array">
+         <obj_property name="ElementShortName">isr_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">isr_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/error" type="logic">
+         <obj_property name="ElementShortName">error</obj_property>
+         <obj_property name="ObjectShortName">error</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/isr_addr_temp" type="array">
+         <obj_property name="ElementShortName">isr_addr_temp[31:0]</obj_property>
+         <obj_property name="ObjectShortName">isr_addr_temp[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/irq_temp" type="logic">
+         <obj_property name="ElementShortName">irq_temp</obj_property>
+         <obj_property name="ObjectShortName">irq_temp</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/isr_addr_act_val" type="array">
+         <obj_property name="ElementShortName">isr_addr_act_val[31:0]</obj_property>
+         <obj_property name="ObjectShortName">isr_addr_act_val[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group340" type="group">
+      <obj_property name="label">DutIntc</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="group343" type="group">
+         <obj_property name="label">isrTable</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/tb_intc_top/DUT/addr_table_0/q" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">q[31:0]</obj_property>
+            <obj_property name="ObjectShortName">q[31:0]</obj_property>
+            <obj_property name="label">isr0_addr</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_intc_top/DUT/addr_table_1/q" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">q[31:0]</obj_property>
+            <obj_property name="ObjectShortName">q[31:0]</obj_property>
+            <obj_property name="label">isr1_addr</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_intc_top/DUT/addr_table_2/q" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">q[31:0]</obj_property>
+            <obj_property name="ObjectShortName">q[31:0]</obj_property>
+            <obj_property name="label">isr2_addr</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_intc_top/DUT/addr_table_3/q" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">q[31:0]</obj_property>
+            <obj_property name="ObjectShortName">q[31:0]</obj_property>
+            <obj_property name="label">isr3_addr</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group346" type="group">
+         <obj_property name="label">intStatus</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/tb_intc_top/DUT/intc/interrupt_0_status_register/q" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">q[0:0]</obj_property>
+            <obj_property name="ObjectShortName">q[0:0]</obj_property>
+            <obj_property name="label">int0_stat</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_intc_top/DUT/intc/interrupt_1_status_register/q" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">q[0:0]</obj_property>
+            <obj_property name="ObjectShortName">q[0:0]</obj_property>
+            <obj_property name="label">int1_stat</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_intc_top/DUT/intc/interrupt_2_status_register/q" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">q[0:0]</obj_property>
+            <obj_property name="ObjectShortName">q[0:0]</obj_property>
+            <obj_property name="label">int2_stat</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_intc_top/DUT/intc/interrupt_3_status_register/q" type="array">
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="ElementShortName">q[0:0]</obj_property>
+            <obj_property name="ObjectShortName">q[0:0]</obj_property>
+            <obj_property name="label">int3_stat</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="/tb_intc_top/DUT/read_data" type="array">
+         <obj_property name="ElementShortName">read_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">read_data[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

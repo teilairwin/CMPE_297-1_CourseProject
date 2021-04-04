@@ -27,16 +27,18 @@ module tb_intc_top();
     // Test data
     wire [31:0] intc_reg0_addr,intc_reg1_addr,intc_reg2_addr,intc_reg3_addr;
     wire [31:0] isr0_addr_to_write,isr1_addr_to_write,isr2_addr_to_write,isr3_addr_to_write;
-    reg  [31:0] isr_addr_temp = 0;
+    wire [31:0] isr_addr_temp;
     wire [31:0] input_addr_test_interrupt0,input_addr_test_interrupt1,input_addr_test_interrupt2,input_addr_test_interrupt3;
     reg irq_temp = 0;
 
+    assign isr_addr_temp = read_data;
+
     // Test values
     // Addresses of the isr address registers
-    assign intc_reg0_addr = 32'h00020000;
-    assign intc_reg1_addr = 32'h00020004;
-    assign intc_reg2_addr = 32'h00020008;
-    assign intc_reg3_addr = 32'h0002000C;
+    assign intc_reg0_addr = 32'h00002000;
+    assign intc_reg1_addr = 32'h00002004;
+    assign intc_reg2_addr = 32'h00002008;
+    assign intc_reg3_addr = 32'h0000200C;
     
     // Test values for isr addresses to write
     assign isr0_addr_to_write = 32'h0000000A;
@@ -51,10 +53,10 @@ module tb_intc_top();
     assign input_addr_test_interrupt3 = 32'h0006DDDD;
     
     // Constant values for the address boundaries of the factorial units
-    reg [31:0] fact0_address_boundary = 32'h00030000;
-    reg [31:0] fact1_address_boundary = 32'h00040000;
-    reg [31:0] fact2_address_boundary = 32'h00050000;
-    reg [31:0] fact3_address_boundary = 32'h00060000;
+    reg [31:0] fact0_address_boundary = 32'h00003000;
+    reg [31:0] fact1_address_boundary = 32'h00004000;
+    reg [31:0] fact2_address_boundary = 32'h00005000;
+    reg [31:0] fact3_address_boundary = 32'h00006000;
     
     // Timing constants for simulating interrupts coming from MIPS 
     integer DONE_PULSE_WIDTH = 5; 
@@ -192,6 +194,7 @@ module tb_intc_top();
 
         end 
         
+        #ONE_CLOCK_CYCLE;
         isr_addr_act_val = isr_addr_temp;
         if (isr_addr_act_val != expected_isr_addr) begin
             $display("FAIL! Isr Address Register value [%h] not equal to expected [%h]",isr_addr_act_val,expected_isr_addr);
@@ -309,11 +312,12 @@ module tb_intc_top();
             
     end
     
+    /*
     always@(write_enable, input_addr) begin
             #HALF_CLOCK_CYCLE;
             isr_addr_temp <= read_data;
     end
-    
+    */
     
     initial begin
         $display("==========================================================================");
