@@ -170,6 +170,7 @@ module system (
     //InterruptController [Device1]
     intc_top intc(
         .clk(sys_clk),
+        .rst(sys_rst),
         .done(fact_done),    ///< Factorial Device Interrupts
         .IRQ(irq),           ///< Processot Interrupt 
         .IACK(irq_ack),      ///< Processor Interrupt ACK
