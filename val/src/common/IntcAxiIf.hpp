@@ -7,8 +7,10 @@ class IntcAxiIf : public AxiIf {
 public:
 	IntcAxiIf(uint32_t physAddr);
 
-	void Reset();
+	void Reset(bool restoreClock = true);
 	void CycleHostClock();
+	uint32_t ReadRegisterBank(uint32_t index);
+	void WriteRegisterBank(uint32_t index, uint32_t value);
 
 	//Inputs
 	AxiReg mExtInt;  
