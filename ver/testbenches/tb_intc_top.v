@@ -262,28 +262,61 @@ module tb_intc_top();
         // send interrupt 3 done to interrupt controller
         simulate_interrupt(input_addr_test_interrupt3);
         //check that IRQ is enabled
-        check_irq(irq_temp,1);
+        check_irq(IRQ,1);
         send_iack;
         //check that IRQ is disabled after iack
         check_irq(IRQ,0);
     
         // send interrupt 2 done to interrupt controller
         simulate_interrupt(input_addr_test_interrupt2);
-        check_irq(irq_temp,1);
+        check_irq(IRQ,1);
         send_iack;
         check_irq(IRQ,0);
         
         // send interrupt 0 done to interrupt controller
         simulate_interrupt(input_addr_test_interrupt0);
-        check_irq(irq_temp,1);
+        check_irq(IRQ,1);
         send_iack;
         check_irq(IRQ,0);
                 
         // send interrupt 1 done to interrupt controller
         simulate_interrupt(input_addr_test_interrupt1);
-        check_irq(irq_temp,1);
+        check_irq(IRQ,1);
         send_iack;
         check_irq(IRQ,0);    
+    end
+    endtask
+    
+    task test_irq_simul;
+    begin
+        $display("\n...\nRunning test test_irq_simultaneous\n...\n");
+        //Trigger int0 & int1
+        done <= 4'b0011;
+        #ONE_CLOCK_CYCLE;
+        done <= 4'b0000;
+        #ONE_CLOCK_CYCLE;
+        #20; //TIME_IN_BETWEEN_INTERRUPTS;
+        check_irq(IRQ,1);
+        check_isr_addr(isr_addr,isr0_addr_to_write);
+        
+        //Clear int0
+        //#HALF_CLOCK_CYCLE
+        //send_iack;
+        IACK <= 1'b1;
+        #ONE_CLOCK_CYCLE;
+        IACK <= 1'b0;
+        #ONE_CLOCK_CYCLE;
+        //#10;
+        
+        //Check int1 now active
+        check_irq(IRQ,1);
+        check_isr_addr(isr_addr,isr1_addr_to_write);
+        //Clear int1
+        //#HALF_CLOCK_CYCLE
+        #20
+        send_iack;
+        check_irq(IRQ,0);
+        
     end
     endtask
     
@@ -313,6 +346,7 @@ module tb_intc_top();
     end
     endtask
     
+    /*
     // always block to capture test data
     always@(posedge IRQ) begin
         //if(IRQ) begin
@@ -320,7 +354,7 @@ module tb_intc_top();
             irq_temp <= IRQ;
             
     end
-    
+    */
     /*
     always@(write_enable, input_addr) begin
             #HALF_CLOCK_CYCLE;
@@ -336,6 +370,7 @@ module tb_intc_top();
         test_write_addr_table();        
         test_irq();
         test_isr_addr();
+        test_irq_simul();
 
         $display("\n");
         $display("==========================================================================");

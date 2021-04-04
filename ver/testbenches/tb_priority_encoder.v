@@ -11,8 +11,9 @@ module tb_priority_encoder();
 
     priority_encoder priority_encoder(
       .interrupts (interrupts_in),
+      .clk(clk),
       .y          (y_out),
-      .valid      (valid_out)
+      .IRQ      (valid_out)
     );
 
     always begin
