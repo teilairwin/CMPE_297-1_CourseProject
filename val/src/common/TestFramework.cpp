@@ -1,7 +1,7 @@
 
 #include "TestFramework.hpp"
 #include "SocDutIf.hpp"
-//#include "IntcDutIf.hpp"
+#include "IntcDutIf.hpp"
 #include <iostream>
 
 //std::ofstream TestFramework::mLogger;
@@ -32,7 +32,7 @@ bool TestFramework::CreateDutInterface()
 	mLogger << "================================================\n";
 	if (mTarget == TARGET_INTC)
 	{
-		//mDut = new IntcDutIf();
+		mDut = new IntcDutIf();
 		mLogger << "Running Validation for DUT: INTC\n";
 	}
 	else if (mTarget == TARGET_SOC)

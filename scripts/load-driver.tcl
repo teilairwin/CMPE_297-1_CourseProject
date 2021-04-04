@@ -9,3 +9,4 @@ exec pscp -P 22 -pw root mainValidate.cpp root@zybo:/home/root
 
 cd ../../scripts
 exec putty.exe -ssh root@zybo -pw root -m make_driver
+

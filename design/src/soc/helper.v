@@ -75,6 +75,25 @@ begin
 end
 endmodule
 
+module demux4 #(parameter WIDTH = 32) (
+  input wire [1:0] sel,
+  input wire [WIDTH-1:0] y,
+  output reg [WIDTH-1:0] a,
+  output reg [WIDTH-1:0] b,
+  output reg [WIDTH-1:0] c,
+  output reg [WIDTH-1:0] d 
+);
+always @ (*)
+begin
+  case(sel)
+    2'b00: a = y;
+    2'b01: b = y;
+    2'b10: c = y;
+    default: d = y;
+  endcase
+end
+endmodule
+
 module mux8 #(parameter WIDTH = 32) (
   input wire [2:0] sel,
   input wire [WIDTH-1:0] a,
@@ -140,6 +159,7 @@ module dreg_en # (parameter WIDTH = 32) (
   input wire [WIDTH-1:0] d,
   output reg [WIDTH-1:0] q
 );
+
   initial begin
     q = 0;
   end

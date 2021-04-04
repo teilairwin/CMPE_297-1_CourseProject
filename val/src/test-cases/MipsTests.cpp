@@ -45,12 +45,7 @@ bool SocTestCases::TestMips_RegisterFile(SocAxiIf& soc, std::ostream& log)
 	//soc.Reset();
 	soc.mSysCtrl.Write(SYSCTRL_RESET | SYSCTRL_CLK_SELECT);
 	usleep(DUT_DELAY);
-	soc.mSysCtrl.Write(SYSCTRL_RESET | SYSCTRL_CLK_SELECT | SYSCTRL_CLK_HOST);
-	usleep(DUT_DELAY);
-	soc.mSysCtrl.Write(SYSCTRL_RESET | SYSCTRL_CLK_SELECT);
-	usleep(DUT_DELAY);
-	//soc.mSysCtrl.Write(0);
-	//usleep(DUT_DELAY);
+	soc.CycleHostClock();
 
 	for (uint32_t ii = 0; ii < MIPS_REGFILE_SIZE; ii++)
 	{

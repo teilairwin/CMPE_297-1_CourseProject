@@ -5,7 +5,6 @@ module priority_encoder(
         output wire         IRQ
     );
     reg valid;
-    // integer IRQ_PULSE_WIDTH = 5;
     
     initial begin
         valid = 1'b0;
@@ -18,33 +17,33 @@ module priority_encoder(
             4'bxxx1 : begin
                         y = 2'b00;
                         valid = 1;
-                        #5;
+                        #10;
                         valid = 0;
-                        #5;
+                        #10;
                       end
             // Priority 1
             4'bxx10 : begin
                         y = 2'b01;
                         valid = 1;
-                        #5;
+                        #10;
                         valid = 0;
-                        #5;
+                        #10;
                       end
             // Priority 2
             4'bx100 : begin
                         y = 2'b10;
                         valid = 1;
-                        #5;
+                        #10;
                         valid = 0;
-                        #5;                      
+                        #10;                      
                       end
             // Priority 3
             4'b1000 : begin
                         y = 2'b11;
                         valid = 1;
-                        #5;
+                        #10;
                         valid = 0;
-                        #5;                         
+                        #10;                         
                       end
             // No interrupt
             default:  begin 
