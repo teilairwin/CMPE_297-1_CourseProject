@@ -26,6 +26,11 @@ void AxiReg::WriteToggle(uint32_t data)
 	mLastWrite ^= data;
 	*mVirtAddr = mLastWrite;
 }
+void AxiReg::WriteSet(uint32_t data)
+{
+	mLastWrite |= data;
+	*mVirtAddr = mLastWrite;
+}
 
 
 AxiIf::AxiIf(uint32_t physAddr)

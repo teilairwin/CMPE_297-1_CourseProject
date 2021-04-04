@@ -33,7 +33,8 @@ bool IntcDutIf::RunTests()
 			mErrorCount++;
 			success = false;
 		}
-		TestFramework::mLogger << "Finished TC:" << IntcTestCases::TestSet[ii].nm << "\n";
+		TestFramework::mLogger << "Finished TC:" << IntcTestCases::TestSet[ii].nm 
+			                   << (testResult ? " [PASS]" : " [FAIL]") << "\n";
 		TestFramework::mLogger << "------------------------------------------------\n";
 	}
 	return success;

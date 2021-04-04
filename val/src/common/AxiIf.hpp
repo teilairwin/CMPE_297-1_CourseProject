@@ -12,6 +12,8 @@ public:
 	uint32_t Read();
 	///@brief Write data to the register
 	void Write(uint32_t data);
+	///@brief Set the data bits over the last write
+	void WriteSet(uint32_t data);
 	///@brief Toggle the data bits in the last write
 	void WriteToggle(uint32_t data);
 

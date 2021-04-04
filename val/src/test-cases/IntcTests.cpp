@@ -40,7 +40,7 @@ bool IntcTestCases::TestIsr_ReadWrite(IntcAxiIf& intc, std::ostream& log)
 			if (readVal != isrAddr[ii])
 			{
 				log << "\tFailed write/read of Isr registers!\n";
-				printf("Exp:0x%08x Got:0x%08x\n", isrAddr[ii], readVal);
+				printf("\tExp:0x%08x Got:0x%08x\n", isrAddr[ii], readVal);
 				success = false;
 			}
 		}
@@ -65,5 +65,218 @@ bool IntcTestCases::TestIsr_ReadWrite(IntcAxiIf& intc, std::ostream& log)
 	return success;
 }
 
+bool TestSingleSource(IntcAxiIf& intc, std::ostream& log, uint32_t index)
+{
+	bool success(true);
+	intc.Reset(false);
+	if (intc.mStatus.Read())
+	{
+		log << "\tUncleared interrupt after reset!\n";
+		success = false;
+	}
+
+	//Set the ISR Table
+	log << "\tLoading ISR Table...\n";
+	uint32_t isrAddr[] = { 0x00001111,0x00002222,0x00003333,0x00004444 };
+	if (success)
+	{
+		for (uint32_t ii = 0; ii < INTC_INT_SOURCE_MAX; ii++)
+		{
+			intc.WriteRegisterBank(ii, isrAddr[ii]);
+		}
+		if (intc.mStatus.Read())
+		{
+			log << "\tUnexpected interrupt after writing ISR table!\n";
+			success = false;
+		}
+	}
+
+	//Trigger interrupt
+	log << "\tTriggering Interrupt...\n";
+	if (success)
+	{
+		//Send the interrupt
+		//intc.mExtInt.Write(0x2); 
+		intc.WriteDone(index);
+		usleep(DUT_DELAY);
+		intc.CycleHostClock();
+		//Now check the IRQ and IRQ address signals
+		uint32_t irqState = intc.mStatus.Read();
+		if (irqState == 0)
+		{
+			log << "\tFailure - no IRQ asserted cycle after external signal asserted\n";
+			success = false;
+		}
+		uint32_t isrState = intc.mIsrAddr.Read();
+		if (isrState != isrAddr[index])
+		{
+			log << "\tFailure - ISR Address is incorrect for given external signal\n";
+			printf("\tExpAddr:0x%08x GotAddr:0x%08x\n", isrAddr[index], isrState);
+			success = false;
+		}
+	}
+
+	//Clear Interrupt
+	log << "\tClearing Interrupt...\n";
+	if (success)
+	{
+		intc.mExtInt.Write(0);
+		intc.CycleHostClock();
+		intc.SendIack();
+
+		if (intc.mStatus.Read())
+		{
+			log << "\tFailure - IRQ failed to be cleared\n";
+			success = false;
+		}
+	}
+
+	return success;
+}
+
+bool IntcTestCases::TestIrq_SingleSource0(IntcAxiIf& intc, std::ostream& log)
+{
+	return TestSingleSource(intc, log, 0);
+}
+
+bool IntcTestCases::TestIrq_SingleSource1(IntcAxiIf& intc, std::ostream& log)
+{
+	return TestSingleSource(intc, log, 1);
+}
+
+bool IntcTestCases::TestIrq_SingleSource2(IntcAxiIf& intc, std::ostream& log)
+{
+	return TestSingleSource(intc, log, 2);
+}
+
+bool IntcTestCases::TestIrq_SingleSource3(IntcAxiIf& intc, std::ostream& log)
+{
+	return TestSingleSource(intc, log, 3);
+}
 
 
+bool IntcTestCases::TestIrq_Simultaneous2(IntcAxiIf& intc, std::ostream& log)
+{
+	uint32_t intMask(0x6);
+	bool success(true);
+	intc.Reset(false);
+	if (intc.mStatus.Read())
+	{
+		log << "\tUncleared interrupt after reset!\n";
+		success = false;
+	}
+
+	//Set the ISR Table
+	log << "\tLoading ISR Table...\n";
+	uint32_t isrAddr[] = { 0x00001111,0x00002222,0x00003333,0x00004444 };
+	if (success)
+	{
+		for (uint32_t ii = 0; ii < INTC_INT_SOURCE_MAX; ii++)
+		{
+			intc.WriteRegisterBank(ii, isrAddr[ii]);
+		}
+		if (intc.mStatus.Read())
+		{
+			log << "\tUnexpected interrupt after writing ISR table!\n";
+			success = false;
+		}
+	}
+
+	//Trigger interrupt
+	log << "\tTriggering Simultaneous Interrupts...\n";
+	if (success)
+	{
+		//Send the interrupt
+		uint32_t intSigs(0);
+		uint32_t intCount(0);
+		for (uint32_t ii = 0; ii < INTC_INT_SOURCE_MAX; ii++)
+		{
+			if (intMask & 0x1) 
+			{
+				intSigs |= EXTINT_DONE(ii);
+				intCount++;
+			}
+			intMask = intMask >> 1;
+		}
+		printf("\t\tFinal IntSigs:0x%08x\n", intSigs);
+		intc.mExtInt.Write(intSigs); 
+		usleep(DUT_DELAY);
+		intc.CycleHostClock();
+		intc.mExtInt.Write(0); //Finish Ext Int pulse
+		usleep(DUT_DELAY);
+		intc.CycleHostClock();
+
+		//Now check the IRQ and IRQ address signals
+		uint32_t intServicing = intSigs >> 1; //hack
+		for (uint32_t ii = 0; ii < intCount; ii++)
+		{
+			printf("\tExpected Interrupts to Service:0x%08x\n", intServicing);
+			uint32_t irqState = intc.mStatus.Read();
+			if (irqState == 0)
+			{
+				log << "\t\tFailure - no IRQ asserted cycle after external signal asserted\n";
+				success = false;
+			}
+				
+			uint32_t isrState = intc.mIsrAddr.Read();
+			printf("\t\tRead IRQ-State:0x%08x ISR-ADDR:0x%08x\n", irqState,isrState);
+			//We need to determine isr index, it should be the first bit not serviced
+			uint32_t serviceIndex(0);
+			for (; serviceIndex < INTC_INT_SOURCE_MAX; serviceIndex++)
+			{
+				if (intServicing & (0x1 << serviceIndex))
+				{
+					break;
+				}
+			}
+			if (serviceIndex == INTC_INT_SOURCE_MAX)
+			{
+				log << "\t\tIntCount didn't match IntMask!\n";
+				break;
+			}
+			intServicing ^= (0x1 << serviceIndex); //Disable for next pass
+			printf("\t\tServicing Index:0x%08x\n", serviceIndex);
+			if (isrState != isrAddr[serviceIndex])
+			{
+				log << "\t\tFailure - ISR Address is incorrect for given external signal\n";
+				printf("\t\tExpAddr:0x%08x GotAddr:0x%08x\n", isrAddr[serviceIndex], isrState);
+				success = false;
+			}
+			else
+			{
+				log << "\t\tClearing Interrupt:" << serviceIndex << "\n";
+				//intc.mExtInt.Write(EXTINT_IACK);
+				intc.SendIack();
+			}
+		}
+	}
+	/*
+	//Clear Interrupt
+	log << "\tClearing Interrupt...\n";
+	if (success)
+	{
+		intc.mExtInt.Write(0);
+		intc.CycleHostClock();
+		intc.SendIack();
+
+		if (intc.mStatus.Read())
+		{
+			log << "\tFailure - IRQ failed to be cleared\n";
+			success = false;
+		}
+	}*/
+
+	return success;
+}
+
+bool IntcTestCases::TestIrq_Simultaneous3(IntcAxiIf& intc, std::ostream& log)
+{
+	bool success(false);
+	return success;
+}
+
+bool IntcTestCases::TestIrq_Simultaneous4(IntcAxiIf& intc, std::ostream& log)
+{
+	bool success(false);
+	return success;
+}

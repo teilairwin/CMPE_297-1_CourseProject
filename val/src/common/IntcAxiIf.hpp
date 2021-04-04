@@ -11,6 +11,8 @@ public:
 	void CycleHostClock();
 	uint32_t ReadRegisterBank(uint32_t index);
 	void WriteRegisterBank(uint32_t index, uint32_t value);
+	void WriteDone(uint32_t index);
+	void SendIack();
 
 	//Inputs
 	AxiReg mExtInt;  

@@ -67,3 +67,17 @@ void IntcAxiIf::WriteRegisterBank(uint32_t index, uint32_t value)
 	mRegCtrl.Write(0);
 	usleep(DUT_DELAY);
 }
+
+void IntcAxiIf::WriteDone(uint32_t index)
+{
+	mExtInt.WriteSet(EXTINT_DONE(index));
+	usleep(DUT_DELAY);
+}
+
+void IntcAxiIf::SendIack()
+{
+	mExtInt.Write(EXTINT_IACK);
+	CycleHostClock();
+	mExtInt.Write(0);
+	CycleHostClock();
+}
