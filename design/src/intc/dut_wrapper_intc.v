@@ -90,7 +90,8 @@ module dut_wrapper_intc #
     intc_top DUT(
         .done(done),
         .IACK(iack),
-        .clk(clk_system),//TODO: update
+        .clk(clk_system),
+        .rst(rst_host),
         .input_addr(input_addr),
         .write_enable(write_enable),
         .write_data(write_data),
