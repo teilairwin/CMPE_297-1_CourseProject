@@ -108,6 +108,7 @@ bool TestSingleSource(IntcAxiIf& intc, std::ostream& log, uint32_t index)
 			success = false;
 		}
 		uint32_t isrState = intc.mIsrAddr.Read();
+		printf("\t\tRead IRQ-State:0x%08x ISR-ADDR:0x%08x\n", irqState, isrState);
 		if (isrState != isrAddr[index])
 		{
 			log << "\tFailure - ISR Address is incorrect for given external signal\n";
@@ -155,9 +156,9 @@ bool IntcTestCases::TestIrq_SingleSource3(IntcAxiIf& intc, std::ostream& log)
 }
 
 
-bool IntcTestCases::TestIrq_Simultaneous2(IntcAxiIf& intc, std::ostream& log)
+bool TestSimultaneous(IntcAxiIf& intc, std::ostream& log, uint32_t mask)
 {
-	uint32_t intMask(0x6);
+	uint32_t intMask(mask);
 	bool success(true);
 	intc.Reset(false);
 	if (intc.mStatus.Read())
@@ -250,33 +251,219 @@ bool IntcTestCases::TestIrq_Simultaneous2(IntcAxiIf& intc, std::ostream& log)
 			}
 		}
 	}
-	/*
-	//Clear Interrupt
-	log << "\tClearing Interrupt...\n";
-	if (success)
-	{
-		intc.mExtInt.Write(0);
-		intc.CycleHostClock();
-		intc.SendIack();
-
-		if (intc.mStatus.Read())
-		{
-			log << "\tFailure - IRQ failed to be cleared\n";
-			success = false;
-		}
-	}*/
-
 	return success;
+}
+
+bool IntcTestCases::TestIrq_Simultaneous2(IntcAxiIf& intc, std::ostream& log)
+{
+	return TestSimultaneous(intc, log, 0x6);
 }
 
 bool IntcTestCases::TestIrq_Simultaneous3(IntcAxiIf& intc, std::ostream& log)
 {
-	bool success(false);
-	return success;
+	return TestSimultaneous(intc, log, 0xE);
 }
 
 bool IntcTestCases::TestIrq_Simultaneous4(IntcAxiIf& intc, std::ostream& log)
 {
-	bool success(false);
+	return TestSimultaneous(intc, log, 0xF);
+}
+
+bool IntcTestCases::TestIrq_MultipleHigherAfterLower(IntcAxiIf& intc, std::ostream& log)
+{
+	//Trigger a Low Priority Interrupt and afterwards a higher priority int.
+	//Verify that Higher Priority Init is selected
+	bool success(true);
+	intc.Reset(false);
+	if (intc.mStatus.Read())
+	{
+		log << "\tUncleared interrupt after reset!\n";
+		success = false;
+	}
+
+	//Set the ISR Table
+	log << "\tLoading ISR Table...\n";
+	uint32_t isrAddr[] = { 0x00001111,0x00002222,0x00003333,0x00004444 };
+	if (success)
+	{
+		for (uint32_t ii = 0; ii < INTC_INT_SOURCE_MAX; ii++)
+		{
+			intc.WriteRegisterBank(ii, isrAddr[ii]);
+		}
+		if (intc.mStatus.Read())
+		{
+			log << "\tUnexpected interrupt after writing ISR table!\n";
+			success = false;
+		}
+	}
+
+	//Trigger int
+	log << "\tTriggering Interrupts...\n";
+	if (success)
+	{
+		uint32_t irqIndexLow(2);
+		log << "\t\tSetting HighPriority Int:" << irqIndexLow << "\n";
+		intc.WriteDone(irqIndexLow);
+		intc.CycleHostClock();
+
+		//Now check the IRQ and IRQ address signals
+		uint32_t irqState = intc.mStatus.Read();
+		if (irqState == 0)
+		{
+			log << "\tFailure - no IRQ asserted cycle after external signal asserted\n";
+			success = false;
+		}
+		uint32_t isrState = intc.mIsrAddr.Read();
+		printf("\t\tRead IRQ-State:0x%08x ISR-ADDR:0x%08x\n", irqState, isrState);
+		if (isrState != isrAddr[irqIndexLow])
+		{
+			log << "\tFailure - ISR Address is incorrect for given external signal\n";
+			printf("\tExpAddr:0x%08x GotAddr:0x%08x\n", isrAddr[irqIndexLow], isrState);
+			success = false;
+		}
+
+		intc.CycleHostClock();
+		uint32_t irqIndexHi(0);
+		log << "\t\tSetting Higher Priority Int:" << irqIndexHi << "\n";
+		intc.mExtInt.Write(EXTINT_DONE(irqIndexHi) | EXTINT_DONE(irqIndexLow));
+		usleep(DUT_DELAY);
+		intc.CycleHostClock();
+
+		//Now check the IRQ and IRQ address signals
+		irqState = intc.mStatus.Read();
+		if (irqState == 0)
+		{
+			log << "\tFailure - no IRQ asserted cycle after external signal asserted\n";
+			success = false;
+		}
+		isrState = intc.mIsrAddr.Read();
+		printf("\t\tRead IRQ-State:0x%08x ISR-ADDR:0x%08x\n", irqState, isrState);
+		if (isrState != isrAddr[irqIndexHi])
+		{
+			log << "\tFailure - ISR Address is incorrect for given external signal\n";
+			printf("\tExpAddr:0x%08x GotAddr:0x%08x\n", isrAddr[irqIndexHi], isrState);
+			success = false;
+		}
+	}
+
+	log << "\tClearing Interrupts...\n";
+	if (success)
+	{
+		intc.SendIack();
+		uint32_t irqState = intc.mStatus.Read();
+		uint32_t isrState = intc.mIsrAddr.Read();
+		printf("\t\tRead IRQ-State:0x%08x ISR-ADDR:0x%08x\n", irqState, isrState);
+		if (isrState != isrAddr[2])
+		{
+			log << "\tFailure - ISR Address is incorrect for given external signal\n";
+			printf("\tExpAddr:0x%08x GotAddr:0x%08x\n", isrAddr[2], isrState);
+			success = false;
+		}
+
+		intc.SendIack();
+		irqState = intc.mStatus.Read();
+		if (irqState != 0)
+		{
+			log << "\t\tFailure - failed to clear all IRQs!\n";
+			success = false;
+		}
+	}
+
+	return success;
+}
+
+bool IntcTestCases::TestIrq_MultipleLowerAfterHigher(IntcAxiIf& intc, std::ostream& log)
+{
+	//Trigger a High Priority Interrupt and afterwards a lower priority int.
+	//Verify that Higher Priority Init is held selected
+	bool success(true);
+	intc.Reset(false);
+	if (intc.mStatus.Read())
+	{
+		log << "\tUncleared interrupt after reset!\n";
+		success = false;
+	}
+
+	//Set the ISR Table
+	log << "\tLoading ISR Table...\n";
+	uint32_t isrAddr[] = { 0x00001111,0x00002222,0x00003333,0x00004444 };
+	if (success)
+	{
+		for (uint32_t ii = 0; ii < INTC_INT_SOURCE_MAX; ii++)
+		{
+			intc.WriteRegisterBank(ii, isrAddr[ii]);
+		}
+		if (intc.mStatus.Read())
+		{
+			log << "\tUnexpected interrupt after writing ISR table!\n";
+			success = false;
+		}
+	}
+
+	//Trigger int
+	log << "\tTriggering Interrupts...\n";
+	if (success)
+	{
+		uint32_t irqIndex(1);
+		log << "\t\tSetting HighPriority Int:" << irqIndex << "\n";
+		intc.WriteDone(irqIndex);
+		intc.CycleHostClock();
+
+		//Now check the IRQ and IRQ address signals
+		uint32_t irqState = intc.mStatus.Read();
+		if (irqState == 0)
+		{
+			log << "\tFailure - no IRQ asserted cycle after external signal asserted\n";
+			success = false;
+		}
+		uint32_t isrState = intc.mIsrAddr.Read();
+		printf("\t\tRead IRQ-State:0x%08x ISR-ADDR:0x%08x\n", irqState, isrState);
+		if (isrState != isrAddr[irqIndex])
+		{
+			log << "\tFailure - ISR Address is incorrect for given external signal\n";
+			printf("\tExpAddr:0x%08x GotAddr:0x%08x\n", isrAddr[irqIndex], isrState);
+			success = false;
+		}
+
+		intc.CycleHostClock();
+		log << "\t\tSetting Lower Priority Int:" << 3 << "\n";
+		intc.mExtInt.Write(EXTINT_DONE(1) | EXTINT_DONE(3));
+		usleep(DUT_DELAY);
+		intc.CycleHostClock();
+
+		//Now check the IRQ and IRQ address signals
+		irqState = intc.mStatus.Read();
+		if (irqState == 0)
+		{
+			log << "\tFailure - no IRQ asserted cycle after external signal asserted\n";
+			success = false;
+		}
+		isrState = intc.mIsrAddr.Read();
+		printf("\t\tRead IRQ-State:0x%08x ISR-ADDR:0x%08x\n", irqState, isrState);
+		if (isrState != isrAddr[irqIndex])
+		{
+			log << "\tFailure - ISR Address is incorrect for given external signal\n";
+			printf("\tExpAddr:0x%08x GotAddr:0x%08x\n", isrAddr[irqIndex], isrState);
+			success = false;
+		}
+	}
+
+	log << "\tClearing Interrupts...\n";
+	if (success)
+	{
+		intc.SendIack();
+		uint32_t irqState = intc.mStatus.Read();
+		uint32_t isrState = intc.mIsrAddr.Read();
+		printf("\t\tRead IRQ-State:0x%08x ISR-ADDR:0x%08x\n", irqState, isrState);
+
+		intc.SendIack();
+		irqState = intc.mStatus.Read();
+		if (irqState != 0)
+		{
+			log << "\t\tFailure - failed to clear all IRQs!\n";
+			success = false;
+		}
+	}
+
 	return success;
 }

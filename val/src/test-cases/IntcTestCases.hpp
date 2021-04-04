@@ -26,6 +26,8 @@ namespace IntcTestCases {
 		TC_INTC_IRQ_Simultaneous2,
 		TC_INTC_IRQ_Simultaneous3,
 		TC_INTC_IRQ_Simultaneous4,
+		TC_INTC_IRQ_MultipleHigherAfterLower,
+		TC_INTC_IRQ_MultipleLowerAfterHigher,
 		TC_MAX
 	};
 
@@ -41,6 +43,8 @@ namespace IntcTestCases {
 	IntcTestCase TestIrq_Simultaneous2;
 	IntcTestCase TestIrq_Simultaneous3;
 	IntcTestCase TestIrq_Simultaneous4;
+	IntcTestCase TestIrq_MultipleHigherAfterLower;
+	IntcTestCase TestIrq_MultipleLowerAfterHigher;
 
 
 	//Test Case Table
@@ -53,6 +57,8 @@ namespace IntcTestCases {
 		{TC_STR(TC_INTC_IRQ_Simultaneous2), &TestIrq_Simultaneous2},
 		{TC_STR(TC_INTC_IRQ_Simultaneous3), &TestIrq_Simultaneous3},
 		{TC_STR(TC_INTC_IRQ_Simultaneous4), &TestIrq_Simultaneous4},
+		{TC_STR(TC_INTC_IRQ_MultipleHigherAfterLower), &TestIrq_MultipleHigherAfterLower},
+		{TC_STR(TC_INTC_IRQ_MultipleLowerAfterHigher), &TestIrq_MultipleLowerAfterHigher},
 	};
 
 }
