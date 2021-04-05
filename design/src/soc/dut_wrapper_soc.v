@@ -13,7 +13,7 @@ module dut_wrapper_soc #
     input [C_S_AXI_DATA_WIDTH-1:0] read_from_slv_reg4, // TBD
     output [C_S_AXI_DATA_WIDTH-1:0] write_to_slv_reg5, // MIPS PC
     output [C_S_AXI_DATA_WIDTH-1:0] write_to_slv_reg6, // ROM
-    output [C_S_AXI_DATA_WIDTH-1:0] write_to_slv_reg7, // RF
+    output [C_S_AXI_DATA_WIDTH-1:0] write_to_slv_reg7, // RF/IntcTest
     
     // DUT ports
     input sysclk
@@ -35,6 +35,10 @@ module dut_wrapper_soc #
     wire [5:0] rom_addr;
     wire [31:0] rom_wd;
     wire [31:0] rom_rd;
+    
+    wire test_select;
+    wire [31:0] intc_test;
+    wire [31:0] test_data;
 
     ///////////////////////////////////////////////////////////////////////////
     /// AXI-Wrapper Connections
@@ -54,13 +58,23 @@ module dut_wrapper_soc #
     assign rom_select = read_from_slv_reg2[7];
     //Input: Reg3 AXI-RomData
     assign rom_wd = read_from_slv_reg3; 
-
+    //Input: Reg4 AXI-TextCtrl
+    assign test_select = read_from_slv_reg4[0];
+    
     //Output: Reg5 Current PC
     assign write_to_slv_reg5 = mips_pc_current;
     //Output: Reg6 TBD
     assign write_to_slv_reg6 = rom_rd;
     //Output: Reg7 TBD
-    assign write_to_slv_reg7 = mips_rf_data;
+    assign write_to_slv_reg7 = test_data; //mips_rf_data;
+
+    mux2 #32 mux_test_data(
+        .sel(test_select),
+        .a(mips_rf_data),  //Sel=0
+        .b(intc_test),  //Sel=1
+        .y(test_data)
+    );
+
 
     ///////////////////////////////////////////////////////////////////////////
     //DUT
@@ -81,7 +95,9 @@ module dut_wrapper_soc #
         .rom_select(rom_select),
         .rom_addr(rom_addr),
         .rom_wd(rom_wd),
-        .rom_rd(rom_rd)
+        .rom_rd(rom_rd),
+        
+        .intc_test(intc_test)
     );
     
 endmodule
