@@ -62,4 +62,34 @@ bool SocTestCases::TestMips_RegisterFile(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+bool SocTestCases::TestMips_DmemReadWrite(SocAxiIf& soc, std::ostream& log)
+{
+	bool success(true);
+	//Put the processor into reset & switch to host clock
+	soc.mSysCtrl.Write(SYSCTRL_RESET | SYSCTRL_CLK_SELECT);
+	std::string program("mips-bin/testmips-dmem.bin");
+	if (!soc.LoadRom(program, ROM_PMEM))
+	{
+		return false;
+	}
 
+	//Release reset lock
+	soc.mSysCtrl.Write(0);
+	sleep(5);
+
+	log << "\tChecking Results written back to RegisterFile...\n";
+	uint32_t resultLoc[] = { 16,17,18 };
+	uint32_t resultVal[] = { 6001,7002,8003 };
+	for (uint32_t ii = 0; ii < 3; ii++)
+	{
+		uint32_t testData = soc.ReadRegisterFile(resultLoc[ii]);
+		if (testData != resultVal[ii])
+		{
+			log << "\t\tRF-Reg[" << resultLoc[ii] << "] Exp[0x" << std::hex << resultVal[ii]
+				<< "] For[0x" << testData << "]\n" << std::dec;
+			success = false;
+		}
+	}
+
+	return success;
+}
