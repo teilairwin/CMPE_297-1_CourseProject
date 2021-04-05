@@ -12,7 +12,7 @@ module tb_factorial();
 
     integer     i;
 
-    fact fact (
+    fact DUT (
         .clk        (clk),
         .rst        (rst),
         .go         (go),

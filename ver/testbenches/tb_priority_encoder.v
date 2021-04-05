@@ -9,7 +9,7 @@ module tb_priority_encoder();
     reg         valid_expected;
     reg         testPass;
 
-    priority_encoder priority_encoder(
+    priority_encoder DUT(
       .interrupts (interrupts_in),
       .y          (y_out),
       .valid      (valid_out)
