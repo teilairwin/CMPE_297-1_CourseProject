@@ -1,5 +1,6 @@
 module tb_intc_top();
     reg clk;
+    reg rst;
     reg [3:0] done;
     reg IACK;
     reg [31:0] input_addr;
@@ -15,6 +16,7 @@ module tb_intc_top();
     .done       (done),
     .IACK       (IACK),
     .clk        (clk),
+    .rst        (rst),
     .input_addr (input_addr),
     .write_enable (write_enable),
     .write_data(write_data),
@@ -27,16 +29,18 @@ module tb_intc_top();
     // Test data
     wire [31:0] intc_reg0_addr,intc_reg1_addr,intc_reg2_addr,intc_reg3_addr;
     wire [31:0] isr0_addr_to_write,isr1_addr_to_write,isr2_addr_to_write,isr3_addr_to_write;
-    reg  [31:0] isr_addr_temp = 0;
+    wire [31:0] isr_addr_temp;
     wire [31:0] input_addr_test_interrupt0,input_addr_test_interrupt1,input_addr_test_interrupt2,input_addr_test_interrupt3;
     reg irq_temp = 0;
 
+    assign isr_addr_temp = read_data;
+
     // Test values
     // Addresses of the isr address registers
-    assign intc_reg0_addr = 32'h00020000;
-    assign intc_reg1_addr = 32'h00020004;
-    assign intc_reg2_addr = 32'h00020008;
-    assign intc_reg3_addr = 32'h0002000C;
+    assign intc_reg0_addr = 32'h00002000;
+    assign intc_reg1_addr = 32'h00002004;
+    assign intc_reg2_addr = 32'h00002008;
+    assign intc_reg3_addr = 32'h0000200C;
     
     // Test values for isr addresses to write
     assign isr0_addr_to_write = 32'h0000000A;
@@ -45,16 +49,16 @@ module tb_intc_top();
     assign isr3_addr_to_write = 32'h0000000D;
     
     // Test input address values for simulating interrupts
-    assign input_addr_test_interrupt0 = 32'h0003AAAA;
-    assign input_addr_test_interrupt1 = 32'h0004BBBB;
-    assign input_addr_test_interrupt2 = 32'h0005CCCC;
-    assign input_addr_test_interrupt3 = 32'h0006DDDD;
+    assign input_addr_test_interrupt0 = 32'h00003AAA;
+    assign input_addr_test_interrupt1 = 32'h00004BBB;
+    assign input_addr_test_interrupt2 = 32'h00005CCC;
+    assign input_addr_test_interrupt3 = 32'h00006DDD;
     
     // Constant values for the address boundaries of the factorial units
-    reg [31:0] fact0_address_boundary = 32'h00030000;
-    reg [31:0] fact1_address_boundary = 32'h00040000;
-    reg [31:0] fact2_address_boundary = 32'h00050000;
-    reg [31:0] fact3_address_boundary = 32'h00060000;
+    reg [31:0] fact0_address_boundary = 32'h00003000;
+    reg [31:0] fact1_address_boundary = 32'h00004000;
+    reg [31:0] fact2_address_boundary = 32'h00005000;
+    reg [31:0] fact3_address_boundary = 32'h00006000;
     
     // Timing constants for simulating interrupts coming from MIPS 
     integer DONE_PULSE_WIDTH = 5; 
@@ -65,6 +69,9 @@ module tb_intc_top();
     always begin
         #HALF_CLOCK_CYCLE clk = ~clk;
     end
+    
+    integer errorCount = 0;
+    
     //////////////////////////////////////////////////////////////
     // Test helper functions
     //////////////////////////////////////////////////////////////
@@ -72,6 +79,7 @@ module tb_intc_top();
     begin
         IACK = 0;
         clk = 0;
+        rst = 0;
         done <= 4'b0;
         write_enable <= 0;
         write_data <= 0;
@@ -83,7 +91,7 @@ module tb_intc_top();
     input [31:0] address_to_mm;
     begin
         input_addr <= address_to_mm;
-        write_enable <= 1;
+        //write_enable <= 1;
         if(address_to_mm >= fact3_address_boundary) begin
             $display("Simulating interrupt 3 from factorial unit");
             done <= 4'b1000;
@@ -192,9 +200,11 @@ module tb_intc_top();
 
         end 
         
+        #ONE_CLOCK_CYCLE;
         isr_addr_act_val = isr_addr_temp;
         if (isr_addr_act_val != expected_isr_addr) begin
             $display("FAIL! Isr Address Register value [%h] not equal to expected [%h]",isr_addr_act_val,expected_isr_addr);
+            errorCount = errorCount + 1;
         end
         else begin
             $display("Test Passed - Isr Address Register value [%h] equal to expected [%h]",isr_addr_act_val,expected_isr_addr);
@@ -208,6 +218,7 @@ module tb_intc_top();
     begin
         if (irq != expected_irq) begin
             $display("FAIL! Controller IRQ [%h] not equal to expected [%h]",irq,expected_irq);
+            errorCount = errorCount + 1;
         end
         else begin
             $display("Test Passed - Controller IRQ [%d] equal to expected [%h]",irq,expected_irq);
@@ -221,6 +232,7 @@ module tb_intc_top();
     begin
         if (act_isr_addr != expected_addr) begin
             $display("ISR address [%h] not equal to expected address [%h]",act_isr_addr,expected_addr);
+            errorCount = errorCount + 1;
         end
         else begin
             $display("Test Passed - ISR address [%h] equal to expected address [%h]",act_isr_addr,expected_addr);
@@ -277,26 +289,26 @@ module tb_intc_top();
     
     task test_isr_addr;
     begin
-        $display("Running test test_isr_addr: Test Interrupt Service Routine Address");
+        $display("\n...\nRunning test test_isr_addr: Test Interrupt Service Routine Address\n...\n");
         simulate_interrupt(input_addr_test_interrupt3);
-        check_isr_addr(isr_addr_temp,isr3_addr_to_write);
+        check_isr_addr(isr_addr,isr3_addr_to_write);
         send_iack;
-        check_isr_addr(isr_addr_temp,isr3_addr_to_write);
+        //check_isr_addr(isr_addr,isr3_addr_to_write);
         
         simulate_interrupt(input_addr_test_interrupt2);
-        check_isr_addr(isr_addr_temp,isr2_addr_to_write);
+        check_isr_addr(isr_addr,isr2_addr_to_write);
         send_iack;
-        check_isr_addr(isr_addr_temp,isr2_addr_to_write);    
+        //check_isr_addr(isr_addr_temp,isr2_addr_to_write);    
         
         simulate_interrupt(input_addr_test_interrupt0);
-        check_isr_addr(isr_addr_temp,isr0_addr_to_write);
+        check_isr_addr(isr_addr,isr0_addr_to_write);
         send_iack;
-        check_isr_addr(isr_addr_temp,isr0_addr_to_write);
+        //check_isr_addr(isr_addr_temp,isr0_addr_to_write);
         
         simulate_interrupt(input_addr_test_interrupt1);
-        check_isr_addr(isr_addr_temp,isr1_addr_to_write);
+        check_isr_addr(isr_addr,isr1_addr_to_write);
         send_iack;
-        check_isr_addr(isr_addr_temp,isr1_addr_to_write);                
+        //check_isr_addr(isr_addr_temp,isr1_addr_to_write);                
         
     end
     endtask
@@ -309,11 +321,12 @@ module tb_intc_top();
             
     end
     
+    /*
     always@(write_enable, input_addr) begin
             #HALF_CLOCK_CYCLE;
             isr_addr_temp <= read_data;
     end
-    
+    */
     
     initial begin
         $display("==========================================================================");
@@ -321,9 +334,14 @@ module tb_intc_top();
         $display("==========================================================================");
         reset_test();
         test_write_addr_table();        
-        //test_irq();
-        //test_isr_addr();
+        test_irq();
+        test_isr_addr();
 
+        $display("\n");
+        $display("==========================================================================");
+        $display("== Exiting test tb_intc_top: Interrupt Controller Top Testbench");
+        $display("\t\tErrorCount:%d",errorCount);
+        $display("==========================================================================");
         $finish;
       end
 endmodule

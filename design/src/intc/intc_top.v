@@ -2,6 +2,7 @@ module intc_top(
         input   wire [3:0] done,
         input   wire IACK,
         input   wire clk,
+        input   wire rst,
         input   wire [31:0] input_addr,
         input   wire write_enable,
         input   wire [31:0] write_data,
@@ -9,7 +10,7 @@ module intc_top(
         output  wire [31:0] read_data, 
         output  wire IRQ,
         output  wire [31:0] isr_addr,
-        output  wire error
+        output  reg error
     ); 
     
     // This is really ugly and probably belongs somewhere else
@@ -27,8 +28,6 @@ module intc_top(
        wire [31:0] address_of_reg1;
        wire [31:0] address_of_reg2;
        wire [31:0] address_of_reg3;
-       wire rst;
-       assign rst = 0;
        wire [1:0] isr_addr_config_select;
        
        // wires for read data capability
@@ -142,4 +141,9 @@ module intc_top(
             .IRQ     (IRQ),
             .isr_addr    (isr_addr)
         );
+        
+    initial begin
+        error = 1'b0;
+    end
+        
 endmodule
