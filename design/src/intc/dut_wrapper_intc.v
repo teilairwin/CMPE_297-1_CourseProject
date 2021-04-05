@@ -64,7 +64,7 @@ module dut_wrapper_intc #
     assign write_to_slv_reg5 = {spare[30:0],irq};
     // Output: Reg6 ISR address
     assign write_to_slv_reg6 = isr_addr;
-    // Output: Reg6 ISR address
+    // Output: Reg7 read data
     assign write_to_slv_reg7 = read_data;
     
     //System Clock Gen

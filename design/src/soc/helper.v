@@ -3,12 +3,12 @@ module iack_decoder(
     input wire IACK,
     output reg [3:0] reset
 );
-always @ (IACK,priority_select) begin
+always @ (IACK) begin
     case (priority_select)
         2'b00: begin
             if(IACK) begin
                 reset <= 4'b0001;
-                #5;
+                //#5;
                 end 
             else begin
                 reset <= 4'b0000;
@@ -17,7 +17,7 @@ always @ (IACK,priority_select) begin
         2'b01: begin
             if(IACK) begin
                 reset <= 4'b0010;
-                #5;
+                //#5;
                 end
             else begin
                 reset <= 4'b0000;
@@ -26,7 +26,7 @@ always @ (IACK,priority_select) begin
         2'b10: begin
             if(IACK) begin
                 reset <= 4'b0100;
-                #5;
+                //#5;
                 end
             else begin
                 reset <= 4'b0000;
@@ -36,7 +36,7 @@ always @ (IACK,priority_select) begin
         2'b11: begin
             if(IACK) begin
                 reset <= 4'b1000;
-                #5;
+                //#5;
                 end
             else begin
                 reset <= 4'b0000;
@@ -163,7 +163,7 @@ module dreg_en # (parameter WIDTH = 32) (
   initial begin
     q = 0;
   end
-  always @ (posedge clk, posedge rst) begin
+  always @ (posedge clk ) begin
     if (rst) q <= 0;
     else if (en) q <= d;
     else q <= q;

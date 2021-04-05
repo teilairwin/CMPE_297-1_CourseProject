@@ -21,6 +21,7 @@ namespace SocTestCases {
 		TC_SOC_ROM_LoadPmem = 0,
 		TC_SOC_ROM_LoadPmemEmem,
 		TC_SOC_MIPS_RegisterFile,
+		TC_SOC_MIPS_DmemReadWrite,
 		TC_MAX
 	};
 
@@ -31,6 +32,7 @@ namespace SocTestCases {
 	SocTestCase TestRom_LoadPmem;
 	SocTestCase TestRom_LoadPmemEmem;
 	SocTestCase TestMips_RegisterFile;
+	SocTestCase TestMips_DmemReadWrite;
 
 	//Context Switching
 
@@ -39,7 +41,8 @@ namespace SocTestCases {
 	static const SocTestInfo TestSet[TC_MAX] = {
 		{TC_STR(TC_SOC_ROM_LoadPmem), &TestRom_LoadPmem },
 		{TC_STR(TC_SOC_ROM_LoadPmemEmem), &TestRom_LoadPmemEmem },
-		{TC_STR(TC_SOC_MIPS_RegisterFile), &TestMips_RegisterFile }
+		{TC_STR(TC_SOC_MIPS_RegisterFile), &TestMips_RegisterFile },
+		{TC_STR(TC_SOC_MIPS_DmemReadWrite), &TestMips_DmemReadWrite },
 	};
 
 }

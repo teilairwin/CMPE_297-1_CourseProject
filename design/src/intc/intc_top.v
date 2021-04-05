@@ -133,6 +133,7 @@ module intc_top(
             .done    (done),
             .IACK    (IACK),
             .clk     (clk),
+            .rst_ext (rst),
             .isr_addr0 (isr_addr0),
             .isr_addr1 (isr_addr1),
             .isr_addr2 (isr_addr2),
