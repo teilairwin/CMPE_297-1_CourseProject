@@ -10,7 +10,8 @@ module intc_top(
         output  wire [31:0] read_data, 
         output  wire IRQ,
         output  wire [31:0] isr_addr,
-        output  reg error
+        output  reg error,
+        output  wire [31:0] test
     ); 
     
     // This is really ugly and probably belongs somewhere else
@@ -127,6 +128,8 @@ module intc_top(
         .d   (write_data),
         .q   (isr_addr3)
     );
+    
+    assign test = {isr_addr0[7:0],isr_addr1[7:0],isr_addr2[7:0],isr_addr3[7:0]};
     
     intc intc(
             //input

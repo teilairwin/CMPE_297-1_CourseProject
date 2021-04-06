@@ -190,6 +190,11 @@ module sr_reg(
   input set, rst, clk,
   output reg q
 );
+
+  initial begin
+    q = 0;
+  end
+
 always @ (posedge clk, posedge rst)
   if (rst) q <= 1'b0;
   else if (set) q <= 1'b1;

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_soc_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_soc" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="2174473450fs"></ZoomStartTime>
+      <ZoomEndTime time="2344267794fs"></ZoomEndTime>
+      <Cursor1Time time="2545000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="130"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="10" />
+   <wvobject fp_name="/tb_soc/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_soc/mipsPC" type="array">
+      <obj_property name="ElementShortName">mipsPC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mipsPC[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group903" type="group">
+      <obj_property name="label">TbMisc</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_soc/errorCount" type="array">
+         <obj_property name="ElementShortName">errorCount[31:0]</obj_property>
+         <obj_property name="ObjectShortName">errorCount[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/mipsRfData" type="array">
+         <obj_property name="ElementShortName">mipsRfData[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mipsRfData[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/mipsRfAddr" type="array">
+         <obj_property name="ElementShortName">mipsRfAddr[4:0]</obj_property>
+         <obj_property name="ObjectShortName">mipsRfAddr[4:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group902" type="group">
+      <obj_property name="label">TbRfReads</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_soc/DUT/mips/irq_addr" type="array">
+         <obj_property name="ElementShortName">irq_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">irq_addr[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/rfS0" type="array">
+         <obj_property name="ElementShortName">rfS0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rfS0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/rfS1" type="array">
+         <obj_property name="ElementShortName">rfS1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rfS1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/rfT0" type="array">
+         <obj_property name="ElementShortName">rfT0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rfT0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/rfT1" type="array">
+         <obj_property name="ElementShortName">rfT1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rfT1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/rfT2" type="array">
+         <obj_property name="ElementShortName">rfT2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rfT2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/rfT3" type="array">
+         <obj_property name="ElementShortName">rfT3[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rfT3[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/rfT4" type="array">
+         <obj_property name="ElementShortName">rfT4[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rfT4[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/rfT5" type="array">
+         <obj_property name="ElementShortName">rfT5[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rfT5[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group895" type="group">
+      <obj_property name="label">MipsIntState</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_soc/DUT/mips/irq_active" type="logic">
+         <obj_property name="ElementShortName">irq_active</obj_property>
+         <obj_property name="ObjectShortName">irq_active</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/irq_entry" type="logic">
+         <obj_property name="ElementShortName">irq_entry</obj_property>
+         <obj_property name="ObjectShortName">irq_entry</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/irq_resume" type="logic">
+         <obj_property name="ElementShortName">irq_resume</obj_property>
+         <obj_property name="ObjectShortName">irq_resume</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/irq" type="logic">
+         <obj_property name="ElementShortName">irq</obj_property>
+         <obj_property name="ObjectShortName">irq</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/irq_ack" type="logic">
+         <obj_property name="ElementShortName">irq_ack</obj_property>
+         <obj_property name="ObjectShortName">irq_ack</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/irq_addr" type="array">
+         <obj_property name="ElementShortName">irq_addr[31:0]</obj_property>
+         <obj_property name="ObjectShortName">irq_addr[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group906" type="group">
+      <obj_property name="label">IntcState</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_soc/DUT/intc/intc/q_state" type="array">
+         <obj_property name="ElementShortName">q_state[3:0]</obj_property>
+         <obj_property name="ObjectShortName">q_state[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/intc/isr_addr0" type="array">
+         <obj_property name="ElementShortName">isr_addr0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">isr_addr0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/intc/isr_addr1" type="array">
+         <obj_property name="ElementShortName">isr_addr1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">isr_addr1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/intc/isr_addr2" type="array">
+         <obj_property name="ElementShortName">isr_addr2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">isr_addr2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/intc/isr_addr3" type="array">
+         <obj_property name="ElementShortName">isr_addr3[31:0]</obj_property>
+         <obj_property name="ObjectShortName">isr_addr3[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group905" type="group">
+      <obj_property name="label">Fact0State</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /Done" type="logic">
+         <obj_property name="ElementShortName">Done</obj_property>
+         <obj_property name="ObjectShortName">Done</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /Go" type="logic">
+         <obj_property name="ElementShortName">Go</obj_property>
+         <obj_property name="ObjectShortName">Go</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /ResDone" type="logic">
+         <obj_property name="ElementShortName">ResDone</obj_property>
+         <obj_property name="ObjectShortName">ResDone</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /ResErr" type="logic">
+         <obj_property name="ElementShortName">ResErr</obj_property>
+         <obj_property name="ObjectShortName">ResErr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /n" type="array">
+         <obj_property name="ElementShortName">n[3:0]</obj_property>
+         <obj_property name="ObjectShortName">n[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /Result" type="array">
+         <obj_property name="ElementShortName">Result[31:0]</obj_property>
+         <obj_property name="ObjectShortName">Result[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group914" type="group">
+      <obj_property name="label">Fact0Read</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /RD" type="array">
+         <obj_property name="ElementShortName">RD[31:0]</obj_property>
+         <obj_property name="ObjectShortName">RD[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /A" type="array">
+         <obj_property name="ElementShortName">A[1:0]</obj_property>
+         <obj_property name="ObjectShortName">A[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/\fact_gen_loop[0].fact /RdSel" type="array">
+         <obj_property name="ElementShortName">RdSel[1:0]</obj_property>
+         <obj_property name="ObjectShortName">RdSel[1:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group918" type="group">
+      <obj_property name="label">MipsRf</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[16]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[16][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[16][31:0]</obj_property>
+         <obj_property name="label">s0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[17]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[17][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[17][31:0]</obj_property>
+         <obj_property name="label">s1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[18]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[18][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[18][31:0]</obj_property>
+         <obj_property name="label">s2</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[19]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[19][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[19][31:0]</obj_property>
+         <obj_property name="label">s3</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[20]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[20][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[20][31:0]</obj_property>
+         <obj_property name="label">s4</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[21]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[21][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[21][31:0]</obj_property>
+         <obj_property name="label">s5</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[10]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[10][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+         <obj_property name="label">t2</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[12]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[12][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+         <obj_property name="label">t4</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[13]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[13][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+         <obj_property name="label">t5</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[4]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[4][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+         <obj_property name="label">a0</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[5]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[5][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+         <obj_property name="label">a1</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[6]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[6][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+         <obj_property name="label">a2</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_soc/DUT/mips/dp/rf/rf[7]" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[7][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+         <obj_property name="label">a3</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>
