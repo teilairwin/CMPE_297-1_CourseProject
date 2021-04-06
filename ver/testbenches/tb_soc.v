@@ -88,7 +88,8 @@ module tb_soc();
         .intc_test(testdata)
     );
     
-    reg [31:0] rfS0,rfS1;
+    reg [31:0] rfS0,rfS1,rfS2,rfS3,rfS4,rfS5;
+    reg [31:0] rfA0,rfA1,rfA2,rfA3;
     reg [31:0] rfT0,rfT1,rfT2,rfT3,rfT4,rfT5;
     
     task test_fact0;
@@ -145,6 +146,204 @@ module tb_soc();
     
     end endtask
     
+    task test_reconf;
+    begin
+        $display("[%d]Begin test_reconf",$time);
+        reset; resetregfile;
+        
+        //Load Program mem with a counter loop
+        $readmemh("testsoc-isr-reconf.dat",DUT.pmem.rom);
+        #5;
+        //Load Exception mem with actions to load regfile
+        $readmemh("testsoc-isr-reconf-isrs.dat",DUT.emem.rom);
+        #5;
+        
+        for(ii=0; ii<160; ii=ii+1) tick;
+        
+        $display("Ran Program for 120 cycles");
+        
+        mipsRfAddr = 5'd16;
+        #5
+        rfS0 = mipsRfData;
+        $display("\tRead[S0] Data=0x%h",rfS0);
+        check32(rfS0,32'd1);
+        
+        mipsRfAddr = 5'd17;
+        #5
+        rfS1 = mipsRfData;
+        $display("\tRead[S1] Data=0x%h",rfS1);
+        check32(rfS1,32'd120);
+        
+        mipsRfAddr = 5'd4;
+        #5
+        rfA0 = mipsRfData;
+        $display("\tRead[A0] Data=0x%h",rfA0);
+        check32(rfA0,32'd1);
+        
+        mipsRfAddr = 5'd5;
+        #5
+        rfA1 = mipsRfData;
+        $display("\tRead[A1] Data=0x%h",rfA1);
+        check32(rfA1,32'd120);
+        
+        mipsRfAddr = 5'd20;
+        #5
+        rfS4 = mipsRfData;
+        $display("\tRead[S4] Data=0x%h",rfS4);
+        check32(rfS4,32'd1);
+        
+        mipsRfAddr = 5'd21;
+        #5
+        rfS5 = mipsRfData;
+        $display("\tRead[S5] Data=0x%h",rfS5);
+        check32(rfS5,32'd24);
+        
+        mipsRfAddr = 5'd6;
+        #5
+        rfA2 = mipsRfData;
+        $display("\tRead[A2] Data=0x%h",rfA2);
+        check32(rfA2,32'd1);
+                
+        mipsRfAddr = 5'd7;
+        #5
+        rfA3 = mipsRfData;
+        $display("\tRead[A3] Data=0x%h",rfA3);
+        check32(rfA3,32'd24);
+    
+    end endtask
+    
+    task test_mult;
+    begin
+        $display("[%d]Begin test_mult",$time);
+        reset; resetregfile;
+        
+        //Load Program mem with a counter loop
+        $readmemh("testsoc-isr-mult.dat",DUT.pmem.rom);
+        #5;
+        //Load Exception mem with actions to load regfile
+        $readmemh("testsoc-fact-isrs.dat",DUT.emem.rom);
+        #5;
+        
+        for(ii=0; ii<100; ii=ii+1) tick;
+        
+        $display("Ran Program for 100 cycles");
+        
+        mipsRfAddr = 5'd16;
+        #5
+        rfS0 = mipsRfData;
+        $display("\tRead[S0] Data=0x%h",rfS0);
+        check32(rfS0,32'd1);
+        
+        mipsRfAddr = 5'd17;
+        #5
+        rfS1 = mipsRfData;
+        $display("\tRead[S1] Data=0x%h",rfS1);
+        check32(rfS1,32'd120);
+        
+        mipsRfAddr = 5'd4;
+        #5
+        rfA0 = mipsRfData;
+        $display("\tRead[A0] Data=0x%h",rfA0);
+        check32(rfA0,32'd1);
+        
+        mipsRfAddr = 5'd5;
+        #5
+        rfA1 = mipsRfData;
+        $display("\tRead[A1] Data=0x%h",rfA1);
+        check32(rfA1,32'd120);
+        
+        mipsRfAddr = 5'd18;
+        #5
+        rfS2 = mipsRfData;
+        $display("\tRead[S2] Data=0x%h",rfS2);
+        check32(rfS2,32'd1);
+        
+        mipsRfAddr = 5'd19;
+        #5
+        rfS3 = mipsRfData;
+        $display("\tRead[S3] Data=0x%h",rfS3);
+        check32(rfS3,32'd720);
+        
+        mipsRfAddr = 5'd6;
+        #5
+        rfA2 = mipsRfData;
+        $display("\tRead[A2] Data=0x%h",rfA2);
+        check32(rfA2,32'd1);
+                
+        mipsRfAddr = 5'd7;
+        #5
+        rfA3 = mipsRfData;
+        $display("\tRead[A3] Data=0x%h",rfA3);
+        check32(rfA3,32'd720);
+    
+    end endtask
+    
+    task test_simul;
+    begin
+        $display("[%d]Begin test_simul",$time);
+        reset; resetregfile;
+        
+        //Load Program mem with a counter loop
+        $readmemh("testsoc-isr-simul.dat",DUT.pmem.rom);
+        #5;
+        //Load Exception mem with actions to load regfile
+        $readmemh("testsoc-fact-isrs.dat",DUT.emem.rom);
+        #5;
+        
+        for(ii=0; ii<100; ii=ii+1) tick;
+        
+        $display("Ran Program for 100 cycles");
+        
+        mipsRfAddr = 5'd16;
+        #5
+        rfS0 = mipsRfData;
+        $display("\tRead[S0] Data=0x%h",rfS0);
+        check32(rfS0,32'd1);
+        
+        mipsRfAddr = 5'd17;
+        #5
+        rfS1 = mipsRfData;
+        $display("\tRead[S1] Data=0x%h",rfS1);
+        check32(rfS1,32'd120);
+        
+        mipsRfAddr = 5'd4;
+        #5
+        rfA0 = mipsRfData;
+        $display("\tRead[A0] Data=0x%h",rfA0);
+        check32(rfA0,32'd1);
+        
+        mipsRfAddr = 5'd5;
+        #5
+        rfA1 = mipsRfData;
+        $display("\tRead[A1] Data=0x%h",rfA1);
+        check32(rfA1,32'd120);
+        
+        mipsRfAddr = 5'd18;
+        #5
+        rfS2 = mipsRfData;
+        $display("\tRead[S2] Data=0x%h",rfS2);
+        check32(rfS2,32'd1);
+        
+        mipsRfAddr = 5'd19;
+        #5
+        rfS3 = mipsRfData;
+        $display("\tRead[S3] Data=0x%h",rfS3);
+        check32(rfS3,32'd720);
+        
+        mipsRfAddr = 5'd6;
+        #5
+        rfA2 = mipsRfData;
+        $display("\tRead[A2] Data=0x%h",rfA2);
+        check32(rfA2,32'd1);
+                
+        mipsRfAddr = 5'd7;
+        #5
+        rfA3 = mipsRfData;
+        $display("\tRead[A3] Data=0x%h",rfA3);
+        check32(rfA3,32'd720);
+    
+    end endtask
+    
     initial begin
         clk = 1'b0;
         rst = 1'b0;
@@ -157,6 +356,9 @@ module tb_soc();
         #5;
         
         test_fact0;
+        test_reconf;
+        test_mult;
+        test_simul;
     
         exit;
     end
