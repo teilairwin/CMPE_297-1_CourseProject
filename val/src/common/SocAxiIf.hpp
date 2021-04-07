@@ -18,7 +18,7 @@ public:
 	AxiReg mMipsRfCtrl;
 	AxiReg mRomCtrl;
 	AxiReg mRomWriteData;
-	AxiReg mResv0;
+	AxiReg mTestCtrl;
 	//Outputs
 	AxiReg mMipsPc;
 	AxiReg mRomReadData;

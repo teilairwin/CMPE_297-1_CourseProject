@@ -1,0 +1,128 @@
+================================================
+Running Validation for DUT: INTC
+================================================
+------------------------------------------------
+Starting TC:TC_INTC_ISR_ReadWrite
+	Checking reset state...
+	Checking writes and readback...
+	Checking reset readback after write...
+Finished TC:TC_INTC_ISR_ReadWrite [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_SingleSource0
+	Loading ISR Table...
+	Triggering Interrupt...
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00001111
+	Clearing Interrupt...
+Finished TC:TC_INTC_IRQ_SingleSource0 [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_SingleSource1
+	Loading ISR Table...
+	Triggering Interrupt...
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00002222
+	Clearing Interrupt...
+Finished TC:TC_INTC_IRQ_SingleSource1 [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_SingleSource2
+	Loading ISR Table...
+	Triggering Interrupt...
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00003333
+	Clearing Interrupt...
+Finished TC:TC_INTC_IRQ_SingleSource2 [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_SingleSource3
+	Loading ISR Table...
+	Triggering Interrupt...
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00004444
+	Clearing Interrupt...
+Finished TC:TC_INTC_IRQ_SingleSource3 [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_Simultaneous2
+	Loading ISR Table...
+	Triggering Simultaneous Interrupts...
+		Final IntSigs:0x0000000c
+	Expected Interrupts to Service:0x00000006
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00002222
+		Servicing Index:0x00000001
+		Clearing Interrupt:1
+	Expected Interrupts to Service:0x00000004
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00003333
+		Servicing Index:0x00000002
+		Clearing Interrupt:2
+Finished TC:TC_INTC_IRQ_Simultaneous2 [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_Simultaneous3
+	Loading ISR Table...
+	Triggering Simultaneous Interrupts...
+		Final IntSigs:0x0000001c
+	Expected Interrupts to Service:0x0000000e
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00002222
+		Servicing Index:0x00000001
+		Clearing Interrupt:1
+	Expected Interrupts to Service:0x0000000c
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00003333
+		Servicing Index:0x00000002
+		Clearing Interrupt:2
+	Expected Interrupts to Service:0x00000008
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00004444
+		Servicing Index:0x00000003
+		Clearing Interrupt:3
+Finished TC:TC_INTC_IRQ_Simultaneous3 [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_Simultaneous4
+	Loading ISR Table...
+	Triggering Simultaneous Interrupts...
+		Final IntSigs:0x0000001e
+	Expected Interrupts to Service:0x0000000f
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00001111
+		Servicing Index:0x00000000
+		Clearing Interrupt:0
+	Expected Interrupts to Service:0x0000000e
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00002222
+		Servicing Index:0x00000001
+		Clearing Interrupt:1
+	Expected Interrupts to Service:0x0000000c
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00003333
+		Servicing Index:0x00000002
+		Clearing Interrupt:2
+	Expected Interrupts to Service:0x00000008
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00004444
+		Servicing Index:0x00000003
+		Clearing Interrupt:3
+Finished TC:TC_INTC_IRQ_Simultaneous4 [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_MultipleHigherAfterLower
+	Loading ISR Table...
+	Triggering Interrupts...
+		Setting HighPriority Int:2
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00003333
+		Setting Higher Priority Int:0
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00001111
+	Clearing Interrupts...
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00003333
+Finished TC:TC_INTC_IRQ_MultipleHigherAfterLower [PASS]
+------------------------------------------------
+------------------------------------------------
+Starting TC:TC_INTC_IRQ_MultipleLowerAfterHigher
+	Loading ISR Table...
+	Triggering Interrupts...
+		Setting HighPriority Int:1
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00002222
+		Setting Lower Priority Int:3
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00002222
+	Clearing Interrupts...
+		Read IRQ-State:0x00000001 ISR-ADDR:0x00004444
+Finished TC:TC_INTC_IRQ_MultipleLowerAfterHigher [PASS]
+------------------------------------------------
+================================================
+Validation Tests Passed!
+	Total Passed: 10
+	Total Failed: 0
+================================================

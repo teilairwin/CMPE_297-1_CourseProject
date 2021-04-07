@@ -2,6 +2,7 @@ module intc(
             input   wire [3:0]  done,
             input   wire IACK,
             input   wire clk,
+            input   wire rst_ext,   //External Reset
             input   wire [31:0] isr_addr0,isr_addr1,isr_addr2,isr_addr3,
             output  wire IRQ,
             output  wire [31:0] isr_addr
@@ -9,7 +10,14 @@ module intc(
     
     // internal wires
     wire    [3:0]  q_state;
+    wire    [3:0]  reset_state;
     wire    [3:0]  reset;
+    
+    assign reset[0] = reset_state[0] | rst_ext;
+    assign reset[1] = reset_state[1] | rst_ext;
+    assign reset[2] = reset_state[2] | rst_ext;
+    assign reset[3] = reset_state[3] | rst_ext;
+    
     
     wire int0_status_enable;
     wire int1_status_enable;
@@ -27,6 +35,7 @@ module intc(
     priority_encoder pri_enc(
         // input: interrupt status registers
         .interrupts (q_state),
+        .clk(clk),
         // outputs
         .y          (priority_select),
         .IRQ      (IRQ)
@@ -46,9 +55,10 @@ module intc(
     iack_decoder iack_decoder(
         .priority_select  (priority_select),
         .IACK             (IACK),
-        .reset            (reset)
+        .reset            (reset_state)
     );
     
+    ///////////////////////////////////////////////////////////////////////////
     // dreg with reset and enable for interrupt status registers
     dreg_en #1 interrupt_0_status_register(
         .clk    (clk),

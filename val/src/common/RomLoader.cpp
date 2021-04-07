@@ -48,7 +48,7 @@ bool RomLoader::LoadBin(const std::string& binFile)
 				good = false;
 				break;
 			}
-			//printf("\t0x%08x\n", buff);
+			printf("\tADDR[0x%04x] Data:0x%08x\n", (index*4),buff);
 			mRom[index] = buff;
 			index++;
 		}
