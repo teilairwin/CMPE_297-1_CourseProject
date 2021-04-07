@@ -34,7 +34,8 @@ bool SocDutIf::RunTests()
 			mErrorCount++;
 			success = false;
 		}
-		TestFramework::mLogger << "Finished TC:" << SocTestCases::TestSet[ii].nm << "\n";
+		TestFramework::mLogger << "Finished TC:" << SocTestCases::TestSet[ii].nm 
+			                   << (testResult ? " [PASS]" : " [FAIL]") << "\n";
 		TestFramework::mLogger << "------------------------------------------------\n";
 	}
 	return success;

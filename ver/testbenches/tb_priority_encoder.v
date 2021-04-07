@@ -13,7 +13,9 @@ module tb_priority_encoder();
 
     priority_encoder DUT(
       .interrupts (interrupts_in),
+      .clk(clk),
       .y          (y_out),
+
       .IRQ        (IRQ_out)
     );
 

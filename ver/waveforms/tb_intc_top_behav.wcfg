@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="44150001fs"></ZoomEndTime>
-      <Cursor1Time time="120000000fs"></Cursor1Time>
+      <ZoomStartTime time="89833333fs"></ZoomStartTime>
+      <ZoomEndTime time="264033334fs"></ZoomEndTime>
+      <Cursor1Time time="235000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="142"></ValueColumnWidth>
+      <ValueColumnWidth column_width="138"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="2" />
    <wvobject fp_name="group339" type="group">
@@ -77,6 +77,14 @@
       <obj_property name="label">DutIntc</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="group551" type="group">
+         <obj_property name="label">read-write</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/tb_intc_top/DUT/read_data" type="array">
+            <obj_property name="ElementShortName">read_data[31:0]</obj_property>
+            <obj_property name="ObjectShortName">read_data[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
       <wvobject fp_name="group343" type="group">
          <obj_property name="label">isrTable</obj_property>
          <obj_property name="DisplayName">label</obj_property>
@@ -108,6 +116,7 @@
       <wvobject fp_name="group346" type="group">
          <obj_property name="label">intStatus</obj_property>
          <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
          <wvobject fp_name="/tb_intc_top/DUT/intc/interrupt_0_status_register/q" type="array">
             <obj_property name="DisplayName">label</obj_property>
             <obj_property name="ElementShortName">q[0:0]</obj_property>
@@ -133,9 +142,76 @@
             <obj_property name="label">int3_stat</obj_property>
          </wvobject>
       </wvobject>
-      <wvobject fp_name="/tb_intc_top/DUT/read_data" type="array">
-         <obj_property name="ElementShortName">read_data[31:0]</obj_property>
-         <obj_property name="ObjectShortName">read_data[31:0]</obj_property>
+      <wvobject fp_name="group552" type="group">
+         <obj_property name="label">intClear</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/tb_intc_top/DUT/intc/reset" type="array">
+            <obj_property name="ElementShortName">reset[3:0]</obj_property>
+            <obj_property name="ObjectShortName">reset[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="vbus563" type="vbus">
+            <obj_property name="label">intStatusEnable</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/int0_status_enable" type="logic">
+               <obj_property name="ElementShortName">int0_status_enable</obj_property>
+               <obj_property name="ObjectShortName">int0_status_enable</obj_property>
+            </wvobject>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/int1_status_enable" type="logic">
+               <obj_property name="ElementShortName">int1_status_enable</obj_property>
+               <obj_property name="ObjectShortName">int1_status_enable</obj_property>
+            </wvobject>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/int2_status_enable" type="logic">
+               <obj_property name="ElementShortName">int2_status_enable</obj_property>
+               <obj_property name="ObjectShortName">int2_status_enable</obj_property>
+            </wvobject>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/int3_status_enable" type="logic">
+               <obj_property name="ElementShortName">int3_status_enable</obj_property>
+               <obj_property name="ObjectShortName">int3_status_enable</obj_property>
+            </wvobject>
+         </wvobject>
+         <wvobject fp_name="/tb_intc_top/DUT/intc/done" type="array">
+            <obj_property name="ElementShortName">done[3:0]</obj_property>
+            <obj_property name="ObjectShortName">done[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="group565" type="group">
+            <obj_property name="label">iackDecode</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/iack_decoder/priority_select" type="array">
+               <obj_property name="ElementShortName">priority_select[1:0]</obj_property>
+               <obj_property name="ObjectShortName">priority_select[1:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/iack_decoder/IACK" type="logic">
+               <obj_property name="ElementShortName">IACK</obj_property>
+               <obj_property name="ObjectShortName">IACK</obj_property>
+            </wvobject>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/iack_decoder/reset" type="array">
+               <obj_property name="ElementShortName">reset[3:0]</obj_property>
+               <obj_property name="ObjectShortName">reset[3:0]</obj_property>
+            </wvobject>
+         </wvobject>
+         <wvobject fp_name="group571" type="group">
+            <obj_property name="label">priEnc</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/pri_enc/interrupts" type="array">
+               <obj_property name="ElementShortName">interrupts[3:0]</obj_property>
+               <obj_property name="ObjectShortName">interrupts[3:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/pri_enc/y" type="array">
+               <obj_property name="ElementShortName">y[1:0]</obj_property>
+               <obj_property name="ObjectShortName">y[1:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/pri_enc/IRQ" type="logic">
+               <obj_property name="ElementShortName">IRQ</obj_property>
+               <obj_property name="ObjectShortName">IRQ</obj_property>
+            </wvobject>
+            <wvobject fp_name="/tb_intc_top/DUT/intc/pri_enc/clk" type="logic">
+               <obj_property name="ElementShortName">clk</obj_property>
+               <obj_property name="ObjectShortName">clk</obj_property>
+            </wvobject>
+         </wvobject>
       </wvobject>
    </wvobject>
 </wave_config>

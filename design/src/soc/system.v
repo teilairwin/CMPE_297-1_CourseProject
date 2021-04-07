@@ -14,7 +14,8 @@ module system (
         input wire rom_select,      ///< ROM Select
         input wire [5:0] rom_addr,  ///< Addr for R/W to IMEM
         input wire [31:0] rom_wd,   ///< WriteData to IMEM
-        output wire [31:0] rom_rd   ///< ReadData from IMEM
+        output wire [31:0] rom_rd,  ///< ReadData from IMEM
+        input wire [31:0] intc_test
     );
 
     ///////////////////////////////////////////////////////////////////////////
@@ -178,7 +179,8 @@ module system (
         .input_addr(intc_addr),  ///< MMDevice Addr
         .write_enable(intc_we),  ///< MMDevice WriteEnable
         .write_data(intc_wdata), ///< MMDeivce WriteData
-        .read_data(intc_rdata)   ///< MMDevice ReadData 
+        .read_data(intc_rdata),  ///< MMDevice ReadData
+        .test(intc_test) 
     ); 
 
     //Factorials [Device2,3,4,5]

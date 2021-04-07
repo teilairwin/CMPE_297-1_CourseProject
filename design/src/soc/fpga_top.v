@@ -14,7 +14,9 @@ module fpga_top (
      input wire rom_select,     ///< ROM to access
      input wire [5:0] rom_addr, ///< Addr for R/W to IMEM
      input wire [31:0] rom_wd,  ///< WriteData to IMEM
-     output wire [31:0] rom_rd  ///< ReadData from IMEM
+     output wire [31:0] rom_rd,  ///< ReadData from IMEM
+     
+     output wire [31:0] intc_test
 );
 
     ///////////////////////////////////////////////////////////////////////////
@@ -60,7 +62,8 @@ module fpga_top (
         .rom_select(rom_select),
         .rom_addr(rom_addr),
         .rom_wd(rom_wd),
-        .rom_rd(rom_rd)
+        .rom_rd(rom_rd),
+        .intc_test(intc_test)
     );
 
 endmodule
