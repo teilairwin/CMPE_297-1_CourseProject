@@ -1,4 +1,7 @@
 `timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Description: Testbench for Priority Encoder
+//////////////////////////////////////////////////////////////////////////////////
 
 module tb_priority_encoder();
     localparam WIDTH=4;
@@ -15,7 +18,6 @@ module tb_priority_encoder();
       .interrupts (interrupts_in),
       .clk(clk),
       .y          (y_out),
-
       .IRQ        (IRQ_out)
     );
 
