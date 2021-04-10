@@ -11,7 +11,7 @@ public:
 
 	bool RunTests();
 
-	IntcAxiIf mAxiIf;
+	IntcAxiIf mAxiIf;    ///< AXI interface to the INTC DUT
 };
 
 

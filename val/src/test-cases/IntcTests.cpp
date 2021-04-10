@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+//Test to validate reading and writing to the ISR address table
 bool IntcTestCases::TestIsr_ReadWrite(IntcAxiIf& intc, std::ostream& log)
 {
 	bool success(true);
@@ -65,6 +66,7 @@ bool IntcTestCases::TestIsr_ReadWrite(IntcAxiIf& intc, std::ostream& log)
 	return success;
 }
 
+//Helper Function to test triggering and clearing an interrupt from a single source. 
 bool TestSingleSource(IntcAxiIf& intc, std::ostream& log, uint32_t index)
 {
 	bool success(true);
@@ -135,27 +137,31 @@ bool TestSingleSource(IntcAxiIf& intc, std::ostream& log, uint32_t index)
 	return success;
 }
 
+//Test case to validate an interrupt on source 0
 bool IntcTestCases::TestIrq_SingleSource0(IntcAxiIf& intc, std::ostream& log)
 {
 	return TestSingleSource(intc, log, 0);
 }
 
+//Test case to validate an interrupt on source 1
 bool IntcTestCases::TestIrq_SingleSource1(IntcAxiIf& intc, std::ostream& log)
 {
 	return TestSingleSource(intc, log, 1);
 }
 
+//Test case to validate an interrupt on source 2
 bool IntcTestCases::TestIrq_SingleSource2(IntcAxiIf& intc, std::ostream& log)
 {
 	return TestSingleSource(intc, log, 2);
 }
 
+//Test case to validate an interrupt on source 3
 bool IntcTestCases::TestIrq_SingleSource3(IntcAxiIf& intc, std::ostream& log)
 {
 	return TestSingleSource(intc, log, 3);
 }
 
-
+//Helper funtion to test simultaneous interrupts. Each bit in the given mask represents an interrupt
 bool TestSimultaneous(IntcAxiIf& intc, std::ostream& log, uint32_t mask)
 {
 	uint32_t intMask(mask);
@@ -254,21 +260,26 @@ bool TestSimultaneous(IntcAxiIf& intc, std::ostream& log, uint32_t mask)
 	return success;
 }
 
+//Test case to validate the handling and order of two simultaneous interrupts
 bool IntcTestCases::TestIrq_Simultaneous2(IntcAxiIf& intc, std::ostream& log)
 {
 	return TestSimultaneous(intc, log, 0x6);
 }
 
+//Test case to validate the handling and order of three simultaneous interrupts
 bool IntcTestCases::TestIrq_Simultaneous3(IntcAxiIf& intc, std::ostream& log)
 {
 	return TestSimultaneous(intc, log, 0xE);
 }
 
+//Test case to validate the handling and order of four simultaneous interrrupts
 bool IntcTestCases::TestIrq_Simultaneous4(IntcAxiIf& intc, std::ostream& log)
 {
 	return TestSimultaneous(intc, log, 0xF);
 }
 
+//Test case to validate a higher priority interrupt taking higher order over an
+//already asserted lower priority interrupt
 bool IntcTestCases::TestIrq_MultipleHigherAfterLower(IntcAxiIf& intc, std::ostream& log)
 {
 	//Trigger a Low Priority Interrupt and afterwards a higher priority int.
@@ -372,6 +383,8 @@ bool IntcTestCases::TestIrq_MultipleHigherAfterLower(IntcAxiIf& intc, std::ostre
 	return success;
 }
 
+//Test case to validate a low priority interrupt asserted after a higher priority int is already
+//active, does not effect the ordering.
 bool IntcTestCases::TestIrq_MultipleLowerAfterHigher(IntcAxiIf& intc, std::ostream& log)
 {
 	//Trigger a High Priority Interrupt and afterwards a lower priority int.

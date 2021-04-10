@@ -35,6 +35,7 @@ bool RomLoader::LoadBin(const std::string& binFile)
 		printf("ERROR: Target system must be in reset before loading ROM!\n");
 		good = false;
 	}
+	//Read the binary file into a local cache
 	if (good)
 	{
 		printf("\tReading bin file: '%s'\n",binFile.c_str());
@@ -53,6 +54,7 @@ bool RomLoader::LoadBin(const std::string& binFile)
 			index++;
 		}
 	}
+	//Write the local cache to the system ROM
 	if (good)
 	{
 		printf("\tLoading ROM[%02d]...\n",mSel);
@@ -83,6 +85,7 @@ bool RomLoader::VerifyRom()
 {
 	bool good(true);
 	printf("\tVerifying ROM[%02d]...\n",mSel);
+	//Read back the system ROM and compare it against the local cache
 	for (uint32_t ii = 0; ii < mRom.size(); ii++)
 	{
 		//Set ROM Ctrl

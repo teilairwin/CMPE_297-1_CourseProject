@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+//Test case to validate loading Program-Memory through the ROM test ports
 bool SocTestCases::TestRom_LoadPmem(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -34,6 +35,7 @@ bool SocTestCases::TestRom_LoadPmem(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+//Test case to validate loading both Program and Exception memory ROM segments
 bool SocTestCases::TestRom_LoadPmemEmem(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);

@@ -18,6 +18,7 @@ SocAxiIf::SocAxiIf(uint32_t physAddr)
 {
 }
 
+///@details Read a register from the MIPS register file.
 uint32_t SocAxiIf::ReadRegisterFile(uint32_t reg)
 {
 	uint32_t data(0);
@@ -31,6 +32,8 @@ uint32_t SocAxiIf::ReadRegisterFile(uint32_t reg)
 	return data;
 }
 
+///@details Load the given binary file into the given ROM segment.
+/// Additionally, verify that the ROM load was successful.
 bool SocAxiIf::LoadRom(std::string& bin, uint32_t mem)
 {
 	bool success(true);
@@ -51,6 +54,7 @@ bool SocAxiIf::LoadRom(std::string& bin, uint32_t mem)
 	return success;
 }
 
+///@details Reset the SoC and restore the system clock
 void SocAxiIf::Reset()
 {
 	mSysCtrl.Write(SYSCTRL_RESET | SYSCTRL_CLK_SELECT);
@@ -59,6 +63,7 @@ void SocAxiIf::Reset()
 	mSysCtrl.Write(0);
 }
 
+///@details Cycle the host clock.
 void SocAxiIf::CycleHostClock()
 {
 	mSysCtrl.WriteToggle(SYSCTRL_CLK_HOST);

@@ -15,6 +15,7 @@ module system (
         input wire [5:0] rom_addr,  ///< Addr for R/W to IMEM
         input wire [31:0] rom_wd,   ///< WriteData to IMEM
         output wire [31:0] rom_rd,  ///< ReadData from IMEM
+        //--INTC - Unused
         input wire [31:0] intc_test
     );
 

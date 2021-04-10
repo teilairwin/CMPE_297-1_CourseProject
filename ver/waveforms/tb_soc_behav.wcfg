@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="2174473450fs"></ZoomStartTime>
-      <ZoomEndTime time="2344267794fs"></ZoomEndTime>
-      <Cursor1Time time="2545000000fs"></Cursor1Time>
+      <ZoomStartTime time="240935000fs"></ZoomStartTime>
+      <ZoomEndTime time="349935001fs"></ZoomEndTime>
+      <Cursor1Time time="260000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="130"></ValueColumnWidth>
+      <ValueColumnWidth column_width="88"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="10" />
    <wvobject fp_name="/tb_soc/clk" type="logic">
@@ -99,18 +99,26 @@
       <wvobject fp_name="/tb_soc/DUT/mips/irq_entry" type="logic">
          <obj_property name="ElementShortName">irq_entry</obj_property>
          <obj_property name="ObjectShortName">irq_entry</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_soc/DUT/mips/irq_resume" type="logic">
          <obj_property name="ElementShortName">irq_resume</obj_property>
          <obj_property name="ObjectShortName">irq_resume</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_soc/DUT/mips/irq" type="logic">
          <obj_property name="ElementShortName">irq</obj_property>
          <obj_property name="ObjectShortName">irq</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_soc/DUT/mips/irq_ack" type="logic">
          <obj_property name="ElementShortName">irq_ack</obj_property>
          <obj_property name="ObjectShortName">irq_ack</obj_property>
+         <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_soc/DUT/mips/irq_addr" type="array">
          <obj_property name="ElementShortName">irq_addr[31:0]</obj_property>

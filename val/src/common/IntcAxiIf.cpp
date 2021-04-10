@@ -17,6 +17,8 @@ IntcAxiIf::IntcAxiIf(uint32_t physAddr)
 {
 }
 
+///@details Reset the INTC and either restore the onboard clock or leave
+/// the host clock selected
 void IntcAxiIf::Reset(bool restoreClock)
 {
 	mCtrl.Write(ICTRL_RESET | ICTRL_CLK_SELECT);
@@ -32,6 +34,7 @@ void IntcAxiIf::Reset(bool restoreClock)
 	}
 }
 
+///@details Cycle the host clock one cycle
 void IntcAxiIf::CycleHostClock()
 {
 	mCtrl.WriteToggle(ICTRL_CLK_HOST);
@@ -40,6 +43,7 @@ void IntcAxiIf::CycleHostClock()
 	usleep(DUT_DELAY);
 }
 
+///@details Read the register of the given index in the register bank
 uint32_t IntcAxiIf::ReadRegisterBank(uint32_t index)
 {
 	uint32_t data(0);
@@ -53,6 +57,7 @@ uint32_t IntcAxiIf::ReadRegisterBank(uint32_t index)
 	return data;
 }
 
+///@details Write the register of the given index in the register bank
 void IntcAxiIf::WriteRegisterBank(uint32_t index, uint32_t value)
 {
 	//Set the address & data
@@ -68,12 +73,14 @@ void IntcAxiIf::WriteRegisterBank(uint32_t index, uint32_t value)
 	usleep(DUT_DELAY);
 }
 
+///@details Write the interrupt signal that corresponds to the given index
 void IntcAxiIf::WriteDone(uint32_t index)
 {
 	mExtInt.WriteSet(EXTINT_DONE(index));
 	usleep(DUT_DELAY);
 }
 
+///@details Send an iack to the INTC to clear the highest priority interrupt
 void IntcAxiIf::SendIack()
 {
 	mExtInt.Write(EXTINT_IACK);

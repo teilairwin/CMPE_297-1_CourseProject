@@ -350,22 +350,6 @@ module tb_intc_top();
     end
     endtask
     
-    /*
-    // always block to capture test data
-    always@(posedge IRQ) begin
-        //if(IRQ) begin
-            #0.5;
-            irq_temp <= IRQ;
-            
-    end
-    */
-    /*
-    always@(write_enable, input_addr) begin
-            #HALF_CLOCK_CYCLE;
-            isr_addr_temp <= read_data;
-    end
-    */
-    
     initial begin
         $display("==========================================================================");
         $display("== Beginning test tb_intc_top: Interrupt Controller Top Testbench");

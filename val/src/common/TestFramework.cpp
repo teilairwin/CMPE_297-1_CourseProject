@@ -4,7 +4,6 @@
 #include "IntcDutIf.hpp"
 #include <iostream>
 
-//std::ofstream TestFramework::mLogger;
 std::ostream& TestFramework::mLogger = std::cout;
 
 TestFramework::TestFramework(std::string targetStr,TestTarget target)
@@ -16,6 +15,8 @@ TestFramework::TestFramework(std::string targetStr,TestTarget target)
 bool TestFramework::InitLogging()
 {
 	bool status(true);
+	//Changed to just pipe stdout/stderr to file in shell
+
 	/*std::string filename = "/home/root/val_log_" + mTargetName;
 	mLogger.open(filename, std::ios::out | std::ios::trunc);
 	if (!mLogger.is_open())
@@ -26,6 +27,7 @@ bool TestFramework::InitLogging()
 	return status;
 }
 
+//Create the DUT interface for the configured target
 bool TestFramework::CreateDutInterface()
 {
 	bool status(true);

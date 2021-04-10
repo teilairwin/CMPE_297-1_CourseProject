@@ -17,7 +17,7 @@ public:
 	///@brief Verify the ROM contents against local copy
 	bool VerifyRom();
 
-	SocAxiIf* mAxi;             ///< SOC I/F
+	SocAxiIf* mAxi;              ///< SOC I/F
 	std::vector<uint32_t> mRom;  ///< ROM Local Copy
 	uint32_t mSel;               ///< ROM Select
 

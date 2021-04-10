@@ -11,7 +11,7 @@ public:
 
 	bool RunTests();
 
-	SocAxiIf mAxiIf;
+	SocAxiIf mAxiIf;  //< AXI interface for the SoC DUT
 };
 
 

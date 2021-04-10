@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+//Initial test program for loading ROM
+
 SocAxiIf* soc;
 
 int main(int argc, char** argv)

@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
+//Test case to validate handling of the factorial0 interrupt
 bool SocTestCases::TestSoc_Fact0(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -37,6 +38,7 @@ bool SocTestCases::TestSoc_Fact0(SocAxiIf& soc, std::ostream& log)
 	}
 	soc.mTestCtrl.Write(0x0);
 	log << "\tChecking Results written back to RegisterFile...\n";
+	//Check the values that the ISR saved to regfile & the files the program did as well.
 	uint32_t resultLoc[] = { MIPSRF_S0,MIPSRF_S1,MIPSRF_T2,MIPSRF_T4,MIPSRF_T5};
 	uint32_t resultVal[] = { 0x1,120,20,0x1,120}; //Good,N,BackgroundWork,Good,N
 	for (uint32_t ii = 0; ii < (sizeof(resultLoc)/4); ii++)
@@ -54,6 +56,7 @@ bool SocTestCases::TestSoc_Fact0(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+//Test case to validate handling of the factorial1 interrupt
 bool SocTestCases::TestSoc_Fact1(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -84,6 +87,7 @@ bool SocTestCases::TestSoc_Fact1(SocAxiIf& soc, std::ostream& log)
 	}
 	soc.mTestCtrl.Write(0x0);
 	log << "\tChecking Results written back to RegisterFile...\n";
+	//Check the values that the ISR saved to regfile & the values the program did as well.
 	uint32_t resultLoc[] = { MIPSRF_S2,MIPSRF_S3,MIPSRF_T2,MIPSRF_T4,MIPSRF_T5 };
 	uint32_t resultVal[] = { 0x1,720,20,0x1,720 }; //Good,N,BackgroundWork,Good,N
 	for (uint32_t ii = 0; ii < (sizeof(resultLoc) / 4); ii++)
@@ -101,6 +105,7 @@ bool SocTestCases::TestSoc_Fact1(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+//Test case to validate handling of the factorial2 interrupt
 bool SocTestCases::TestSoc_Fact2(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -128,6 +133,7 @@ bool SocTestCases::TestSoc_Fact2(SocAxiIf& soc, std::ostream& log)
 	}
 	
 	log << "\tChecking Results written back to RegisterFile...\n";
+	//Check the values that the ISR saved to regfile & the values the program did as well.
 	uint32_t resultLoc[] = { MIPSRF_S4,MIPSRF_S5,MIPSRF_T2,MIPSRF_T4,MIPSRF_T5 };
 	uint32_t resultVal[] = { 0x1,5040,20,0x1,5040 }; //Good,N,BackgroundWork,Good,N
 	for (uint32_t ii = 0; ii < (sizeof(resultLoc) / 4); ii++)
@@ -145,6 +151,7 @@ bool SocTestCases::TestSoc_Fact2(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+//Test case to validate handling of the factorial3 interrupt
 bool SocTestCases::TestSoc_Fact3(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -172,6 +179,7 @@ bool SocTestCases::TestSoc_Fact3(SocAxiIf& soc, std::ostream& log)
 	}
 
 	log << "\tChecking Results written back to RegisterFile...\n";
+	//Check the values that the ISR saved to regfile & the values the program did as well.
 	uint32_t resultLoc[] = { MIPSRF_S6,MIPSRF_S7,MIPSRF_T2,MIPSRF_T4,MIPSRF_T5 };
 	uint32_t resultVal[] = { 0x1,40320,20,0x1,40320 }; //Good,N,BackgroundWork,Good,N
 	for (uint32_t ii = 0; ii < (sizeof(resultLoc) / 4); ii++)
@@ -189,6 +197,8 @@ bool SocTestCases::TestSoc_Fact3(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+//Test case to validate that we can reconfigure the interrupt service routine for 
+//a single factorial unit
 bool SocTestCases::TestSoc_IsrReconfigure(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -216,6 +226,7 @@ bool SocTestCases::TestSoc_IsrReconfigure(SocAxiIf& soc, std::ostream& log)
 	}
 
 	log << "\tChecking Results written back to RegisterFile...\n";
+	//Check the values that the ISR saved to regfile & the values the program did as well.
 	uint32_t resultLoc[] = { MIPSRF_S0,MIPSRF_S1,MIPSRF_A0,MIPSRF_A1,
 		                     MIPSRF_S4,MIPSRF_S5,MIPSRF_A2,MIPSRF_A3 };
 	uint32_t resultVal[] = { 0x1,120,0x1,120,
@@ -235,6 +246,8 @@ bool SocTestCases::TestSoc_IsrReconfigure(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+//Test case to validate handling of simultaneous interrupts from 2 factorial units
+//that complete at the same time.
 bool SocTestCases::TestSoc_IsrSimultaneous(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -262,6 +275,7 @@ bool SocTestCases::TestSoc_IsrSimultaneous(SocAxiIf& soc, std::ostream& log)
 	}
 
 	log << "\tChecking Results written back to RegisterFile...\n";
+	//Check the values that the ISR saved to regfile & the values the program did as well.
 	uint32_t resultLoc[] = { MIPSRF_S0,MIPSRF_S1,MIPSRF_A0,MIPSRF_A1,
 							 MIPSRF_S2,MIPSRF_S3,MIPSRF_A2,MIPSRF_A3 };
 	uint32_t resultVal[] = { 0x1,120,0x1,120,
@@ -280,6 +294,8 @@ bool SocTestCases::TestSoc_IsrSimultaneous(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+//Test case to validate getting multiple interrupts over time. Specifically another interrupt
+//during the ISR of a prior interrupt
 bool SocTestCases::TestSoc_IsrMultiple(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -307,6 +323,7 @@ bool SocTestCases::TestSoc_IsrMultiple(SocAxiIf& soc, std::ostream& log)
 	}
 
 	log << "\tChecking Results written back to RegisterFile...\n";
+	//Check the values that the ISR saved to regfile & the values the program did as well.
 	uint32_t resultLoc[] = { MIPSRF_S0,MIPSRF_S1,MIPSRF_A0,MIPSRF_A1,
 							 MIPSRF_S2,MIPSRF_S3,MIPSRF_A2,MIPSRF_A3 };
 	uint32_t resultVal[] = { 0x1,120,0x1,120,

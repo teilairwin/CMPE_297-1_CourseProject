@@ -51,7 +51,6 @@ module dut_wrapper_soc #
     //Input: Reg1 AXI-RegFileAddr
     assign mips_rf_addr = read_from_slv_reg1[4:0];
     
-    //TODO
     //Input: Reg2 AXI-RomControl
     assign rom_we = read_from_slv_reg2[0];
     assign rom_addr = read_from_slv_reg2[6:1];
@@ -97,6 +96,7 @@ module dut_wrapper_soc #
         .rom_wd(rom_wd),
         .rom_rd(rom_rd),
         
+        //Unused
         .intc_test(intc_test)
     );
     

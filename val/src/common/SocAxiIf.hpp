@@ -8,9 +8,13 @@ class SocAxiIf : public AxiIf {
 public:
 	SocAxiIf(uint32_t physAddr);
 
+	///@brief Read the given register from the MIPS register file
 	uint32_t ReadRegisterFile(uint32_t reg);
+	///@brief Load the given binary into the selected ROM
 	bool LoadRom(std::string& bin, uint32_t mem);
+	///@brief Perform a reset
 	void Reset();
+	///@brief Cycle the host clock
 	void CycleHostClock();
 
 	//Inputs

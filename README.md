@@ -1,29 +1,46 @@
+# Usage
+- Loading Bitstream & Driver
+	-  In vivado TCL console, cd to scripts directory
+	-  source load-all-soc.tcl or load-all-intc.tcl
+-  Building Driver
+	-  If changes are made after initial loading, simply run 'make'
+-  Running validation
+	-  ./validation <soc | intc>
+	-  A report will be saved to file with a unique timestamp
+
 # Folder Structure
-- bin                 -- Bitstream files
-- design              -- Design
-  - block             -- Vivavo Block Diagrams
-    - design_intc     -- INTC Block Diagram for Vivavo
-    - design_soc      -- SOC Block Diagram for Vivavo
+- bin                 -- Bitstream files for INTC/SoC
+- design              -- Design Materials
+  - block             -- Vivado Block Diagrams
+    - design_intc     -- INTC Block Diagram for Vivado
+    - design_soc      -- SOC Block Diagram for Vivado
   - constraints       -- Zybo Contraint file
   - diagrams          -- DrawIO diagram files
   - src               -- Design Files
-    - axi_ip          -- AXI files
+    - axi_ip          -- AXI Interface files
     - fact            -- Factorial
     - intc            -- Interrupt Controller
     - mips            -- MIPS
       - controlunit   -- Control Unit
       - datapath      -- Data Path
-      - fpga          -- FPGA
-      - memory        -- Memory
-    - soc             -- System on Chip
-- localbin            
-- scripts             -- C++ Scripts
+      - fpga          -- FPGA Utils
+      - memory        -- IMem/DMem/Loadable ROM
+    - soc             -- System on Chip & MemoryMap
+- localbin            -- Local bin for temporary files            
+- scripts             -- Automation scripts for generating/loading bitstream files and loading/building driver program
 - val                 -- Validation
   - results           -- Validation Results
-  - src               -- Validation Scripts
+  - src               -- Validation Source Code
+  	- common      -- Common code for test framework and Axi/Dut interfaces
+  	- mips-bin    -- Binary MIPS programs used to load PMEM/EMEM
+  	- mips-src    -- MIPS assembly source for programs used
+  	- test-cases  -- Source code for INTC/SoC test cases
+  	- mainValidate.cpp -- Main program for running validation
+  	- Makefile    -- Makefile for building all C++ driver code
+  	- validate    -- wrapper script to run validation
 - ver                 -- Verification
-  - asm               -- Assembly files
-  - dat               -- .dat files
+  - asm               -- Assembly files for MIPS program used in verification
+  - dat               -- .dat files of MIPS programs 
   - testbench         -- Verification Testbench Files
   - waveforms         -- Waveform Configuration Files
   

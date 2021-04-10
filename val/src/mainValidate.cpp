@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string>
 
+//Entry point for DUT validation
+
 void Usage()
 {
 	printf("Invalid Arguments\n\tUsage: ./validate <intc|soc>\n");

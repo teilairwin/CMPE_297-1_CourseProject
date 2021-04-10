@@ -12,8 +12,8 @@ namespace SocTestCases {
 	typedef bool SocTestCase(SocAxiIf&, std::ostream&);
 	//TestCaseInfo Struct
 	typedef struct {
-		std::string nm;
-		SocTestCases::SocTestCase* tc;
+		std::string nm;                 ///< Test case name
+		SocTestCases::SocTestCase* tc;  ///< Test case funcPtr
 	} SocTestInfo;
 
 	//Test IDs

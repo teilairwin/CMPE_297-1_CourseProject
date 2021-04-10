@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
+//Test case to validate the test port access to the mips register file
 bool SocTestCases::TestMips_RegisterFile(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
@@ -62,6 +63,8 @@ bool SocTestCases::TestMips_RegisterFile(SocAxiIf& soc, std::ostream& log)
 	return success;
 }
 
+//Test case to validate MIPS access to data ememory and exercise use of the 
+//system memory map
 bool SocTestCases::TestMips_DmemReadWrite(SocAxiIf& soc, std::ostream& log)
 {
 	bool success(true);
