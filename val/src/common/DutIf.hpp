@@ -10,8 +10,8 @@ public:
 
 	virtual bool RunTests() = 0;
 
-	int mErrorCount;
-	int mPassCount;
+	int mErrorCount;    ///< Number of test errors
+	int mPassCount;     ///< Number of tests passed
 };
 
 #endif

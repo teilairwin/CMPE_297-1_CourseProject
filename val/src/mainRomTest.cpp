@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+//Initial test program for AXI interface and loading ROM
+
 uint32_t romSize(64);
 
 //Outputs

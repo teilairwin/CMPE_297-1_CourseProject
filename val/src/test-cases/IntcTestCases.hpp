@@ -12,8 +12,8 @@ namespace IntcTestCases {
 	typedef bool IntcTestCase(IntcAxiIf&, std::ostream&);
 	//TestCaseInfo Struct
 	typedef struct {
-		std::string nm;
-		IntcTestCases::IntcTestCase* tc;
+		std::string nm;                   ///< Test Case Name
+		IntcTestCases::IntcTestCase* tc;  ///< Test Case FuncPtr
 	} IntcTestInfo;
 
 	//Test IDs
@@ -34,7 +34,6 @@ namespace IntcTestCases {
 	//////////////////////////////////////////////////////////////////////////
 	/// TEST CASES
 	//////////////////////////////////////////////////////////////////////////
-	//Base Functionality
 	IntcTestCase TestIsr_ReadWrite;
 	IntcTestCase TestIrq_SingleSource0;
 	IntcTestCase TestIrq_SingleSource1;
