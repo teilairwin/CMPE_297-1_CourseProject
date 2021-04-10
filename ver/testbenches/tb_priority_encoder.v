@@ -19,7 +19,6 @@ module tb_priority_encoder();
       .clk(clk),
       .y          (y_out),
       .IRQ        (IRQ_out)
-
     );
 
     //Test variables
