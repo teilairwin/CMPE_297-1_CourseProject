@@ -1,3 +1,33 @@
+# Folder Structure
+- bin                 -- Bitstream files
+- design              -- Design
+  - block             -- Vivavo Block Diagrams
+    - design_intc     -- INTC Block Diagram for Vivavo
+    - design_soc      -- SOC Block Diagram for Vivavo
+  - constraints       -- Zybo Contraint file
+  - diagrams          -- DrawIO diagram files
+  - src               -- Design Files
+    - axi_ip          -- AXI files
+    - fact            -- Factorial
+    - intc            -- Interrupt Controller
+    - mips            -- MIPS
+      - controlunit   -- Control Unit
+      - datapath      -- Data Path
+      - fpga          -- FPGA
+      - memory        -- Memory
+    - soc             -- System on Chip
+- localbin            
+- scripts             -- C++ Scripts
+- val                 -- Validation
+  - results           -- Validation Results
+  - src               -- Validation Scripts
+- ver                 -- Verification
+  - asm               -- Assembly files
+  - dat               -- .dat files
+  - testbench         -- Verification Testbench Files
+  - waveforms         -- Waveform Configuration Files
+  
+
 # CMPE_297-1_CourseProject
 Course project for CMPE 297-1.
 

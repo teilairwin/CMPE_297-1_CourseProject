@@ -1,0 +1,98 @@
+open_wave_config D:/Xilinx/Projects/CMPE_297-1_CourseProject/tb_priority_encoder_behav.wcfg
+source tb_priority_encoder.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+[                  10]Testing of priority encoder: 0
+[                  20]...Read  y_out=0b00 IRQ_out=0b0
+[                  20]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                  20]TestComp value[0b0] = expected[0b0]
+[                  20]Priority Encoder of:  0 took cycles:          1
+[                  30]Testing of priority encoder: 1
+[                  40]...Read  y_out=0b00 IRQ_out=0b0
+[                  40]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                  40]TestComp value[0b0] = expected[0b0]
+[                  40]Priority Encoder of:  1 took cycles:          1
+[                  50]Testing of priority encoder: 2
+[                  60]...Read  y_out=0b01 IRQ_out=0b0
+[                  60]TestComp value[0b00000000000000000000000000000001] = expected[0b00000000000000000000000000000001]
+[                  60]TestComp value[0b0] = expected[0b0]
+[                  60]Priority Encoder of:  2 took cycles:          1
+[                  70]Testing of priority encoder: 3
+[                  80]...Read  y_out=0b00 IRQ_out=0b0
+[                  80]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                  80]TestComp value[0b0] = expected[0b0]
+[                  80]Priority Encoder of:  3 took cycles:          1
+[                  90]Testing of priority encoder: 4
+[                 100]...Read  y_out=0b10 IRQ_out=0b0
+[                 100]TestComp value[0b00000000000000000000000000000010] = expected[0b00000000000000000000000000000010]
+[                 100]TestComp value[0b0] = expected[0b0]
+[                 100]Priority Encoder of:  4 took cycles:          1
+[                 110]Testing of priority encoder: 5
+[                 120]...Read  y_out=0b00 IRQ_out=0b0
+[                 120]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                 120]TestComp value[0b0] = expected[0b0]
+[                 120]Priority Encoder of:  5 took cycles:          1
+[                 130]Testing of priority encoder: 6
+[                 140]...Read  y_out=0b01 IRQ_out=0b0
+[                 140]TestComp value[0b00000000000000000000000000000001] = expected[0b00000000000000000000000000000001]
+[                 140]TestComp value[0b0] = expected[0b0]
+[                 140]Priority Encoder of:  6 took cycles:          1
+[                 150]Testing of priority encoder: 7
+[                 160]...Read  y_out=0b00 IRQ_out=0b0
+[                 160]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                 160]TestComp value[0b0] = expected[0b0]
+[                 160]Priority Encoder of:  7 took cycles:          1
+[                 170]Testing of priority encoder: 8
+[                 180]...Read  y_out=0b11 IRQ_out=0b0
+[                 180]TestComp value[0b00000000000000000000000000000011] = expected[0b00000000000000000000000000000011]
+[                 180]TestComp value[0b0] = expected[0b0]
+[                 180]Priority Encoder of:  8 took cycles:          1
+[                 190]Testing of priority encoder: 9
+[                 200]...Read  y_out=0b00 IRQ_out=0b0
+[                 200]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                 200]TestComp value[0b0] = expected[0b0]
+[                 200]Priority Encoder of:  9 took cycles:          1
+[                 210]Testing of priority encoder:10
+[                 220]...Read  y_out=0b01 IRQ_out=0b0
+[                 220]TestComp value[0b00000000000000000000000000000001] = expected[0b00000000000000000000000000000001]
+[                 220]TestComp value[0b0] = expected[0b0]
+[                 220]Priority Encoder of: 10 took cycles:          1
+[                 230]Testing of priority encoder:11
+[                 240]...Read  y_out=0b00 IRQ_out=0b0
+[                 240]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                 240]TestComp value[0b0] = expected[0b0]
+[                 240]Priority Encoder of: 11 took cycles:          1
+[                 250]Testing of priority encoder:12
+[                 260]...Read  y_out=0b10 IRQ_out=0b0
+[                 260]TestComp value[0b00000000000000000000000000000010] = expected[0b00000000000000000000000000000010]
+[                 260]TestComp value[0b0] = expected[0b0]
+[                 260]Priority Encoder of: 12 took cycles:          1
+[                 270]Testing of priority encoder:13
+[                 280]...Read  y_out=0b00 IRQ_out=0b0
+[                 280]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                 280]TestComp value[0b0] = expected[0b0]
+[                 280]Priority Encoder of: 13 took cycles:          1
+[                 290]Testing of priority encoder:14
+[                 300]...Read  y_out=0b01 IRQ_out=0b0
+[                 300]TestComp value[0b00000000000000000000000000000001] = expected[0b00000000000000000000000000000001]
+[                 300]TestComp value[0b0] = expected[0b0]
+[                 300]Priority Encoder of: 14 took cycles:          1
+[                 310]Testing of priority encoder:15
+[                 320]...Read  y_out=0b00 IRQ_out=0b0
+[                 320]TestComp value[0b00000000000000000000000000000000] = expected[0b00000000000000000000000000000000]
+[                 320]TestComp value[0b0] = expected[0b0]
+[                 320]Priority Encoder of: 15 took cycles:          1
+[                 320]Leaving simulation...
+[                 320]Total Errors:          32
+$finish called at time : 320 ns : File "D:/Xilinx/Projects/CMPE_297-1_CourseProject/CMPE_297-1_CourseProject/ver/testbenches/tb_priority_encoder.v" Line 135
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'tb_priority_encoder_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1441.566 ; gain = 1.598
