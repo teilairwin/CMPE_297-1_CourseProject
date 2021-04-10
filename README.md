@@ -5,7 +5,7 @@
 -  Building Driver
 	-  If changes are made after initial loading, simply run 'make'
 -  Running validation
-	-  ./validation <soc|intc>
+	-  ./validation <soc | intc>
 	-  A report will be saved to file with a unique timestamp
 
 # Folder Structure
