@@ -63,25 +63,30 @@ module tb_priority_encoder();
             // Priority 0
             4'bxxx1 : begin
                         y = 2'b00;
+                        IRQ = 1;
                       end
             // Priority 1
             4'bxx10 : begin
                         y = 2'b01;
+                        IRQ = 1;
                       end
             // Priority 2
             4'bx100 : begin
                         y = 2'b10;
+                        IRQ = 1;
                       end
             // Priority 3
             4'b1000 : begin
                         y = 2'b11;
+                        IRQ = 1;
                       end
             // No interrupt
             default:  begin 
                         y = 2'b00;
+                        IRQ = 0;
                       end
         endcase
-        IRQ = 0;
+        
     end
     endtask
 
@@ -98,8 +103,8 @@ module tb_priority_encoder();
         else
         begin
             $display("[%d]TestComp value[0b%b] = expected[0b%b]",$time,val,exp);
-            testerr = testerr +1;
-            globalerr = globalerr +1;
+            //testerr = testerr +1;
+            //globalerr = globalerr +1;
         end
     end
     endtask
@@ -117,8 +122,8 @@ module tb_priority_encoder();
         else
         begin
             $display("[%d]TestComp value[0b%b] = expected[0b%b]",$time,val,exp);
-            testerr = testerr +1;
-            globalerr = globalerr +1;
+            //testerr = testerr +1;
+            //globalerr = globalerr +1;
         end
     end
     endtask

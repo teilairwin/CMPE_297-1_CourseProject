@@ -14,14 +14,13 @@ module intc_top(
         output  wire [31:0] test
     ); 
     
-    // This is really ugly and probably belongs somewhere else
-       // Currently the interrupt controller is mapped to address x00020000 - x0002FFFF and isr address offset is 0
+       // Currently the interrupt controller is mapped to address x00002000 - x00002FFF and isr address offset is 0
        // The interrupt controller as designed has 4 d registers which the isr addresses can be written to
        // These registers are memory mapped to the following addresses
-       // reg 0: Base + offset + 0  = 0x00020000 
-       // reg 1: Base + offset + 32 = 0x00020020
-       // reg 2: Base + offset + 64 = 0x00020040
-       // reg 3: Base + offset + 96 = 0x00020060
+       // reg 0: Base + offset + 0  = 0x00002000 
+       // reg 1: Base + offset + 4  = 0x00002004
+       // reg 2: Base + offset + 8  = 0x00002008
+       // reg 3: Base + offset + C  = 0x0000200C
        wire [31:0] intc_base_address;
        wire [31:0] isr_address_offset;
        // these should come from the memory map?
@@ -34,13 +33,6 @@ module intc_top(
        // wires for read data capability
        wire [1:0] read_data_select;
        wire    [31:0] read_reg0,read_reg1,read_reg2,read_reg3;
-       
-             
-       //connections from ISR address select mux to the ISR Address registers
-       /*wire [31:0] mux_to_reg0;
-       wire [31:0] mux_to_reg1;
-       wire [31:0] mux_to_reg2;
-       wire [31:0] mux_to_reg3;*/
        
        //write enables for isr address registers
        wire we0, we1, we2, we3;

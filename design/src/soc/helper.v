@@ -8,7 +8,6 @@ always @ (IACK) begin
         2'b00: begin
             if(IACK) begin
                 reset <= 4'b0001;
-                //#5;
                 end 
             else begin
                 reset <= 4'b0000;
@@ -17,7 +16,6 @@ always @ (IACK) begin
         2'b01: begin
             if(IACK) begin
                 reset <= 4'b0010;
-                //#5;
                 end
             else begin
                 reset <= 4'b0000;
@@ -26,17 +24,14 @@ always @ (IACK) begin
         2'b10: begin
             if(IACK) begin
                 reset <= 4'b0100;
-                //#5;
                 end
             else begin
                 reset <= 4'b0000;
-                #5;
                 end
             end
         2'b11: begin
             if(IACK) begin
                 reset <= 4'b1000;
-                //#5;
                 end
             else begin
                 reset <= 4'b0000;
